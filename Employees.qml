@@ -1,4 +1,4 @@
-import QtQuick 6.2
+import QtQuick 6.6
 import QtQuick.Controls
 
 import com.company.Employees
@@ -20,22 +20,16 @@ Item {
         editEmployee.phoneField = phone;
 
         editEmployee.visible = true
-        console.log("Employee is"+username+" Id is: "+ tableView.currentIndex)
+        console.log("Employee is"+username+" Id is: "+ tableView.index)
     }
-
-
-
-    // ScrollView {
-    //     id: viewEmployee
-
-    //     width: parent.width / 2
-    //     height: parent.height
 
         TableView {
             id: tableView
 
             width: parent.width / 2
             height: parent.height
+
+            clip: true
 
             // header: Text {
             //     text: qsTr("Employees")
@@ -44,23 +38,19 @@ Item {
 
             // }
 
-            // highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            // focus: true
-
-            //selectionBehavior: tableView.SelectRows
+            //TODO: make selection possible
+            selectionBehavior: TableView.SelectRows
+            selectionMode: TableView.SingleSelection
             selectionModel: ItemSelectionModel {}
 
             model: Emp
 
-            //  editDelegate: EmployeeEdit{}
             delegate: EmployeesDelegate{
-
-                color: selected ? "blue" : "red"
-
                 required property bool selected
+                color: selected ? "blue" : "lightgray"
+
             }
         }
-    //}
 
     EmployeeEdit {
         id: editEmployee

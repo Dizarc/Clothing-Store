@@ -1,5 +1,7 @@
 #include "Employees.h"
 
+#include <QSqlRecord>
+
 Employees::Employees(QObject *parent, QSqlDatabase db) : QSqlTableModel(parent, db)
 {
     setTable("Employees");
@@ -67,52 +69,71 @@ QHash<int, QByteArray> Employees::roleNames() const
     return roles;
 }
 
-int Employees::rowCount(const QModelIndex &parent) const
-{
-    return 2;
-}
+// int Employees::rowCount(const QModelIndex &parent) const
+// {
+//     return 2;
+// }
 
-int Employees::columnCount(const QModelIndex &parent) const
-{
-    return 7;
-}
+// int Employees::columnCount(const QModelIndex &parent) const
+// {
+//     return 7;
+// }
 
 /*
     When user clicks save in EmployeeEdit.qml this function runs
 */
 bool Employees::updateEmployee(int id, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
 {
-    QSqlTableModel model;
+    //QSqlTableModel model;
 
-    model.setTable("Employees");
+    this->setTable("Employees");
 
-    QString whereStr = "id = '"+ QString::number(id) + "'";
-    model.setFilter(whereStr);
+    // QString whereStr = "id = '"+ QString::number(id) + "'";
+    // this->setFilter(whereStr);
 
-    model.select();
+    //this->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    QModelIndex firstnameIndex = model.index(0, 1);
-    QModelIndex lastnameIndex = model.index(0, 2);
-    QModelIndex usernameIndex = model.index(0, 3);
+    // QSqlRecord record;
+
+    // record.setValue("firstname", firstname);
+    // record.setValue("lastname", lastname);
+    // record.setValue("username", username);
+    // record.setValue("email", email);
+    // record.setValue("phone", phone);
+
+    // record.setGenerated("firstname", false);
+    // record.setGenerated("lastname", false);
+    // record.setGenerated("username", false);
+    // record.setGenerated("email", false);
+    // record.setGenerated("phone", false);
+
+    // model.setRecord(1, record);
+
+    this->select();
+
+    QModelIndex firstnameIndex = this->index(id - 1, 1);
+    QModelIndex lastnameIndex = this->index(id - 1, 2);
+    QModelIndex usernameIndex = this->index(id - 1, 3);
     //password
-    QModelIndex emailIndex = model.index(0, 5);
-    QModelIndex phoneIndex = model.index(0, 6);
+    QModelIndex emailIndex = this->index(id - 1, 5);
+    QModelIndex phoneIndex = this->index(id - 1, 6);
 
-    model.setData(firstnameIndex, firstname, Qt::EditRole);
-    model.setData(lastnameIndex, lastname, Qt::EditRole);
-    model.setData(usernameIndex, username, Qt::EditRole);
-    model.setData(emailIndex, email, Qt::EditRole);
-    model.setData(phoneIndex, phone, Qt::EditRole);
+    this->setData(firstnameIndex, firstname, Qt::EditRole);
+    this->setData(lastnameIndex, lastname, Qt::EditRole);
+    this->setData(usernameIndex, username, Qt::EditRole);
+    this->setData(emailIndex, email, Qt::EditRole);
+    this->setData(phoneIndex, phone, Qt::EditRole);
 
     //CHANGES DONT SHOW IN THE DELEGATE
-    emit model.dataChanged(firstnameIndex, firstnameIndex);
-    emit model.dataChanged(lastnameIndex, lastnameIndex);
-    emit model.dataChanged(usernameIndex, lastnameIndex);
-    emit model.dataChanged(emailIndex, emailIndex);
-    emit model.dataChanged(phoneIndex, phoneIndex);
+
+    // emit this->dataChanged(firstnameIndex, firstnameIndex);
+    // emit this->dataChanged(lastnameIndex, lastnameIndex);
+    // emit this->dataChanged(usernameIndex, lastnameIndex);
+    // emit this->dataChanged(emailIndex, emailIndex);
+    // emit this->dataChanged(phoneIndex, phoneIndex);
 
 
-    return model.submitAll();
+    return this->submitAll();
 }
 
 bool Employees::getEmployee(int id)

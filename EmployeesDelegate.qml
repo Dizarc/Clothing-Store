@@ -1,4 +1,4 @@
-import QtQuick 6.2
+import QtQuick 6.6
 import QtQuick.Controls.Basic
 
 Rectangle {
@@ -8,6 +8,7 @@ Rectangle {
     implicitHeight: 30
 
     anchors.margins: 4
+
 
     clip: true
 
@@ -25,17 +26,12 @@ Rectangle {
 
         onClicked : {
             userClicked(delegate.id, delegate.firstname, delegate.lastname, delegate.username, delegate.password, delegate.email, delegate.phone)
-            //tableView.currentIndex = id - 1;
+
         }
 
         Row {
             id: empRow
             spacing: 5
-            Rectangle{
-                height: delegate.height
-                width: 30
-                color: tableView.isCurrentItem ? "black" : "red"
-            }
 
             Image {
                 source: "images/userImage.png"

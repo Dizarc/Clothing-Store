@@ -1,4 +1,4 @@
-import QtQuick 6.2
+import QtQuick 6.6
 import QtQuick.Controls
 
 Item {
@@ -37,10 +37,7 @@ Item {
 
                 buttonColor: "#3A3E44"
 
-                onClicked:{
-                    console.log("hey")
-                    swipeView.setCurrentIndex(0)
-                }
+                onClicked: swipeView.setCurrentIndex(0)
 
             }
 
@@ -49,10 +46,7 @@ Item {
 
                 buttonColor: "#3A3E44"
 
-                onClicked:{
-                    console.log("111")
-                    swipeView.setCurrentIndex(1)
-                }
+                onClicked: swipeView.setCurrentIndex(1)
             }
 
             CustomButton{
@@ -60,10 +54,7 @@ Item {
 
                 buttonColor: "#3A3E44"
 
-                onClicked:{
-                    console.log("users")
-                    swipeView.setCurrentIndex(2)
-                }
+                onClicked: swipeView.setCurrentIndex(2)
             }
         }
 
@@ -105,6 +96,7 @@ Item {
             id: homeItem
             width: 400
             height:400
+
             Rectangle{
                 width: 400
                 height:400
@@ -116,6 +108,7 @@ Item {
             id: storageItem
             width: 400
             height:400
+
             Rectangle{
                 width: 400
                 height:400

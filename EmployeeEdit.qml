@@ -1,4 +1,4 @@
-import QtQuick 6.2
+import QtQuick 6.6
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
 
@@ -35,7 +35,7 @@ Item {
         anchors.horizontalCenter: editGrid.horizontalCenter
         anchors.top: editImage.bottom
 
-        text: qsTr("Edit Employee "+ idField);
+        text: qsTr("Edit Employee "+ usernameField);
 
         color: "#ECEDF0"
         font.pointSize: 15
