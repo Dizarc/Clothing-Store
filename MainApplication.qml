@@ -35,7 +35,7 @@ Item {
             CustomButton{
                 text: qsTr("Home")
 
-                buttonColor: "#3A3E44"
+                buttonColor: Qt.lighter(Style.backGround, 1.5)
 
                 onClicked: swipeView.setCurrentIndex(0)
 
@@ -44,7 +44,7 @@ Item {
             CustomButton{
                 text: qsTr("Storage")
 
-                buttonColor: "#3A3E44"
+                buttonColor: Qt.lighter(Style.backGround, 1.5)
 
                 onClicked: swipeView.setCurrentIndex(1)
             }
@@ -52,7 +52,7 @@ Item {
             CustomButton{
                 text: qsTr("Employees")
 
-                buttonColor: "#3A3E44"
+                buttonColor: Qt.lighter(Style.backGround, 1.5)
 
                 onClicked: swipeView.setCurrentIndex(2)
             }
@@ -66,7 +66,7 @@ Item {
             width: 100
             height: 2
 
-            color:"#5D646D"
+            color: Qt.lighter(Style.backGround, 2)
 
             property real targetX: tabItem.currentIndex * underline.width
 

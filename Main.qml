@@ -8,7 +8,7 @@ Window {
     title: "Clothes Application"
 
     visible: true
-    color: "#252930"
+    color: Style.backGround
 
     width: Screen.width
     height: Screen.height

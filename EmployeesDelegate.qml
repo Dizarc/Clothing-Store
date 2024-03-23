@@ -9,7 +9,6 @@ Rectangle {
 
     anchors.margins: 4
 
-
     clip: true
 
     required property int id
@@ -43,7 +42,7 @@ Rectangle {
             Text {
                 text: delegate.id
 
-                color: "#ECEDF0"
+                color: Style.textColor
 
                 font.pointSize: 12
                 width: 10
@@ -52,7 +51,7 @@ Rectangle {
             Text {
                 text: delegate.firstname
 
-                color: "#ECEDF0"
+                color: Style.textColor
 
                 font.pointSize: 12
                 width: 100
@@ -61,7 +60,7 @@ Rectangle {
             Text{
                 text: delegate.lastname
 
-                color: "#ECEDF0"
+                color: Style.textColor
 
                 font.pointSize: 12
                 width: 100
@@ -70,7 +69,7 @@ Rectangle {
             Text {
                 text: delegate.email
 
-                color: "#ECEDF0"
+                color: Style.textColor
 
                 font.pointSize: 12
                 width: 250
@@ -79,7 +78,7 @@ Rectangle {
             Text {
                 text: delegate.phone
 
-                color: "#ECEDF0"
+                color: Style.textColor
 
                 font.pointSize: 12
                 width: 50

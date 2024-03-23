@@ -2,6 +2,15 @@ import QtQuick 6.6
 import QtQuick.Controls
 
 import com.company.Employees
+/*
+
+TODO:
+
+    1. Make selection possible
+    2. Add delete employee to edit employee
+    3. Add a search employee button that opens up just like edit employee(Stackview?)
+
+*/
 
 Item {
     id: employeeItem
@@ -20,7 +29,10 @@ Item {
         editEmployee.phoneField = phone;
 
         editEmployee.visible = true
-        console.log("Employee is"+username+" Id is: "+ tableView.index)
+
+        //Select current item
+        selectionModel.select(tableView.index(id - 1, 0), ItemSelectionModel.SelectCurrent)
+
     }
 
         TableView {
@@ -38,22 +50,26 @@ Item {
 
             // }
 
-            //TODO: make selection possible
+
             selectionBehavior: TableView.SelectRows
             selectionMode: TableView.SingleSelection
-            selectionModel: ItemSelectionModel {}
+            selectionModel: ItemSelectionModel {
+                id: selectionModel
+            }
 
             model: Emp
 
             delegate: EmployeesDelegate{
+                color: selected ? Qt.lighter(Style.backGround, 2.5) : Style.backGround
                 required property bool selected
-                color: selected ? "blue" : "lightgray"
-
             }
         }
 
     EmployeeEdit {
         id: editEmployee
+
+        height: parent.height
+        width: parent.width / 2
 
         anchors.left: tableView.right
 

@@ -25,8 +25,8 @@ public:
     //virtual bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
     virtual QHash<int, QByteArray> roleNames() const override;
-    // virtual int rowCount(const QModelIndex &parent) const override;
-    // virtual int columnCount(const QModelIndex &parent) const override;
+    virtual int rowCount(const QModelIndex &parent) const override;
+    virtual int columnCount(const QModelIndex &parent) const override;
 
 public slots:
     bool updateEmployee(int id,

@@ -39,7 +39,7 @@ Item{
         Text{
             text: qsTr("Username:")
 
-            color: "#ECEDF0"
+            color: Style.textColor
             font.pointSize: 12
         }
 
@@ -47,8 +47,8 @@ Item{
             width: 300
             height: 25
 
-            color: "#3A3E44"
-            border.color: "#ECEDF0"
+            color: Qt.lighter(Style.backGround, 1.5)
+            border.color: Style.borderColor
             border.width: 1
             radius: 10
 
@@ -64,7 +64,7 @@ Item{
 
                 cursorVisible: true
 
-                color: "#ECEDF0"
+                color: Style.textColor
                 font.pointSize: 12
                 maximumLength: 25
 
@@ -74,7 +74,7 @@ Item{
         Text{
             text: qsTr("Password:")
 
-            color: "#ECEDF0"
+            color: Style.textColor
             font.pointSize: 12
 
         }
@@ -83,8 +83,8 @@ Item{
             width: 300
             height: 25
 
-            color: "#3A3E44"
-            border.color: "#ECEDF0"
+            color: Qt.lighter(Style.backGround, 1.5)
+            border.color: Style.borderColor
             border.width: 1
             radius: 10
 
@@ -98,7 +98,7 @@ Item{
 
                 activeFocusOnTab: true
 
-                color: "#ECEDF0"
+                color: Style.textColor
                 font.pointSize: 12
                 maximumLength: 25
             }

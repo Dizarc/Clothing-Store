@@ -7,9 +7,6 @@ import com.company.Employees
 Item {
     id: employeeEditItem
 
-    height: parent.height
-    width: parent.width / 2
-
     property int idField
     property alias firstnameField: firstnameEdit.text
     property alias lastnameField: lastnameEdit.text
@@ -37,7 +34,7 @@ Item {
 
         text: qsTr("Edit Employee "+ usernameField);
 
-        color: "#ECEDF0"
+        color: Style.textColor
         font.pointSize: 15
     }
 
@@ -56,7 +53,7 @@ Item {
         Text{
             text: qsTr("Firstname: ");
 
-            color: "#ECEDF0"
+            color: Style.textColor
             font.pointSize: 12
         }
 
@@ -65,8 +62,8 @@ Item {
             width: 300
             height: 25
 
-            color: "#3A3E44"
-            border.color: "#ECEDF0"
+            color: Qt.lighter(Style.backGround, 1.5)
+            border.color: Style.borderColor
             border.width: 1
             radius: 5
 
@@ -79,7 +76,7 @@ Item {
 
                 activeFocusOnTab: true
 
-                color: "#ECEDF0"
+                color: Style.textColor
                 font.pointSize: 12
                 maximumLength: 25
 
@@ -89,7 +86,7 @@ Item {
         Text{
             text: qsTr("Lastname: ");
 
-            color: "#ECEDF0"
+            color: Style.textColor
             font.pointSize: 12
         }
 
@@ -98,8 +95,8 @@ Item {
             width: 300
             height: 25
 
-            color: "#3A3E44"
-            border.color: "#ECEDF0"
+            color: Qt.lighter(Style.backGround, 1.5)
+            border.color: Style.borderColor
             border.width: 1
             radius: 5
 
@@ -112,7 +109,7 @@ Item {
 
                 activeFocusOnTab: true
 
-                color: "#ECEDF0"
+                color: Style.textColor
                 font.pointSize: 12
                 maximumLength: 25
 
@@ -122,7 +119,7 @@ Item {
         Text{
             text: qsTr("Username: ");
 
-            color: "#ECEDF0"
+            color: Style.textColor
             font.pointSize: 12
         }
 
@@ -131,8 +128,8 @@ Item {
             width: 300
             height: 25
 
-            color: "#3A3E44"
-            border.color: "#ECEDF0"
+            color: Qt.lighter(Style.backGround, 1.5)
+            border.color: Style.borderColor
             border.width: 1
             radius: 5
 
@@ -145,7 +142,7 @@ Item {
 
                 activeFocusOnTab: true
 
-                color: "#ECEDF0"
+                color: Style.textColor
                 font.pointSize: 12
                 maximumLength: 25
 
@@ -155,7 +152,7 @@ Item {
         Text{
             text: qsTr("Email: ");
 
-            color: "#ECEDF0"
+            color: Style.textColor
             font.pointSize: 12
         }
 
@@ -164,8 +161,8 @@ Item {
             width: 300
             height: 25
 
-            color: "#3A3E44"
-            border.color: "#ECEDF0"
+            color: Qt.lighter(Style.backGround, 1.5)
+            border.color: Style.borderColor
             border.width: 1
             radius: 5
 
@@ -178,7 +175,7 @@ Item {
 
                 activeFocusOnTab: true
 
-                color: "#ECEDF0"
+                color: Style.textColor
                 font.pointSize: 12
                 maximumLength: 35
 
@@ -187,7 +184,7 @@ Item {
         Text{
             text: qsTr("Phone: ");
 
-            color: "#ECEDF0"
+            color: Style.textColor
             font.pointSize: 12
         }
 
@@ -196,8 +193,8 @@ Item {
             width: 300
             height: 25
 
-            color: "#3A3E44"
-            border.color: "#ECEDF0"
+            color: Qt.lighter(Style.backGround, 1.5)
+            border.color: Style.borderColor
             border.width: 1
             radius: 5
 
@@ -210,7 +207,7 @@ Item {
 
                 activeFocusOnTab: true
 
-                color: "#ECEDF0"
+                color: Style.textColor
                 font.pointSize: 12
                 maximumLength: 25
 
@@ -227,6 +224,7 @@ Item {
             onClicked: {
                 Emp.updateEmployee(idField, firstnameField, lastnameField, usernameField, emailField, phoneField);
                 savedText.visible = true
+
             }
         }
 

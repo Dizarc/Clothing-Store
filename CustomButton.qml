@@ -12,7 +12,7 @@ Button{
     contentItem: Text {
         text: myButton.text
         font.pointSize: 11
-        color: "#ECEDF0"
+        color: Style.textColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
     }

@@ -69,15 +69,15 @@ QHash<int, QByteArray> Employees::roleNames() const
     return roles;
 }
 
-// int Employees::rowCount(const QModelIndex &parent) const
-// {
-//     return 2;
-// }
+int Employees::rowCount(const QModelIndex &parent) const
+{
+    return 2;
+}
 
-// int Employees::columnCount(const QModelIndex &parent) const
-// {
-//     return 7;
-// }
+int Employees::columnCount(const QModelIndex &parent) const
+{
+    return 7;
+}
 
 /*
     When user clicks save in EmployeeEdit.qml this function runs
