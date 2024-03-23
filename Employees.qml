@@ -14,67 +14,65 @@ TODO:
 
 */
 Item {
-    id: employeeItem
+  id: employeeItem
 
-    anchors.fill: parent
+  anchors.fill: parent
 
-    property int visibility: 0
+  property int visibility: 0
 
-    signal userClicked(int id, string firstname, string lastname, string username, string password, string email, string phone)
+  signal userClicked(int id, string firstname, string lastname, string username, string password, string email, string phone)
 
-    onUserClicked: (id, firstname, lastname, username, password, email, phone) => {
-                       editEmployee.idField = id
-                       editEmployee.firstnameField = firstname
-                       editEmployee.lastnameField = lastname
-                       editEmployee.usernameField = username
-                       //editEmployee.passwordField = password;
-                       editEmployee.emailField = email
-                       editEmployee.phoneField = phone
+  onUserClicked: (id, firstname, lastname, username, password, email, phone) => {
+    editEmployee.idField = id
+    editEmployee.firstnameField = firstname
+    editEmployee.lastnameField = lastname
+    editEmployee.usernameField = username
+    //editEmployee.passwordField = password;
+    editEmployee.emailField = email
+    editEmployee.phoneField = phone
 
-                       visibility = 1
+    visibility = 1
 
-                       //Select current item
-                       selectionModel.select(tableView.index(id - 1, 0),
-                                             ItemSelectionModel.SelectCurrent)
-                   }
+    //Select current item
+    selectionModel.select(tableView.index(id - 1, 0), ItemSelectionModel.SelectCurrent)
+  }
 
-    TableView {
-        id: tableView
+  TableView {
+    id: tableView
 
-        width: parent.width / 2
-        height: parent.height
+    width: parent.width / 2
+    height: parent.height
 
-        clip: true
+    clip: true
 
-        // header: Text {
-        //     text: qsTr("Employees")
-        //     font.pixelSize: 20
-        //     color: "#ECEDF0"
+    // header: Text {
+    //     text: qsTr("Employees")
+    //     font.pixelSize: 20
+    //     color: "#ECEDF0"
 
-        // }
-        selectionBehavior: TableView.SelectRows
-        selectionMode: TableView.SingleSelection
-        selectionModel: ItemSelectionModel {
-            id: selectionModel
-        }
-
-        model: Emp
-
-        delegate: EmployeesDelegate {
-            color: selected ? Qt.lighter(Style.backGround,
-                                         2.5) : Style.backGround
-            required property bool selected
-        }
+    // }
+    selectionBehavior: TableView.SelectRows
+    selectionMode: TableView.SingleSelection
+    selectionModel: ItemSelectionModel {
+      id: selectionModel
     }
 
-    EmployeeEdit {
-        id: editEmployee
+    model: Emp
 
-        height: parent.height
-        width: parent.width / 2
-
-        anchors.left: tableView.right
-
-        visible: visibility == 1 ? true : false
+    delegate: EmployeesDelegate {
+      color: selected ? Qt.lighter(Style.backGround, 2.5) : Style.backGround
+      required property bool selected
     }
+  }
+
+  EmployeeEdit {
+    id: editEmployee
+
+    height: parent.height
+    width: parent.width / 2
+
+    anchors.left: tableView.right
+
+    visible: visibility == 1 ? true : false
+  }
 }

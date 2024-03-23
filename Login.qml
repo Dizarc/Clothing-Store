@@ -4,141 +4,141 @@ import QtQuick.Controls.Basic
 import QtQuick.Dialogs
 
 Item{
-    id: loginItem
+  id: loginItem
 
-    property alias username: usernameInput.text
-    property alias password: passwordInput.text
+  property alias username: usernameInput.text
+  property alias password: passwordInput.text
 
-    property alias wrongLoginText: loginError.visible
+  property alias wrongLoginText: loginError.visible
 
 
-    Image{
-        source: "images/logo.png"
+  Image{
+    source: "images/logo.png"
 
-        anchors{
-            top: parent.top
-            topMargin: 150
-            horizontalCenter: parent.horizontalCenter
-        }
-
-        sourceSize.width: 400
-        sourceSize.height: 400
+    anchors{
+      top: parent.top
+      topMargin: 150
+      horizontalCenter: parent.horizontalCenter
     }
 
-    GridLayout{
-        id: grid
+    sourceSize.width: 400
+    sourceSize.height: 400
+  }
 
-        anchors.centerIn: parent
+  GridLayout{
+    id: grid
 
-        rows: 3
-        columns: 2
+    anchors.centerIn: parent
 
-        rowSpacing: 10
-        columnSpacing: 10
+    rows: 3
+    columns: 2
 
-        Text{
-            text: qsTr("Username:")
+    rowSpacing: 10
+    columnSpacing: 10
 
-            color: Style.textColor
-            font.pointSize: 12
-        }
+    Text{
+      text: qsTr("Username:")
 
-        Rectangle{
-            width: 300
-            height: 25
+      color: Style.textColor
+      font.pointSize: 12
+    }
 
-            color: Qt.lighter(Style.backGround, 1.5)
-            border.color: Style.borderColor
-            border.width: 1
-            radius: 10
+    Rectangle{
+      width: 300
+      height: 25
 
-            TextInput{
-                id: usernameInput
+      color: Qt.lighter(Style.backGround, 1.5)
+      border.color: Style.borderColor
+      border.width: 1
+      radius: 10
 
-                anchors.fill: parent
+      TextInput{
+        id: usernameInput
 
-                leftPadding: 5
+        anchors.fill: parent
 
-                activeFocusOnTab: true
-                focus: true
+        leftPadding: 5
 
-                cursorVisible: true
+        activeFocusOnTab: true
+        focus: true
 
-                color: Style.textColor
-                font.pointSize: 12
-                maximumLength: 25
+        cursorVisible: true
 
-            }
-        }
+        color: Style.textColor
+        font.pointSize: 12
+        maximumLength: 25
 
-        Text{
-            text: qsTr("Password:")
-
-            color: Style.textColor
-            font.pointSize: 12
-
-        }
-
-        Rectangle{
-            width: 300
-            height: 25
-
-            color: Qt.lighter(Style.backGround, 1.5)
-            border.color: Style.borderColor
-            border.width: 1
-            radius: 10
-
-            TextInput{
-                id: passwordInput
-
-                anchors.fill: parent
-
-                leftPadding: 5
-                echoMode: TextInput.Password
-
-                activeFocusOnTab: true
-
-                color: Style.textColor
-                font.pointSize: 12
-                maximumLength: 25
-            }
-        }
-
-        CustomButton{
-            id: loginButton
-
-            text: qsTr("Login")
-
-            buttonColor: "#399F2E"
-
-            Keys.onReturnPressed: clicked()
-            onClicked: db.loginCheck(username, password)
-        }
-
-        CustomButton{
-            id: exitButton
-
-            text: qsTr("Exit")
-
-            buttonColor: "#6C261F"
-
-            onClicked: Qt.quit()
-
-        }
+      }
     }
 
     Text{
-        id: loginError
+      text: qsTr("Password:")
 
-        anchors.top: grid.bottom
-        anchors.left: grid.left
+      color: Style.textColor
+      font.pointSize: 12
 
-        text: qsTr("Wrong username or password try again...")
-
-        color: "#B21B00"
-        font.bold: true
-        visible: false
     }
+
+    Rectangle{
+      width: 300
+      height: 25
+
+      color: Qt.lighter(Style.backGround, 1.5)
+      border.color: Style.borderColor
+      border.width: 1
+      radius: 10
+
+      TextInput{
+        id: passwordInput
+
+        anchors.fill: parent
+
+        leftPadding: 5
+        echoMode: TextInput.Password
+
+        activeFocusOnTab: true
+
+        color: Style.textColor
+        font.pointSize: 12
+        maximumLength: 25
+      }
+    }
+
+    CustomButton{
+      id: loginButton
+
+      text: qsTr("Login")
+
+      buttonColor: "#399F2E"
+
+      Keys.onReturnPressed: clicked()
+      onClicked: db.loginCheck(username, password)
+    }
+
+    CustomButton{
+      id: exitButton
+
+      text: qsTr("Exit")
+
+      buttonColor: "#6C261F"
+
+      onClicked: Qt.quit()
+
+    }
+  }
+
+  Text{
+    id: loginError
+
+    anchors.top: grid.bottom
+    anchors.left: grid.left
+
+    text: qsTr("Wrong username or password try again...")
+
+    color: "#B21B00"
+    font.bold: true
+    visible: false
+  }
 
 
 }

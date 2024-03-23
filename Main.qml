@@ -3,44 +3,44 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Window {
-    id: appWindow
+  id: appWindow
 
-    title: "Clothes Application"
+  title: "Clothes Application"
 
-    visible: true
-    color: Style.backGround
+  visible: true
+  color: Style.backGround
 
-    width: Screen.width
-    height: Screen.height
+  width: Screen.width
+  height: Screen.height
 
-    Login{
-        id: login
+  Login{
+    id: login
 
-        width: parent.width
-        height: parent.height
+    width: parent.width
+    height: parent.height
 
-        anchors.centerIn: parent
+    anchors.centerIn: parent
 
-        Connections{
-            target: db
+    Connections{
+      target: db
 
-            function onWrongLogin() {
-                login.wrongLoginText = true
-            }
+      function onWrongLogin() {
+        login.wrongLoginText = true
+      }
 
-            function onRightLogin(){
+      function onRightLogin(){
 
-                var component = Qt.createComponent("MainApplication.qml");
-                var application = component.createObject(appWindow,{ width: appWindow.width, height:appWindow.height});
+        var component = Qt.createComponent("MainApplication.qml");
+        var application = component.createObject(appWindow,{ width: appWindow.width, height:appWindow.height});
 
-                if(application === null)
-                    console.log("Error creating object");
+        if(application === null)
+          console.log("Error creating object");
 
-                login.destroy();
+        login.destroy();
 
-            }
-        }
-
+      }
     }
+
+  }
 
 }
