@@ -25,7 +25,7 @@ Item {
         anchors.top: parent.top
         anchors.left: parent.left
 
-        property int currentIndex: swipeView.currentIndex
+        property int currentIndex: tabSwipeView.currentIndex
 
         Row{
             id: tabRow
@@ -37,7 +37,7 @@ Item {
 
                 buttonColor: Qt.lighter(Style.backGround, 1.5)
 
-                onClicked: swipeView.setCurrentIndex(0)
+                onClicked: tabSwipeView.setCurrentIndex(0)
 
             }
 
@@ -46,7 +46,7 @@ Item {
 
                 buttonColor: Qt.lighter(Style.backGround, 1.5)
 
-                onClicked: swipeView.setCurrentIndex(1)
+                onClicked: tabSwipeView.setCurrentIndex(1)
             }
 
             CustomButton{
@@ -54,7 +54,7 @@ Item {
 
                 buttonColor: Qt.lighter(Style.backGround, 1.5)
 
-                onClicked: swipeView.setCurrentIndex(2)
+                onClicked: tabSwipeView.setCurrentIndex(2)
             }
         }
 
@@ -80,7 +80,7 @@ Item {
 
 
     SwipeView{
-        id: swipeView
+        id: tabSwipeView
 
         anchors{
             top: tabItem.bottom
