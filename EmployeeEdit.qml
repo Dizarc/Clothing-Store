@@ -8,12 +8,28 @@ Item {
   id: employeeEditItem
 
   property int idField
-  property alias firstnameField: firstnameEdit.text
-  property alias lastnameField: lastnameEdit.text
-  property alias usernameField: usernameEdit.text
-  //property alias passwordField: passwordEdit.text
-  property alias emailField: emailEdit.text
-  property alias phoneField: phoneEdit.text
+  property alias firstnameField: firstnameInput.text
+  property alias lastnameField: lastnameInput.text
+  property alias usernameField: usernameInput.text
+  property alias emailField: emailInput.text
+  property alias phoneField: phoneInput.text
+
+  property alias oldPasswordField: oldPasswordInput.text
+  property alias newPasswordField: newPasswordInput.text
+
+  Connections{
+    target: Emp
+
+    function onEditedEmployee(){
+      savedText.visible = true;
+      changedText.visible = false;
+    }
+
+    function onPasswordChanged(){
+      savedText.visible = false;
+      changedText.visible = true;
+    }
+  }
 
   Image {
     id: editImage
@@ -22,8 +38,8 @@ Item {
 
     source: "images/userImage.png"
 
-    sourceSize.width: 200
-    sourceSize.height: 200
+    sourceSize.width: 150
+    sourceSize.height: 150
   }
 
   Text{
@@ -44,11 +60,11 @@ Item {
     anchors.top: editText.bottom
     anchors.topMargin: 10
 
-    rows: 6
+    rows: 8
     columns: 2
 
     rowSpacing: 10
-    columnSpacing: 50
+    columnSpacing: 30
 
     Text{
       text: qsTr("Firstname: ");
@@ -68,7 +84,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: firstnameEdit
+        id: firstnameInput
 
         anchors.fill: parent
 
@@ -101,7 +117,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: lastnameEdit
+        id: lastnameInput
 
         anchors.fill: parent
 
@@ -134,7 +150,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: usernameEdit
+        id: usernameInput
 
         anchors.fill: parent
 
@@ -167,7 +183,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: emailEdit
+        id: emailInput
 
         anchors.fill: parent
 
@@ -199,7 +215,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: phoneEdit
+        id: phoneInput
 
         anchors.fill: parent
 
@@ -213,6 +229,70 @@ Item {
 
       }
     }
+    Text{
+      text: qsTr("Old Password:")
+
+      color: Style.textColor
+      font.pointSize: 12
+
+    }
+
+    Rectangle{
+      width: 300
+      height: 25
+
+      color: Qt.lighter(Style.backGround, 1.5)
+      border.color: Style.borderColor
+      border.width: 1
+      radius: 5
+
+      TextInput{
+        id: oldPasswordInput
+
+        anchors.fill: parent
+
+        leftPadding: 5
+        echoMode: TextInput.Password
+
+        activeFocusOnTab: true
+
+        color: Style.textColor
+        font.pointSize: 12
+        maximumLength: 25
+      }
+    }
+    Text{
+      text: qsTr("new Password:")
+
+      color: Style.textColor
+      font.pointSize: 12
+
+    }
+
+    Rectangle{
+      width: 300
+      height: 25
+
+      color: Qt.lighter(Style.backGround, 1.5)
+      border.color: Style.borderColor
+      border.width: 1
+      radius: 5
+
+      TextInput{
+        id: newPasswordInput
+
+        anchors.fill: parent
+
+        leftPadding: 5
+        echoMode: TextInput.Password
+
+        activeFocusOnTab: true
+
+        color: Style.textColor
+        font.pointSize: 12
+        maximumLength: 25
+      }
+    }
 
     CustomButton{
       id: saveButton
@@ -221,11 +301,13 @@ Item {
 
       buttonColor: "#399F2E"
 
-      onClicked: {
-        Emp.updateEmployee(idField, firstnameField, lastnameField, usernameField, emailField, phoneField);
-        savedText.visible = true
+      onClicked: Emp.updateEmployee(idField,
+                                    firstnameField,
+                                    lastnameField,
+                                    usernameField,
+                                    emailField,
+                                    phoneField);
 
-      }
     }
 
     CustomButton{
@@ -236,7 +318,9 @@ Item {
 
       buttonColor: "#6C261F"
 
-      onClicked: Qt.quit()
+      onClicked: Emp.changePasswordEmployee(idField,
+                                            oldPasswordField,
+                                            newPasswordField)
     }
   }
 
@@ -252,4 +336,18 @@ Item {
     font.bold: true
     visible: false
   }
+
+  Text{
+    id: changedText
+
+    anchors.top: editGrid.bottom
+    anchors.left: editGrid.left
+
+    text: qsTr("Changed password successfully...")
+
+    color: "#399F2E"
+    font.bold: true
+    visible: false
+  }
+
 }

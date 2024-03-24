@@ -37,20 +37,27 @@ Item {
     selectionModel.select(tableView.index(id - 1, 0), ItemSelectionModel.SelectCurrent)
   }
 
+  CustomButton{
+    id: searchButton
+
+    text: qsTr("Search Employee")
+
+    buttonColor: Qt.lighter(Style.backGround, 1.5)
+
+    onClicked: visibility = 2
+
+  }
+
   TableView {
     id: tableView
 
     width: parent.width / 2
     height: parent.height
+    anchors.top: searchButton.bottom
+    anchors.topMargin: 20
 
-    clip: true
+    flickableDirection: Flickable.VerticalFlick
 
-    // header: Text {
-    //     text: qsTr("Employees")
-    //     font.pixelSize: 20
-    //     color: "#ECEDF0"
-
-    // }
     selectionBehavior: TableView.SelectRows
     selectionMode: TableView.SingleSelection
     selectionModel: ItemSelectionModel {
@@ -72,7 +79,19 @@ Item {
     width: parent.width / 2
 
     anchors.left: tableView.right
+    anchors.leftMargin: 20
 
     visible: visibility == 1 ? true : false
+  }
+
+  EmployeeSearch {
+    id: searchEmployee
+
+    height: parent.height
+    width: parent.width / 2
+
+    anchors.left: tableView.right
+    anchors.leftMargin: 20
+    visible: visibility == 2 ? true : false
   }
 }

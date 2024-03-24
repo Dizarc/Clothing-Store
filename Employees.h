@@ -25,20 +25,30 @@ public:
     //virtual bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
     virtual QHash<int, QByteArray> roleNames() const override;
-    virtual int rowCount(const QModelIndex &parent) const override;
-    virtual int columnCount(const QModelIndex &parent) const override;
+    // virtual int rowCount(const QModelIndex &parent) const override;
+    // virtual int columnCount(const QModelIndex &parent) const override;
 
 public slots:
-    bool updateEmployee(int id,
+    bool updateEmployee(const int &id,
                         const QString &firstname,
                         const QString &lastname,
                         const QString &username,
                         const QString &email,
                         const QString &phone);
 
+    bool changePasswordEmployee(const int &id,
+                                const QString &oldPassword,
+                                const QString &newPassword);
+
     bool getEmployee(int id);
 
-    // QAbstractItemModel interface
-
+    bool searchEmployee(const QString &firstname,
+                        const QString &lastname,
+                        const QString &username,
+                        const QString &email,
+                        const QString &phone);
+signals:
+    void passwordChanged();
+    void editedEmployee();
 };
 #endif // EMPLOYEES_H

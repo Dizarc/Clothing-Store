@@ -63,7 +63,7 @@ Item {
 
       anchors.top: tabRow.bottom
 
-      width: 100
+      width: 125
       height: 2
 
       color: Qt.lighter(Style.backGround, 2)
@@ -77,7 +77,6 @@ Item {
       }
     }
   }
-
 
   SwipeView{
     id: tabSwipeView
@@ -123,11 +122,6 @@ Item {
 
       }
     }
-
-
-
   }
-
-
 }
 

@@ -26,15 +26,16 @@ qt_add_qml_module(appClothingStore
               Employees.qml
               EmployeesDelegate.qml
               EmployeeEdit.qml
+              EmployeeSearch.qml
 
               Style.qml
 
     RESOURCES images/icon.ico
               images/logo.png
               images/userImage.png
+              images/searchImage.png
 
               qmldir
-
 
 )
 

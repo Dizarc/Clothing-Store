@@ -4,7 +4,7 @@ import QtQuick.Controls.Basic
 Button {
   id: myButton
 
-  implicitWidth: 100
+  implicitWidth: 125
   implicitHeight: 25
 
   property color buttonColor

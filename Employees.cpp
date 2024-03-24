@@ -69,52 +69,27 @@ QHash<int, QByteArray> Employees::roleNames() const
     return roles;
 }
 
-int Employees::rowCount(const QModelIndex &parent) const
-{
-    return 2;
-}
+// int Employees::rowCount(const QModelIndex &parent) const
+// {
+//     return 2;
+// }
 
-int Employees::columnCount(const QModelIndex &parent) const
-{
-    return 7;
-}
+// int Employees::columnCount(const QModelIndex &parent) const
+// {
+//     return 7;
+// }
 
 /*
     When user clicks save in EmployeeEdit.qml this function runs
 */
-bool Employees::updateEmployee(int id, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
+bool Employees::updateEmployee(const int &id, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
 {
-    //QSqlTableModel model;
-
     this->setTable("Employees");
-
-    // QString whereStr = "id = '"+ QString::number(id) + "'";
-    // this->setFilter(whereStr);
-
-    //this->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    // QSqlRecord record;
-
-    // record.setValue("firstname", firstname);
-    // record.setValue("lastname", lastname);
-    // record.setValue("username", username);
-    // record.setValue("email", email);
-    // record.setValue("phone", phone);
-
-    // record.setGenerated("firstname", false);
-    // record.setGenerated("lastname", false);
-    // record.setGenerated("username", false);
-    // record.setGenerated("email", false);
-    // record.setGenerated("phone", false);
-
-    // model.setRecord(1, record);
-
     this->select();
 
     QModelIndex firstnameIndex = this->index(id - 1, 1);
     QModelIndex lastnameIndex = this->index(id - 1, 2);
     QModelIndex usernameIndex = this->index(id - 1, 3);
-    //password
     QModelIndex emailIndex = this->index(id - 1, 5);
     QModelIndex phoneIndex = this->index(id - 1, 6);
 
@@ -124,16 +99,27 @@ bool Employees::updateEmployee(int id, const QString &firstname, const QString &
     this->setData(emailIndex, email, Qt::EditRole);
     this->setData(phoneIndex, phone, Qt::EditRole);
 
-    //CHANGES DONT SHOW IN THE DELEGATE
-
-    // emit this->dataChanged(firstnameIndex, firstnameIndex);
-    // emit this->dataChanged(lastnameIndex, lastnameIndex);
-    // emit this->dataChanged(usernameIndex, lastnameIndex);
-    // emit this->dataChanged(emailIndex, emailIndex);
-    // emit this->dataChanged(phoneIndex, phoneIndex);
-
+    emit editedEmployee();
 
     return this->submitAll();
+}
+
+bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword, const QString &newPassword)
+{
+    QSqlTableModel model;
+
+    model.setTable("Employees");
+    model.setFilter("id = "+ QString::number(id) + " AND password = '"+ oldPassword + "'");
+    model.select();
+
+    QSqlRecord record = model.record(0);
+    record.setValue("password", newPassword);
+    model.setRecord(0, record);
+
+    if(!record.isNull("id"))
+        emit passwordChanged();
+
+    return model.submitAll();
 }
 
 bool Employees::getEmployee(int id)
@@ -147,4 +133,25 @@ bool Employees::getEmployee(int id)
 
     model.select();
 
+}
+
+bool Employees::searchEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
+{
+
+    //me to this-> vgainei sthn emfanisi apeuthias opote kapws etsi na to kanw.
+    // QSqlRecord record;
+    // this->setTable("Employees");
+    // this->setFilter("id = " + QString::number(id));
+
+    // this->select();
+
+    // record = this->record(0);
+    // record.setValue("firstname", firstname);
+    // record.setValue("lastname", lastname);
+    // record.setValue("username", username);
+    // record.setValue("email", email);
+    // record.setValue("phone", phone);
+
+    // this->setRecord(0, record);
+    // return this->submitAll();
 }

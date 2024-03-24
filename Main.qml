@@ -13,6 +13,36 @@ Window {
   width: Screen.width
   height: Screen.height
 
+  Item{
+    id: brandName
+
+    anchors.top: parent.top
+    anchors.right: parent.left
+    Image{
+      id: brandImage
+
+      source: "images/icon.png"
+
+      sourceSize.width: 100
+      sourceSize.height: 100
+    }
+    Rectangle{
+      anchors.left: brandImage.right
+      color: "red"
+      height: 25
+      width: 150
+      Text{
+        text: qsTr("Gentle Cloth")
+        anchors.centerIn: parent
+        color: Style.textColor
+
+        font.bold: true
+        font.underline: true
+        font.pointSize: 15
+      }
+    }
+  }
+
   Login{
     id: login
 

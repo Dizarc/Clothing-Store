@@ -50,14 +50,14 @@ Item{
       color: Qt.lighter(Style.backGround, 1.5)
       border.color: Style.borderColor
       border.width: 1
-      radius: 10
+      radius: 8
 
       TextInput{
         id: usernameInput
 
         anchors.fill: parent
 
-        leftPadding: 5
+        leftPadding: 8
 
         activeFocusOnTab: true
         focus: true
@@ -86,14 +86,14 @@ Item{
       color: Qt.lighter(Style.backGround, 1.5)
       border.color: Style.borderColor
       border.width: 1
-      radius: 10
+      radius: 8
 
       TextInput{
         id: passwordInput
 
         anchors.fill: parent
 
-        leftPadding: 5
+        leftPadding: 8
         echoMode: TextInput.Password
 
         activeFocusOnTab: true

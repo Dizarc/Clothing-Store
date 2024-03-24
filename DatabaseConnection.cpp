@@ -1,5 +1,8 @@
 #include "DatabaseConnection.h"
 
+#include <QFile>
+#include <QIODevice>
+
 DatabaseConnection::DatabaseConnection(QObject *parent)
     : QObject{parent}
 {
@@ -26,7 +29,7 @@ void DatabaseConnection::createDatabase()
 
     QSqlQuery query;
 
-    QString createEmployeesQuery = "CREATE TABLE Employees("
+    QString empTable = "CREATE TABLE Employees("
                                    " id INTEGER PRIMARY KEY AUTOINCREMENT,"
                                    " firstname TEXT NOT NULL,"
                                    " lastname TEXT NOT NULL,"
@@ -35,28 +38,49 @@ void DatabaseConnection::createDatabase()
                                    " email TEXT NOT NULL,"
                                    " phone VARCHAR(10) NOT NULL);";
 
-    QString addValuesToEmployeesQuery = "INSERT INTO Employees(firstname, lastname, username, password, email, phone) VALUES "
-                                        "( "
-                                            "\"Root\", "
-                                            "\"Admin\", "
-                                            "\"root\", "
-                                            "\"root\", "
-                                            "\"faruk_yildiz@protonmail.com\", "
-                                            "'6995613105'), "
-                                        "("
-                                            "\"Faruk\", "
-                                            "\"Yildiz\", "
-                                            "\"faruk\", "
-                                            "\"faruk12345\", "
-                                            "\"faruk_yildiz@hotmail.gr\", "
-                                            "'6995613105'"
-                                        ");";
-
-    if(!query.exec(createEmployeesQuery))
+    if(!query.exec(empTable))
         qDebug()<< "PROBLEM";
 
-    if(!query.exec(addValuesToEmployeesQuery))
-        qDebug()<< "PROBLEM";
+    // QString empValues = "INSERT INTO Employees(firstname, lastname, username, password, email, phone) VALUES "
+    //                                     "( "
+    //                                         "\"Root\", "
+    //                                         "\"Admin\", "
+    //                                         "\"root\", "
+    //                                         "\"root\", "
+    //                                         "\"faruk_yildiz@protonmail.com\", "
+    //                                         "'6995613105'), "
+    //                                     "("
+    //                                         "\"Faruk\", "
+    //                                         "\"Yildiz\", "
+    //                                         "\"faruk\", "
+    //                                         "\"faruk12345\", "
+    //                                         "\"faruk_yildiz@hotmail.gr\", "
+    //                                         "'6995613105'"
+    //                                     ");";
+
+    QFile f("DATA.csv");
+    if(f.open(QIODevice::ReadOnly)){
+        QTextStream ts(&f);
+
+        while(!ts.atEnd()){
+            QString empValues = "INSERT INTO Employees(firstname, lastname, username, password, email, phone) VALUES (";
+            QStringList line = ts.readLine().split(",");
+
+            for(int i = 0; i<line.length(); i++){
+                empValues.append("'"+line.at(i));
+                empValues.append("',");
+            }
+            empValues.chop(1);
+            empValues.append(");");
+            qDebug()<< empValues;
+            if(!query.exec(empValues))
+                qDebug()<< "PROBLEM";
+        }
+        f.close();
+    }
+
+
+
 
     QSqlDatabase::database().commit();
 

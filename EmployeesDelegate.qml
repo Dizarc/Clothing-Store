@@ -35,7 +35,7 @@ Rectangle {
       Image {
         source: "images/userImage.png"
 
-        sourceSize.width: 100
+        sourceSize.width: 125
         sourceSize.height: 20
       }
 
@@ -45,7 +45,7 @@ Rectangle {
         color: Style.textColor
 
         font.pointSize: 12
-        width: 10
+        width: 30
       }
 
       Text {
@@ -54,7 +54,7 @@ Rectangle {
         color: Style.textColor
 
         font.pointSize: 12
-        width: 100
+        width: 150
       }
 
       Text{
@@ -63,7 +63,7 @@ Rectangle {
         color: Style.textColor
 
         font.pointSize: 12
-        width: 100
+        width: 150
       }
 
       Text {
@@ -72,7 +72,7 @@ Rectangle {
         color: Style.textColor
 
         font.pointSize: 12
-        width: 250
+        width: 300
       }
 
       Text {
@@ -81,7 +81,7 @@ Rectangle {
         color: Style.textColor
 
         font.pointSize: 12
-        width: 50
+        width: 100
       }
     }
   }
