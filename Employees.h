@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSqlQueryModel>
 #include <QSqlTableModel>
+#include <QSqlQuery>
 
 class Employees : public QSqlTableModel
 {
@@ -40,7 +41,7 @@ public slots:
                                 const QString &oldPassword,
                                 const QString &newPassword);
 
-    bool getEmployee(int id);
+    bool deleteEmployee(int id);
 
     bool searchEmployee(const QString &firstname,
                         const QString &lastname,
@@ -50,5 +51,6 @@ public slots:
 signals:
     void passwordChanged();
     void editedEmployee();
+    void wrongPassword();
 };
 #endif // EMPLOYEES_H

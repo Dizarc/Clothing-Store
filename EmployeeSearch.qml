@@ -6,13 +6,6 @@ import com.company.Employees
 Item {
   id: employeeSearchItem
 
-  // property alias firstnameField: firstnameEdit.text
-  // property alias lastnameField: lastnameEdit.text
-  // property alias usernameField: usernameEdit.text
-  // //property alias passwordField: passwordEdit.text
-  // property alias emailField: emailEdit.text
-  // property alias phoneField: phoneEdit.text
-
   Image {
     id: searchImage
 
@@ -219,11 +212,11 @@ Item {
 
       buttonColor: "#399F2E"
 
-      // onClicked: Emp.searchEmployee(firstnameField,
-      //                               lastnameField,
-      //                               usernameField,
-      //                               emailField,
-      //                               phoneField);
+       onClicked: Emp.searchEmployee(firstnameSearch.text,
+                                     lastnameSearch.text,
+                                     usernameSearch.text,
+                                     emailSearch.text,
+                                     phoneSearch.text);
     }
   }
 }

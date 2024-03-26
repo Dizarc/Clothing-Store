@@ -118,21 +118,22 @@ bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword
 
     if(!record.isNull("id"))
         emit passwordChanged();
+    else
+        emit wrongPassword();
 
     return model.submitAll();
 }
 
-bool Employees::getEmployee(int id)
+bool Employees::deleteEmployee(int id)
 {
-    QSqlTableModel model;
-
-    model.setTable("Employees");
-    QString whereStr = "id = '"+ QString::number(id) + "'";
-
-    model.setFilter(whereStr);
-
-    model.select();
-
+    //IF I USE THIS when an employee is deleted the whole model view stops working with the selection.
+    // PROBABLY something to do with Employees.qml line 38.
+    QSqlQuery query;
+    this->setTable("Employees");
+    this->select();
+    this->removeRow(id);
+    this->select();
+    return this->submitAll();
 }
 
 bool Employees::searchEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)

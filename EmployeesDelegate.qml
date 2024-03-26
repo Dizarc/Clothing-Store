@@ -23,10 +23,12 @@ Rectangle {
     anchors.fill: parent
     cursorShape: Qt.PointingHandCursor
 
-    onClicked : {
-      userClicked(delegate.id, delegate.firstname, delegate.lastname, delegate.username, delegate.password, delegate.email, delegate.phone)
-
-    }
+    onClicked : userClicked(id,
+                            firstname,
+                            lastname,
+                            username,
+                            email,
+                            phone)
 
     Row {
       id: empRow

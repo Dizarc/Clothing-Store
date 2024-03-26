@@ -7,6 +7,15 @@ import com.company.Employees
 Item {
   id: employeeEditItem
 
+  /*
+    textVisibility: which text to show
+    0: dont show text
+    1: show successful save text
+    2: show successful password change
+    3: show wrong password
+  */
+  property int textVisibility: 0
+
   property int idField
   property alias firstnameField: firstnameInput.text
   property alias lastnameField: lastnameInput.text
@@ -21,13 +30,16 @@ Item {
     target: Emp
 
     function onEditedEmployee(){
-      savedText.visible = true;
-      changedText.visible = false;
+      textVisibility = 1;
     }
 
     function onPasswordChanged(){
-      savedText.visible = false;
-      changedText.visible = true;
+      textVisibility = 2;
+    }
+
+    function onWrongPassword(){
+      textVisibility = 3;
+
     }
   }
 
@@ -298,7 +310,6 @@ Item {
       id: saveButton
 
       text: qsTr("Save")
-
       buttonColor: "#399F2E"
 
       onClicked: Emp.updateEmployee(idField,
@@ -307,47 +318,66 @@ Item {
                                     usernameField,
                                     emailField,
                                     phoneField);
-
     }
 
     CustomButton{
       id: passwordButton
 
-      //width: 150
       text: qsTr("Change Password")
-
-      buttonColor: "#6C261F"
+      buttonColor: "#399F2E"
 
       onClicked: Emp.changePasswordEmployee(idField,
                                             oldPasswordField,
                                             newPasswordField)
     }
+
+    CustomButton{
+      id: deleteButton
+
+      text: qsTr("delete")
+      buttonColor: "#6C261F"
+      onClicked: Emp.deleteEmployee(idField);
+    }
   }
 
   Text{
-    id: savedText
+    id: buttonOutputText
 
     anchors.top: editGrid.bottom
     anchors.left: editGrid.left
 
-    text: qsTr("Saved user...")
-
-    color: "#399F2E"
+    text: qsTr("")
     font.bold: true
-    visible: false
-  }
 
-  Text{
-    id: changedText
-
-    anchors.top: editGrid.bottom
-    anchors.left: editGrid.left
-
-    text: qsTr("Changed password successfully...")
-
-    color: "#399F2E"
-    font.bold: true
-    visible: false
+    states: [
+      State{
+        name: "saved"; when: textVisibility == 1
+        PropertyChanges {
+          buttonOutputText{
+            text: qsTr("Saved user...")
+            color: "#399F2E"
+          }
+        }
+      },
+      State{
+        name: "correctPassword"; when: textVisibility == 2
+        PropertyChanges {
+          buttonOutputText{
+            text: qsTr("Changed password successfully...")
+            color: "#399F2E"
+          }
+        }
+      },
+      State{
+        name: "wrongPassword"; when: textVisibility == 3
+        PropertyChanges {
+          buttonOutputText{
+            text: qsTr("Wrong password try again!")
+            color: "#B21B00"
+          }
+        }
+      }
+    ]
   }
 
 }
