@@ -128,21 +128,16 @@ bool Employees::deleteEmployee(const int &index)
 
 bool Employees::searchEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
 {
-
-    //me to this-> vgainei sthn emfanisi apeuthias opote kapws etsi na to kanw.
-    // QSqlRecord record;
-    // this->setTable("Employees");
-    // this->setFilter("id = " + QString::number(id));
-
-    // this->select();
-
-    // record = this->record(0);
-    // record.setValue("firstname", firstname);
-    // record.setValue("lastname", lastname);
-    // record.setValue("username", username);
-    // record.setValue("email", email);
-    // record.setValue("phone", phone);
-
-    // this->setRecord(0, record);
-    // return this->submitAll();
+    this->setTable("Employees");
+    this->setFilter("(firstname LIKE CONCAT('" + firstname + "', '%') OR '" + firstname + "' = '')"
+                    + " AND "
+                    + "(lastname LIKE CONCAT('" + lastname + "', '%') OR '" + lastname + "' = '')"
+                    + " AND "
+                    + "(username LIKE CONCAT('" + username + "', '%') OR '" + username + "' = '')"
+                    + " AND "
+                    + "(email LIKE CONCAT('" + email + "', '%') OR '" + email + "' = '')"
+                    + " AND "
+                    + "(phone LIKE CONCAT('" + phone + "', '%') OR '" + phone + "' = '')"
+                    );
+    return this->select();
 }

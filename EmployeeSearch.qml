@@ -39,7 +39,7 @@ Item {
     columns: 2
 
     rowSpacing: 10
-    columnSpacing: 50
+    columnSpacing: 30
 
     Text{
       text: qsTr("Firstname: ");

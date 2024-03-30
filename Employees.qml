@@ -53,6 +53,19 @@ Item {
 
   }
 
+  CustomButton{
+    id: resetSearchButton
+
+    text: qsTr("Reset Search")
+
+    anchors.leftMargin: 5
+    anchors.left: searchButton.right
+    buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
+
+    onClicked: Emp.searchEmployee('', '', '', '', '');
+
+  }
+
   TableView {
     id: tableView
 
