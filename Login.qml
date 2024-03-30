@@ -47,7 +47,7 @@ Item{
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backGround, 1.5)
+      color: Qt.lighter(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
       border.width: 1
       radius: 8
@@ -83,7 +83,7 @@ Item{
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backGround, 1.5)
+      color: Qt.lighter(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
       border.width: 1
       radius: 8

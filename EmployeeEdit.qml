@@ -1,6 +1,7 @@
 import QtQuick 6.6
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
+import QtQuick.Dialogs
 
 import com.company.Employees
 
@@ -16,6 +17,7 @@ Item {
   */
   property int textVisibility: 0
 
+  property int employeeIndex
   property int idField
   property alias firstnameField: firstnameInput.text
   property alias lastnameField: lastnameInput.text
@@ -39,6 +41,11 @@ Item {
 
     function onWrongPassword(){
       textVisibility = 3;
+
+    }
+
+    function onDeletedEmployee(){
+      textVisibility = 4;
 
     }
   }
@@ -90,7 +97,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backGround, 1.5)
+      color: Qt.lighter(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -123,7 +130,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backGround, 1.5)
+      color: Qt.lighter(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -156,7 +163,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backGround, 1.5)
+      color: Qt.lighter(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -189,7 +196,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backGround, 1.5)
+      color: Qt.lighter(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -221,7 +228,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backGround, 1.5)
+      color: Qt.lighter(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -253,7 +260,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backGround, 1.5)
+      color: Qt.lighter(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -285,7 +292,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backGround, 1.5)
+      color: Qt.lighter(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -312,7 +319,7 @@ Item {
       text: qsTr("Save")
       buttonColor: "#399F2E"
 
-      onClicked: Emp.updateEmployee(idField,
+      onClicked: Emp.updateEmployee(employeeIndex,
                                     firstnameField,
                                     lastnameField,
                                     usernameField,
@@ -336,7 +343,51 @@ Item {
 
       text: qsTr("delete")
       buttonColor: "#6C261F"
-      onClicked: Emp.deleteEmployee(idField);
+      onClicked: popup.open()
+    }
+  }
+
+  Popup{
+    id: popup
+
+    background: Rectangle{
+      implicitWidth: 500
+      implicitHeight: 200
+      color: Qt.darker(Style.backgroundColor, 1.5)
+      border.color: Style.borderColor
+    }
+    anchors.centerIn: Overlay.overlay
+
+    Text{
+      id: popupText
+
+      anchors.horizontalCenter: parent.horizontalCenter
+
+      text: qsTr("Are you sure you want to delete employee "+ usernameField + "?")
+      color: Style.textColor
+      font.pointSize: 14
+
+    }
+
+    CustomButton{
+      id: yesButton
+      anchors.topMargin: 10
+      anchors.top: popupText.bottom
+      anchors.left: popupText.left
+      text: qsTr("Yes")
+      buttonColor: "#6C261F"
+      onClicked: Emp.deleteEmployee(employeeIndex)
+    }
+
+    CustomButton{
+
+      anchors.topMargin: 10
+      anchors.leftMargin: 10
+      anchors.top: popupText.bottom
+      anchors.left: yesButton.right
+      text: qsTr("No")
+      buttonColor: "#6C261F"
+      onClicked: popup.close()
     }
   }
 
@@ -354,7 +405,7 @@ Item {
         name: "saved"; when: textVisibility == 1
         PropertyChanges {
           buttonOutputText{
-            text: qsTr("Saved user...")
+            text: qsTr("Saved user!")
             color: "#399F2E"
           }
         }
@@ -363,7 +414,7 @@ Item {
         name: "correctPassword"; when: textVisibility == 2
         PropertyChanges {
           buttonOutputText{
-            text: qsTr("Changed password successfully...")
+            text: qsTr("Changed password successfully!")
             color: "#399F2E"
           }
         }
@@ -374,6 +425,15 @@ Item {
           buttonOutputText{
             text: qsTr("Wrong password try again!")
             color: "#B21B00"
+          }
+        }
+      },
+      State{
+        name: "delete"; when: textVisibility == 4
+        PropertyChanges {
+          buttonOutputText{
+            text: qsTr("Employee deleted successfully!")
+            color: "#399F2E"
           }
         }
       }

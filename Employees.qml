@@ -18,12 +18,19 @@ Item {
 
   anchors.fill: parent
 
+  /*
+    visibility: show edit employee or search employee
+    0: show neither
+    1: show edit Employee
+    2: show search Employee
+  */
   property int visibility: 0
 
-  signal userClicked(int id, string firstname, string lastname, string username, string email, string phone)
+  signal userClicked(int id,int index, string firstname, string lastname, string username, string email, string phone)
 
-  onUserClicked: (id, firstname, lastname, username, email, phone) => {
+  onUserClicked: (id, index, firstname, lastname, username, email, phone) => {
     editEmployee.idField = id;
+    editEmployee.employeeIndex = index;
     editEmployee.firstnameField = firstname;
     editEmployee.lastnameField = lastname;
     editEmployee.usernameField = username;
@@ -33,9 +40,6 @@ Item {
     //show edit and reset the visibility of the previous button presses.
     visibility = 1;
     editEmployee.textVisibility = 0;
-
-    //Select current item
-    selectionModel.select(tableView.index(id - 1, 0), ItemSelectionModel.SelectCurrent);
   }
 
   CustomButton{
@@ -43,7 +47,7 @@ Item {
 
     text: qsTr("Search Employee")
 
-    buttonColor: Qt.lighter(Style.backGround, 1.5)
+    buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
 
     onClicked: visibility = 2
 
@@ -68,7 +72,7 @@ Item {
     model: Emp
 
     delegate: EmployeesDelegate {
-      color: selected ? Qt.lighter(Style.backGround, 2.5) : Style.backGround
+      color: selected ? Qt.lighter(Style.backgroundColor, 2.5) : Style.backgroundColor
       required property bool selected
     }
   }

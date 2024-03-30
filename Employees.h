@@ -23,11 +23,8 @@ public:
     Employees(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());
 
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    //virtual bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
     virtual QHash<int, QByteArray> roleNames() const override;
-    // virtual int rowCount(const QModelIndex &parent) const override;
-    // virtual int columnCount(const QModelIndex &parent) const override;
 
 public slots:
     bool updateEmployee(const int &id,
@@ -41,7 +38,7 @@ public slots:
                                 const QString &oldPassword,
                                 const QString &newPassword);
 
-    bool deleteEmployee(int id);
+    bool deleteEmployee(const int &index);
 
     bool searchEmployee(const QString &firstname,
                         const QString &lastname,
@@ -50,7 +47,9 @@ public slots:
                         const QString &phone);
 signals:
     void passwordChanged();
-    void editedEmployee();
     void wrongPassword();
+    void editedEmployee();
+    void deletedEmployee();
+
 };
 #endif // EMPLOYEES_H

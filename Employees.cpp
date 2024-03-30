@@ -49,11 +49,6 @@ QVariant Employees::data(const QModelIndex &index, int role) const
     return value;
 }
 
-// bool Employees::setData(const QModelIndex &index, const QVariant &value, int role)
-// {
-
-// }
-
 QHash<int, QByteArray> Employees::roleNames() const
 {
     QHash<int, QByteArray> roles;
@@ -69,29 +64,22 @@ QHash<int, QByteArray> Employees::roleNames() const
     return roles;
 }
 
-// int Employees::rowCount(const QModelIndex &parent) const
-// {
-//     return 2;
-// }
-
-// int Employees::columnCount(const QModelIndex &parent) const
-// {
-//     return 7;
-// }
-
 /*
-    When user clicks save in EmployeeEdit.qml this function runs
+    updateEmployee and changePasswordEmployee use two different ways to change the data in an sql table.
+    updateEmployee uses the index from the delegate
+    changePasswordEmployee uses the id from the row.
 */
-bool Employees::updateEmployee(const int &id, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
+bool Employees::updateEmployee(const int &index, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
 {
+
     this->setTable("Employees");
     this->select();
 
-    QModelIndex firstnameIndex = this->index(id - 1, 1);
-    QModelIndex lastnameIndex = this->index(id - 1, 2);
-    QModelIndex usernameIndex = this->index(id - 1, 3);
-    QModelIndex emailIndex = this->index(id - 1, 5);
-    QModelIndex phoneIndex = this->index(id - 1, 6);
+    QModelIndex firstnameIndex = this->index(index, 1);
+    QModelIndex lastnameIndex = this->index(index, 2);
+    QModelIndex usernameIndex = this->index(index, 3);
+    QModelIndex emailIndex = this->index(index, 5);
+    QModelIndex phoneIndex = this->index(index, 6);
 
     this->setData(firstnameIndex, firstname, Qt::EditRole);
     this->setData(lastnameIndex, lastname, Qt::EditRole);
@@ -124,15 +112,17 @@ bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword
     return model.submitAll();
 }
 
-bool Employees::deleteEmployee(int id)
+bool Employees::deleteEmployee(const int &index)
 {
-    //IF I USE THIS when an employee is deleted the whole model view stops working with the selection.
-    // PROBABLY something to do with Employees.qml line 38.
     QSqlQuery query;
     this->setTable("Employees");
     this->select();
-    this->removeRow(id);
+
+    this->removeRow(index);
     this->select();
+
+    emit deletedEmployee();
+
     return this->submitAll();
 }
 

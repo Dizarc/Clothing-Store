@@ -48,15 +48,7 @@ void DatabaseConnection::createDatabase()
     //                                         "\"root\", "
     //                                         "\"root\", "
     //                                         "\"faruk_yildiz@protonmail.com\", "
-    //                                         "'6995613105'), "
-    //                                     "("
-    //                                         "\"Faruk\", "
-    //                                         "\"Yildiz\", "
-    //                                         "\"faruk\", "
-    //                                         "\"faruk12345\", "
-    //                                         "\"faruk_yildiz@hotmail.gr\", "
-    //                                         "'6995613105'"
-    //                                     ");";
+    //                                         "'6995613105'); ";
 
     QFile f("DATA.csv");
     if(f.open(QIODevice::ReadOnly)){

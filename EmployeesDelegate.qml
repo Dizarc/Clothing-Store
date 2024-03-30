@@ -19,16 +19,23 @@ Rectangle {
   required property string email
   required property string phone
 
+  required property int index
+
   MouseArea {
     anchors.fill: parent
     cursorShape: Qt.PointingHandCursor
 
-    onClicked : userClicked(id,
-                            firstname,
-                            lastname,
-                            username,
-                            email,
-                            phone)
+    onClicked : {
+      userClicked(id,
+                  index,
+                  firstname,
+                  lastname,
+                  username,
+                  email,
+                  phone);
+
+      selectionModel.select(tableView.index(delegate.index, 0), ItemSelectionModel.SelectCurrent);
+    }
 
     Row {
       id: empRow
