@@ -1,6 +1,8 @@
 import QtQuick 6.6
 import QtQuick.Controls.Basic
 
+import "../../ClothingStore"
+
 Rectangle {
   id: delegate
 
@@ -42,7 +44,7 @@ Rectangle {
       spacing: 5
 
       Image {
-        source: "images/userImage.png"
+        source: "../images/userImage.png"
 
         sourceSize.width: 125
         sourceSize.height: 20

@@ -1,8 +1,5 @@
 #include "DatabaseConnection.h"
 
-#include <QFile>
-#include <QIODevice>
-
 DatabaseConnection::DatabaseConnection(QObject *parent)
     : QObject{parent}
 {

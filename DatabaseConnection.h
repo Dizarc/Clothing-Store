@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QFile>
+#include <QIODevice>
 
 class DatabaseConnection : public QObject
 {

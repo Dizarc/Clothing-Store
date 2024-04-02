@@ -21,7 +21,7 @@ Window {
     Image{
       id: brandImage
 
-      source: "images/icon.png"
+      source: "/images/icon.png"
 
       sourceSize.width: 100
       sourceSize.height: 100

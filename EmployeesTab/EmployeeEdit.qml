@@ -5,6 +5,8 @@ import QtQuick.Dialogs
 
 import com.company.Employees
 
+import "../../ClothingStore"
+
 Item {
   id: employeeEditItem
 
@@ -19,14 +21,14 @@ Item {
 
   property int employeeIndex
   property int idField
-  property alias firstnameField: firstnameInput.text
-  property alias lastnameField: lastnameInput.text
-  property alias usernameField: usernameInput.text
-  property alias emailField: emailInput.text
-  property alias phoneField: phoneInput.text
+  property alias firstnameField: firstnameEditInput.text
+  property alias lastnameField: lastnameEditInput.text
+  property alias usernameField: usernameEditInput.text
+  property alias emailField: emailEditInput.text
+  property alias phoneField: phoneEditInput.text
 
-  property alias oldPasswordField: oldPasswordInput.text
-  property alias newPasswordField: newPasswordInput.text
+  property alias oldPasswordField: oldPasswordEditInput.text
+  property alias newPasswordField: newPasswordEditInput.text
 
   Connections{
     target: Emp
@@ -41,12 +43,10 @@ Item {
 
     function onWrongPassword(){
       textVisibility = 3;
-
     }
 
     function onDeletedEmployee(){
       textVisibility = 4;
-
     }
   }
 
@@ -55,7 +55,7 @@ Item {
 
     anchors.horizontalCenter: editGrid.horizontalCenter
 
-    source: "images/userImage.png"
+    source: "../images/userImage.png"
 
     sourceSize.width: 150
     sourceSize.height: 150
@@ -103,7 +103,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: firstnameInput
+        id: firstnameEditInput
 
         anchors.fill: parent
 
@@ -136,7 +136,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: lastnameInput
+        id: lastnameEditInput
 
         anchors.fill: parent
 
@@ -169,7 +169,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: usernameInput
+        id: usernameEditInput
 
         anchors.fill: parent
 
@@ -202,7 +202,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: emailInput
+        id: emailEditInput
 
         anchors.fill: parent
 
@@ -234,7 +234,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: phoneInput
+        id: phoneEditInput
 
         anchors.fill: parent
 
@@ -266,7 +266,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: oldPasswordInput
+        id: oldPasswordEditInput
 
         anchors.fill: parent
 
@@ -298,7 +298,7 @@ Item {
       radius: 5
 
       TextInput{
-        id: newPasswordInput
+        id: newPasswordEditInput
 
         anchors.fill: parent
 
@@ -376,7 +376,10 @@ Item {
       anchors.left: popupText.left
       text: qsTr("Yes")
       buttonColor: "#6C261F"
-      onClicked: Emp.deleteEmployee(employeeIndex)
+      onClicked: {
+        Emp.deleteEmployee(employeeIndex);
+        popup.close();
+      }
     }
 
     CustomButton{

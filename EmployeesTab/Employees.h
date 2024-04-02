@@ -5,6 +5,7 @@
 #include <QSqlQueryModel>
 #include <QSqlTableModel>
 #include <QSqlQuery>
+#include <QSqlRecord>
 
 class Employees : public QSqlTableModel
 {
@@ -45,11 +46,20 @@ public slots:
                         const QString &username,
                         const QString &email,
                         const QString &phone);
+
+    bool addEmployee(const QString &firstname,
+                     const QString &lastname,
+                     const QString &username,
+                     const QString &email,
+                     const QString &phone,
+                     const QString &password);
 signals:
     void passwordChanged();
     void wrongPassword();
     void editedEmployee();
     void deletedEmployee();
+    void addedEmployee();
+    void notAddedEmployee();
 
 };
 #endif // EMPLOYEES_H

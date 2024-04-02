@@ -1,6 +1,9 @@
 import QtQuick 6.6
 import QtQuick.Controls
 
+import "EmployeesTab"
+import "StorageTab"
+
 Item {
   id: applicationItem
 
@@ -104,23 +107,11 @@ Item {
     }
 
     Item{
-      id: storageItem
-      width: 400
-      height:400
-
-      Rectangle{
-        width: 400
-        height:400
-        color:"blue"
-      }
-
+      Storage{ }
     }
 
     Item{
-
-      Employees{
-
-      }
+      Employees{ }
     }
   }
 }

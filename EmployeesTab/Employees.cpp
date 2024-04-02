@@ -1,7 +1,5 @@
 #include "Employees.h"
 
-#include <QSqlRecord>
-
 Employees::Employees(QObject *parent, QSqlDatabase db) : QSqlTableModel(parent, db)
 {
     setTable("Employees");
@@ -141,3 +139,31 @@ bool Employees::searchEmployee(const QString &firstname, const QString &lastname
                     );
     return this->select();
 }
+
+bool Employees::addEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QString &password)
+{
+    this->setTable("Employees");
+    this->select();
+
+    this->insertRow(this->rowCount() + 1);
+    QSqlRecord record = this->record(this->rowCount());
+
+    record.setValue("firstname", firstname);
+    record.setValue("lastname", lastname);
+    record.setValue("username", username);
+    record.setValue("email", email);
+    record.setValue("phone", phone);
+    record.setValue("password", password);
+
+    if(this->insertRecord(this->rowCount(), record))
+        emit addedEmployee();
+    else
+        emit notAddedEmployee();
+
+    this->select();
+
+    return this->submitAll();
+}
+
+
+
