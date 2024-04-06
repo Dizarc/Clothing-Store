@@ -24,8 +24,7 @@ public:
     Employees(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());
 
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-
-    virtual QHash<int, QByteArray> roleNames() const override;
+    virtual QHash<int, QByteArray> roleNames() const override;    
 
 public slots:
     bool updateEmployee(const int &id,
@@ -60,6 +59,8 @@ signals:
     void deletedEmployee();
     void addedEmployee();
     void notAddedEmployee();
+
+
 
 };
 #endif // EMPLOYEES_H

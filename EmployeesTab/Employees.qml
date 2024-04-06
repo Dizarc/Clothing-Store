@@ -73,7 +73,7 @@ Item {
       Layout.fillWidth: true
 
       flickableDirection: Flickable.VerticalFlick
-      //boundsBehavior: Flickable.StopAtBounds
+      boundsBehavior: Flickable.StopAtBounds
 
       selectionModel: ItemSelectionModel {
         id: selectionModel

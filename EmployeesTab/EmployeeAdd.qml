@@ -24,7 +24,7 @@ Item {
   Image {
     id: addImage
 
-    anchors.horizontalCenter: searchGrid.horizontalCenter
+    anchors.horizontalCenter: addGrid.horizontalCenter
 
     source: "../images/addUserImage.png"
 

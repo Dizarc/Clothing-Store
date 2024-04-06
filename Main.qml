@@ -10,14 +10,14 @@ Window {
   visible: true
   color: Style.backgroundColor
 
-  width: Screen.width
-  height: Screen.height
+  visibility: Qt.WindowFullScreen
 
   Item{
-    id: brandName
+    id: brandItem
 
     anchors.top: parent.top
     anchors.right: parent.left
+
     Image{
       id: brandImage
 
@@ -26,6 +26,7 @@ Window {
       sourceSize.width: 100
       sourceSize.height: 100
     }
+
     Rectangle{
       anchors.left: brandImage.right
       color: "red"
