@@ -375,7 +375,7 @@ Item {
       anchors.top: popupText.bottom
       anchors.left: popupText.left
       text: qsTr("Yes")
-      buttonColor: "#6C261F"
+      buttonColor: "#399F2E"
       onClicked: {
         Emp.deleteEmployee(employeeIndex);
         popup.close();

@@ -69,25 +69,21 @@ QHash<int, QByteArray> Employees::roleNames() const
 */
 bool Employees::updateEmployee(const int &index, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
 {
-
-    this->setTable("Employees");
-    this->select();
-
     QModelIndex firstnameIndex = this->index(index, 1);
     QModelIndex lastnameIndex = this->index(index, 2);
     QModelIndex usernameIndex = this->index(index, 3);
     QModelIndex emailIndex = this->index(index, 5);
     QModelIndex phoneIndex = this->index(index, 6);
 
-    this->setData(firstnameIndex, firstname, Qt::EditRole);
-    this->setData(lastnameIndex, lastname, Qt::EditRole);
-    this->setData(usernameIndex, username, Qt::EditRole);
-    this->setData(emailIndex, email, Qt::EditRole);
-    this->setData(phoneIndex, phone, Qt::EditRole);
+    setData(firstnameIndex, firstname, Qt::EditRole);
+    setData(lastnameIndex, lastname, Qt::EditRole);
+    setData(usernameIndex, username, Qt::EditRole);
+    setData(emailIndex, email, Qt::EditRole);
+    setData(phoneIndex, phone, Qt::EditRole);
 
     emit editedEmployee();
 
-    return this->submitAll();
+    return submitAll();
 }
 
 bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword, const QString &newPassword)
@@ -112,22 +108,17 @@ bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword
 
 bool Employees::deleteEmployee(const int &index)
 {
-    QSqlQuery query;
-    this->setTable("Employees");
-    this->select();
-
-    this->removeRow(index);
-    this->select();
+    removeRow(index);
+    select();
 
     emit deletedEmployee();
 
-    return this->submitAll();
+    return submitAll();
 }
 
 bool Employees::searchEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
 {
-    this->setTable("Employees");
-    this->setFilter("(firstname LIKE CONCAT('" + firstname + "', '%') OR '" + firstname + "' = '')"
+    setFilter("(firstname LIKE CONCAT('" + firstname + "', '%') OR '" + firstname + "' = '')"
                     + " AND "
                     + "(lastname LIKE CONCAT('" + lastname + "', '%') OR '" + lastname + "' = '')"
                     + " AND "
@@ -137,16 +128,13 @@ bool Employees::searchEmployee(const QString &firstname, const QString &lastname
                     + " AND "
                     + "(phone LIKE CONCAT('" + phone + "', '%') OR '" + phone + "' = '')"
                     );
-    return this->select();
+    return select();
 }
 
 bool Employees::addEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QString &password)
 {
-    this->setTable("Employees");
-    this->select();
-
-    this->insertRow(this->rowCount() + 1);
-    QSqlRecord record = this->record(this->rowCount());
+    insertRow(rowCount() + 1);
+    QSqlRecord record = this->record(rowCount());
 
     record.setValue("firstname", firstname);
     record.setValue("lastname", lastname);
@@ -155,14 +143,14 @@ bool Employees::addEmployee(const QString &firstname, const QString &lastname, c
     record.setValue("phone", phone);
     record.setValue("password", password);
 
-    if(this->insertRecord(this->rowCount(), record))
+    if(insertRecord(rowCount(), record))
         emit addedEmployee();
     else
         emit notAddedEmployee();
 
-    this->select();
+    select();
 
-    return this->submitAll();
+    return submitAll();
 }
 
 

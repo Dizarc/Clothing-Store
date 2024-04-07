@@ -15,6 +15,8 @@ qt_add_executable(appClothingStore
 
     EmployeesTab/Employees.h EmployeesTab/Employees.cpp
 
+    StorageTab/Clothing.h StorageTab/Clothing.cpp
+
 )
 
 qt_add_qml_module(appClothingStore
@@ -32,6 +34,7 @@ qt_add_qml_module(appClothingStore
               EmployeesTab/EmployeeAdd.qml
 
               StorageTab/Storage.qml
+              StorageTab/StorageDelegate.qml
 
               Style.qml
 

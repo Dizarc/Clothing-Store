@@ -4,7 +4,7 @@ import QtQuick.Controls.Basic
 import "../../ClothingStore"
 
 Rectangle {
-  id: delegate
+  id: employeesDelegate
 
   implicitWidth: tableView.width
   implicitHeight: 30
@@ -36,7 +36,7 @@ Rectangle {
                   email,
                   phone);
 
-      selectionModel.select(tableView.index(delegate.index, 0), ItemSelectionModel.SelectCurrent);
+      selectionModel.select(tableView.index(employeesDelegate.index, 0), ItemSelectionModel.SelectCurrent);
     }
 
     Row {
@@ -51,7 +51,7 @@ Rectangle {
       }
 
       Text {
-        text: delegate.id
+        text: employeesDelegate.id
 
         color: Style.textColor
 
@@ -60,7 +60,7 @@ Rectangle {
       }
 
       Text {
-        text: delegate.firstname
+        text: employeesDelegate.firstname
 
         color: Style.textColor
 
@@ -69,7 +69,7 @@ Rectangle {
       }
 
       Text{
-        text: delegate.lastname
+        text: employeesDelegate.lastname
 
         color: Style.textColor
 
@@ -78,7 +78,7 @@ Rectangle {
       }
 
       Text {
-        text: delegate.email
+        text: employeesDelegate.email
 
         color: Style.textColor
 
@@ -87,7 +87,7 @@ Rectangle {
       }
 
       Text {
-        text: delegate.phone
+        text: employeesDelegate.phone
 
         color: Style.textColor
 

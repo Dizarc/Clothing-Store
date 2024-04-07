@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Window {
-  id: appWindow
+  id: root
 
   title: "Clothes Application"
 
@@ -62,7 +62,7 @@ Window {
       function onRightLogin(){
 
         var component = Qt.createComponent("MainApplication.qml");
-        var application = component.createObject(appWindow,{ width: appWindow.width, height:appWindow.height});
+        var application = component.createObject(root,{ width: root.width, height: root.height});
 
         if(application === null)
           console.log("Error creating object");
