@@ -3,6 +3,7 @@ import QtQuick.Controls
 
 import "EmployeesTab"
 import "StorageTab"
+import "HomeTab"
 
 Item {
   id: applicationItem
@@ -95,15 +96,7 @@ Item {
     interactive: false
 
     Item{
-      id: homeItem
-      width: 400
-      height:400
-
-      Rectangle{
-        width: 400
-        height:400
-        color:"red"
-      }
+      Home{ }
     }
 
     Item{

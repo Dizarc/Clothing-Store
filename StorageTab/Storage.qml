@@ -3,24 +3,41 @@ import QtQuick.Controls
 
 import "../../ClothingStore"
 
-import com.company.Clothing
+import com.company.ClothesTypesModel
 
 Item {
   id: storageItem
 
   anchors.fill: parent
 
-  TreeView{
-    id: treeView
-    anchors.fill: parent
+  // SwipeView{
+  //   currentIndex: 0
+  //   interactive: true
 
-    model: Clothing
+  //   Item{
+      GridView{
+        id: clothesTypesGrid
+        anchors.fill: parent
 
-    delegate: StorageDelegate {
-      color: selected ? Qt.lighter(Style.backgroundColor, 2) : Style.backgroundColor
-      required property bool selected
-    }
+        model: ClothesTypesModel
 
+        delegate: ClothesTypesDelegate {}
+      }
+    // }
+    // Item{
+    //   //SECOND PAGE - WHEN STYLE IS CLICKED SEND THE STYLE AND SHOW A NEW VIEW.
+    // }
+  //}
 
-  }
+  // TreeView{
+  //   id: treeView
+  //   anchors.fill: parent
+
+  //   model: Clothing
+
+  //   delegate:  StorageDelegate {
+  //     //color: selected ? Qt.lighter(Style.backgroundColor, 2) : Style.backgroundColor
+  //     //required property bool selected
+  //   }
+  // }
 }

@@ -59,8 +59,5 @@ signals:
     void deletedEmployee();
     void addedEmployee();
     void notAddedEmployee();
-
-
-
 };
 #endif // EMPLOYEES_H

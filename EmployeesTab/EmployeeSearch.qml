@@ -220,5 +220,14 @@ Item {
                                      emailSearchInput.text,
                                      phoneSearchInput.text);
     }
+
+    CustomButton{
+      id: resetSearchButton
+
+      text: qsTr("Reset Search")
+      buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
+
+      onClicked: Emp.searchEmployee('', '', '', '', '');
+    }
   }
 }

@@ -51,7 +51,7 @@ Rectangle {
       }
 
       Text {
-        text: employeesDelegate.id
+        text: id
 
         color: Style.textColor
 
@@ -60,7 +60,7 @@ Rectangle {
       }
 
       Text {
-        text: employeesDelegate.firstname
+        text: firstname
 
         color: Style.textColor
 
@@ -69,7 +69,7 @@ Rectangle {
       }
 
       Text{
-        text: employeesDelegate.lastname
+        text: lastname
 
         color: Style.textColor
 
@@ -78,7 +78,7 @@ Rectangle {
       }
 
       Text {
-        text: employeesDelegate.email
+        text: email
 
         color: Style.textColor
 
@@ -87,7 +87,7 @@ Rectangle {
       }
 
       Text {
-        text: employeesDelegate.phone
+        text: phone
 
         color: Style.textColor
 

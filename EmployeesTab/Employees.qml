@@ -33,7 +33,7 @@ Item {
     width: parent.width / 2
     height: parent.height
 
-    columns: 2
+    columns: 1
     rows: 3
 
     CustomButton{
@@ -54,20 +54,9 @@ Item {
       onClicked: employeeLayout.currentIndex = 3
     }
 
-    CustomButton{
-      id: resetSearchButton
-
-      text: qsTr("Reset Search")
-      buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
-
-      onClicked: Emp.searchEmployee('', '', '', '', '');
-    }
-
     TableView {
       id: tableView
 
-      Layout.row: 2
-      Layout.column: 0
       Layout.topMargin: 20
       Layout.fillHeight: true
       Layout.fillWidth: true

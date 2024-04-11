@@ -1,6 +1,6 @@
 #include "DatabaseConnection.h"
 #include "EmployeesTab/Employees.h"
-#include "StorageTab/Clothing.h"
+#include "StorageTab/ClothesTypesModel.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -25,9 +25,9 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("com.company.Employees", 1, 0, "Emp", emp);
     engine.rootContext()->setContextProperty("emp", emp);
 
-    Clothing *clothing = new Clothing(&app);
-    qmlRegisterSingletonInstance("com.company.Clothing", 1, 0, "Clothing", clothing);
-    engine.rootContext()->setContextProperty("clothing", clothing);
+    ClothesTypesModel *clothesTypesModel = new ClothesTypesModel(&app);
+    qmlRegisterSingletonInstance("com.company.ClothesTypesModel", 1, 0, "ClothesTypesModel", clothesTypesModel);
+    engine.rootContext()->setContextProperty("ClothesTypesModel", clothesTypesModel);
 
     const QUrl url(u"qrc:/ClothingStore/Main.qml"_qs);
 
