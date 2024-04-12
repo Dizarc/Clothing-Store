@@ -87,6 +87,7 @@ Item {
 
     anchors{
       top: tabItem.bottom
+      topMargin: 10
       left: parent.left
       right: parent.right
       bottom: parent.bottom

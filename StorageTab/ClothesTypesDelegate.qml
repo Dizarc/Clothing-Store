@@ -3,13 +3,8 @@ import QtQuick.Controls
 
 import "../../ClothingStore"
 
-
-
 Rectangle{
   id: storageDelegate
-
-  implicitWidth: 300
-  implicitHeight: 100
 
   required property string typeId
   required property string typeName
@@ -17,23 +12,42 @@ Rectangle{
 
   required property int index
 
-  // MouseArea{
-  //   anchors.fill: parent
-  //   onClicked: treeView.expand(storageDelegate.index)
-  // }
+  width: clothesTypesGrid.cellWidth - 5
+  height: clothesTypesGrid.cellHeight - 5
+  //color: Qt.darker(Style.backgroundColor, 1.5)
+  border.color: "black"
+  border.width: 2
 
-  Row{
+  MouseArea{
+    anchors.fill: parent
+    cursorShape: Qt.PointingHandCursor
+    hoverEnabled: true
+    onEntered: {
+      console.log(index)
+
+
+    }
+    onClicked: {
+      clothesTypesGrid.currentIndex = index;
+    }
+
+  }
+
+  Column{
+    anchors.centerIn: parent
     spacing: 5
     Text{
       text: typeId
+      color: Style.textColor
     }
 
     Text{
       text: typeName
+      color: Style.textColor
     }
     Text{
       text: typeImage
+      color: Style.textColor
     }
   }
-
 }

@@ -27,7 +27,7 @@ Rectangle {
     anchors.fill: parent
     cursorShape: Qt.PointingHandCursor
 
-    onClicked : {
+    onClicked: {
       userClicked(id,
                   index,
                   firstname,
