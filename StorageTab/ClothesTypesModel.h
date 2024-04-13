@@ -16,7 +16,6 @@ public:
 
     explicit ClothesTypesModel(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());
 
-public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
 };

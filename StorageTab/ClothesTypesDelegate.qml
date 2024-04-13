@@ -4,7 +4,7 @@ import QtQuick.Controls
 import "../../ClothingStore"
 
 Rectangle{
-  id: storageDelegate
+  id: clothesTypesDelegate
 
   required property string typeId
   required property string typeName
@@ -12,23 +12,21 @@ Rectangle{
 
   required property int index
 
-  width: clothesTypesGrid.cellWidth - 5
-  height: clothesTypesGrid.cellHeight - 5
-  //color: Qt.darker(Style.backgroundColor, 1.5)
+  width: clothesTypesView.cellWidth - 5
+  height: clothesTypesView.cellHeight - 5
+  color: typeMouseArea.pressed ? Qt.lighter(Style.backgroundColor, 1.5) : Qt.darker(Style.backgroundColor, 1.5)
   border.color: "black"
   border.width: 2
 
   MouseArea{
+    id: typeMouseArea
     anchors.fill: parent
     cursorShape: Qt.PointingHandCursor
-    hoverEnabled: true
-    onEntered: {
-      console.log(index)
 
-
-    }
     onClicked: {
-      clothesTypesGrid.currentIndex = index;
+      clothesTypesView.currentIndex = index;
+      storageView.push(clothesItem, {"id" : index});
+      console.log(clothesItem.id)
     }
 
   }

@@ -34,8 +34,6 @@ Item {
     Row{
       id: tabRow
 
-      spacing: 1
-
       CustomButton{
         text: qsTr("Home")
 
@@ -70,7 +68,7 @@ Item {
       width: 125
       height: 2
 
-      color: Qt.lighter(Style.backgroundColor, 2)
+      color: Style.borderColor
 
       property real targetX: tabItem.currentIndex * underline.width
 

@@ -4,43 +4,60 @@ import QtQuick.Controls
 import "../../ClothingStore"
 
 import com.company.ClothesTypesModel
+import com.company.ClothesModel
 
 Item {
   id: storageItem
 
   anchors.fill: parent
 
-   SwipeView{
-     currentIndex: 0
-     interactive: false
-     anchors.fill: parent
+  StackView{
+    id: storageView
 
-     Item{
-      GridView{
-        id: clothesTypesGrid
+    initialItem: clothesTypesView
+    anchors.fill: parent
+  }
 
-        cellWidth: 150
-        cellHeight: 200
-        anchors.fill: parent
+  GridView{
+    id: clothesTypesView
 
-        flickableDirection: Flickable.VerticalFlick
-        boundsBehavior: Flickable.StopAtBounds
+    cellWidth: 150
+    cellHeight: 200
 
-        highlight: Rectangle{
-          color: "lightsteelblue"; radius: 5
-          width: clothesTypesGrid.cellWidth
-          height: clothesTypesGrid.cellHeight
-          //highlight does not work.
-        }
-        focus: true
+    flickableDirection: Flickable.VerticalFlick
+    boundsBehavior: Flickable.StopAtBounds
 
-        model: ClothesTypesModel
+    model: ClothesTypesModel
 
-        delegate: ClothesTypesDelegate {}
+    delegate: ClothesTypesDelegate {}
+  }
+
+  Item{
+    id: clothesItem
+
+    visible: storageView.index == 1 ? true : false
+
+    property int id;
+
+    Column{
+
+      spacing: 10
+
+      CustomButton{
+        text: qsTr("BACK")
+        buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
+
+        onClicked: storageView.pop()
+      }
+
+      //FOR SOME REASON THIS TABLEVIEW DOES NOT SHOW ANYTHING - FIX SOON
+      TableView{
+        id: clothesView
+
+         model: ClothesModel
+
+         delegate: ClothesDelegate {}
       }
     }
-     Item{
-       //SECOND PAGE - WHEN STYLE IS CLICKED SEND THE STYLE AND SHOW A NEW VIEW.
-     }
   }
 }

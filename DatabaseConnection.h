@@ -13,11 +13,9 @@ class DatabaseConnection : public QObject
     Q_OBJECT
 public:
     explicit DatabaseConnection(QObject *parent = nullptr);
-    QSqlDatabase getDb();
 
 private:
     void createDatabase();
-
 
 public slots:
     void loginCheck(const QString &username, const QString &password);

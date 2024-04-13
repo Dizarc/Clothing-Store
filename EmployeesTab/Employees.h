@@ -22,7 +22,6 @@ public:
     };
 
     Employees(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());
-
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     virtual QHash<int, QByteArray> roleNames() const override;    
 

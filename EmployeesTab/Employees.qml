@@ -86,9 +86,9 @@ Item {
     anchors.left: employeeGrid.right
     anchors.leftMargin: 20
 
-    Item{}
+    Item {}
     EmployeeEdit { id: editEmployee }
-    EmployeeSearch { id: searchEmployee }
-    EmployeeAdd { id: addEmployee }
+    EmployeeSearch {}
+    EmployeeAdd {}
   }
 }

@@ -140,11 +140,6 @@ void DatabaseConnection::createDatabase()
         qDebug()<< "PROBLEM TYPES";
 }
 
-QSqlDatabase DatabaseConnection::getDb()
-{
-    return QSqlDatabase::database();
-}
-
 void DatabaseConnection::loginCheck(const QString &username, const QString &password)
 {
     QSqlDatabase db = QSqlDatabase::database();
