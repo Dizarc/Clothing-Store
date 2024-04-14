@@ -5,8 +5,9 @@ import "../../ClothingStore"
 Rectangle {
   id: clothesDelegate
 
-  implicitWidth: 500
-  implicitHeight: 500
+  color: Qt.darker(Style.backgroundColor, 1.5)
+  implicitWidth: 100
+  implicitHeight: 50
   required property string clothingId
   required property string clothingName
   required property string typeId
@@ -14,8 +15,8 @@ Rectangle {
   required property int index
 
   Row{
-    anchors.centerIn: parent
     spacing: 5
+
     Text{
       text: clothingId
       color: Style.textColor
@@ -30,5 +31,4 @@ Rectangle {
       color: Style.textColor
     }
   }
-
 }

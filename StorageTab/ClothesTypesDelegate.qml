@@ -25,8 +25,8 @@ Rectangle{
 
     onClicked: {
       clothesTypesView.currentIndex = index;
-      storageView.push(clothesItem, {"id" : index});
-      console.log(clothesItem.id)
+      storageView.push(clothesView/*, {"typeId" : index}*/);
+      backButton.enabled = true;
     }
 
   }

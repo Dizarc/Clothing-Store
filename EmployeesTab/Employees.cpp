@@ -152,6 +152,3 @@ bool Employees::addEmployee(const QString &firstname, const QString &lastname, c
 
     return submitAll();
 }
-
-
-

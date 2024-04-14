@@ -11,11 +11,32 @@ Item {
 
   anchors.fill: parent
 
+  CustomButton{
+    id: backButton
+
+    enabled: false
+
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+    text: qsTr("BACK")
+    buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
+
+    onClicked: {
+      storageView.pop();
+      enabled = false;
+    }
+  }
+
   StackView{
     id: storageView
 
+    anchors.top: backButton.bottom
+    anchors.topMargin: 5
+    width: parent.width
+    height: parent.height - backButton.height
+
     initialItem: clothesTypesView
-    anchors.fill: parent
   }
 
   GridView{
@@ -32,32 +53,11 @@ Item {
     delegate: ClothesTypesDelegate {}
   }
 
-  Item{
-    id: clothesItem
+  TreeView{
+    id: clothesView
 
-    visible: storageView.index == 1 ? true : false
+    model: ClothesModel
 
-    property int id;
-
-    Column{
-
-      spacing: 10
-
-      CustomButton{
-        text: qsTr("BACK")
-        buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
-
-        onClicked: storageView.pop()
-      }
-
-      //FOR SOME REASON THIS TABLEVIEW DOES NOT SHOW ANYTHING - FIX SOON
-      TableView{
-        id: clothesView
-
-         model: ClothesModel
-
-         delegate: ClothesDelegate {}
-      }
-    }
+    delegate: ClothesDelegate {}
   }
 }
