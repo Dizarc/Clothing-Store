@@ -16,6 +16,7 @@ Item {
     1: show successful save text
     2: show successful password change
     3: show wrong password
+    4: show sucessfull deleted message
   */
   property int textVisibility: 0
 

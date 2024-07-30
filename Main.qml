@@ -1,7 +1,13 @@
 import QtQuick 6.6
 import QtQuick.Controls
 import QtQuick.Layouts
-
+/*
+  TODO:
+  1. Make the delete user popup look cleaner and better.
+  2. Make it so if there are no employees in the employees table make the user create an account.
+  3. Implement a forgot my password feature!
+  4. make it so the search add and edit employee features a popup if the window size is small and they cant be seen.
+*/
 Window {
   id: root
 
