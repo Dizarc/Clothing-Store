@@ -3,6 +3,8 @@ import QtQuick.Layouts
 import QtQuick.Controls.Basic
 import QtQuick.Dialogs
 
+import "../Custom"
+
 Item{
   id: loginItem
 
@@ -13,7 +15,7 @@ Item{
 
 
   Image{
-    source: "images/logo.png"
+    source: "../images/logo.png"
 
     anchors{
       top: parent.top

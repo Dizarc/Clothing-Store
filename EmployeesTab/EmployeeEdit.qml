@@ -372,6 +372,7 @@ Item {
 
     CustomButton{
       id: yesButton
+
       anchors.topMargin: 10
       anchors.top: popupText.bottom
       anchors.left: popupText.left

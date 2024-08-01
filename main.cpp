@@ -4,7 +4,7 @@
 #include <QQuickItem>
 #include <QQmlContext>
 
-#include "DatabaseConnection.h"
+#include "Init/DatabaseConnection.h"
 #include "EmployeesTab/Employees.h"
 #include "StorageTab/ClothesTypesModel.h"
 #include "StorageTab/ClothesModel.h"

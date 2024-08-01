@@ -34,6 +34,7 @@ Rectangle{
   Column{
     anchors.centerIn: parent
     spacing: 5
+
     Text{
       text: typeId
       color: Style.textColor

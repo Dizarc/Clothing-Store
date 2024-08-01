@@ -4,6 +4,7 @@ import QtQuick.Controls
 import "EmployeesTab"
 import "StorageTab"
 import "HomeTab"
+import "Custom"
 
 Item {
   id: applicationItem

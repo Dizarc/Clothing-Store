@@ -1,6 +1,9 @@
 import QtQuick 6.6
 import QtQuick.Controls
 import QtQuick.Layouts
+
+import "Init"
+
 /*
   TODO:
   1. Make the delete user popup look cleaner and better.

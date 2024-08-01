@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import com.company.Employees
 
 import "../../ClothingStore"
+
 Item {
   id: employeeAddItem
 
