@@ -6,10 +6,9 @@ import "Init"
 
 /*
   TODO:
-  1. Make the delete user popup look cleaner and better.
-  2. Make it so if there are no employees in the employees table make the user create an account.
-  3. Implement a forgot my password feature!
-  4. make it so the search add and edit employee features a popup if the window size is small and they cant be seen.
+  1. Make it so if there are no employees in the employees table make the user create an account.
+  2. Implement a forgot my password feature!
+  3. make it so the search add and edit employee works as a popup if the window size is small and they cant be seen.
 */
 Window {
   id: root

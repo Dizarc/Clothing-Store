@@ -217,6 +217,7 @@ Item {
 
       }
     }
+
     Text{
       text: qsTr("Phone: ");
 
@@ -249,12 +250,12 @@ Item {
 
       }
     }
+
     Text{
       text: qsTr("Old Password:")
 
       color: Style.textColor
       font.pointSize: 12
-
     }
 
     Rectangle{
@@ -281,6 +282,7 @@ Item {
         maximumLength: 25
       }
     }
+
     Text{
       text: qsTr("new Password:")
 
@@ -348,52 +350,25 @@ Item {
     }
   }
 
-  Popup{
+  Dialog{
     id: popup
 
+    anchors.centerIn: Overlay.overlay
+    title: qsTr("Are you sure you want to delete the employee: " + usernameField + "?");
+
+    standardButtons: Dialog.Yes | Dialog.Cancel
+
     background: Rectangle{
-      implicitWidth: 500
-      implicitHeight: 200
       color: Qt.darker(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
     }
-    anchors.centerIn: Overlay.overlay
 
-    Text{
-      id: popupText
-
-      anchors.horizontalCenter: parent.horizontalCenter
-
-      text: qsTr("Are you sure you want to delete employee "+ usernameField + "?")
-      color: Style.textColor
-      font.pointSize: 14
-
+    onAccepted: {
+      Emp.deleteEmployee(employeeIndex);
+      popup.close();
     }
 
-    CustomButton{
-      id: yesButton
-
-      anchors.topMargin: 10
-      anchors.top: popupText.bottom
-      anchors.left: popupText.left
-      text: qsTr("Yes")
-      buttonColor: "#399F2E"
-      onClicked: {
-        Emp.deleteEmployee(employeeIndex);
-        popup.close();
-      }
-    }
-
-    CustomButton{
-
-      anchors.topMargin: 10
-      anchors.leftMargin: 10
-      anchors.top: popupText.bottom
-      anchors.left: yesButton.right
-      text: qsTr("No")
-      buttonColor: "#6C261F"
-      onClicked: popup.close()
-    }
+    onRejected: popup.close();
   }
 
   Text{
