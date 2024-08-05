@@ -212,7 +212,7 @@ Item {
 
       text: qsTr("Search")
 
-      buttonColor: "#399F2E"
+      buttonColor: Style.greenButtonColor
 
        onClicked: Emp.searchEmployee(firstnameSearchInput.text,
                                      lastnameSearchInput.text,
@@ -225,7 +225,7 @@ Item {
       id: resetSearchButton
 
       text: qsTr("Reset Search")
-      buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
+      buttonColor: Style.generalButtonColor
 
       onClicked: Emp.searchEmployee('', '', '', '', '');
     }

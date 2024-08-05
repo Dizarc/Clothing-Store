@@ -40,7 +40,7 @@ Item {
       id: searchButton
 
       text: qsTr("Search Employee")
-      buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
+      buttonColor: Style.generalButtonColor
 
       onClicked: employeeLayout.currentIndex = 2
     }
@@ -49,7 +49,7 @@ Item {
       id: addEmployeeButton
 
       text: qsTr("Add Employee")
-      buttonColor: "#399F2E"
+      buttonColor: Style.generalButtonColor
 
       onClicked: employeeLayout.currentIndex = 3
     }

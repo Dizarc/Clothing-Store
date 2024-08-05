@@ -320,7 +320,7 @@ Item {
       id: saveButton
 
       text: qsTr("Save")
-      buttonColor: "#399F2E"
+      buttonColor: Style.greenButtonColor
 
       onClicked: Emp.updateEmployee(employeeIndex,
                                     firstnameField,
@@ -334,7 +334,7 @@ Item {
       id: passwordButton
 
       text: qsTr("Change Password")
-      buttonColor: "#399F2E"
+      buttonColor: Style.greenButtonColor
 
       onClicked: Emp.changePasswordEmployee(idField,
                                             oldPasswordField,
@@ -345,7 +345,7 @@ Item {
       id: deleteButton
 
       text: qsTr("delete")
-      buttonColor: "#6C261F"
+      buttonColor: Style.redButtonColor
       onClicked: popup.open()
     }
   }
@@ -356,7 +356,18 @@ Item {
     anchors.centerIn: Overlay.overlay
     title: qsTr("Are you sure you want to delete the employee: " + usernameField + "?");
 
-    standardButtons: Dialog.Yes | Dialog.Cancel
+    modal: true
+
+    footer: DialogButtonBox{
+
+      delegate: CustomButton{
+        buttonColor: Style.generalButtonColor
+      }
+
+      standardButtons: Dialog.Yes | Dialog.Cancel
+    }
+
+
 
     background: Rectangle{
       color: Qt.darker(Style.backgroundColor, 1.5)

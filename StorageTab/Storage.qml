@@ -20,7 +20,7 @@ Item {
     anchors.left: parent.left
 
     text: qsTr("BACK")
-    buttonColor: Qt.lighter(Style.backgroundColor, 1.5)
+    buttonColor: Style.generalButtonColor
 
     onClicked: {
       storageView.pop();
