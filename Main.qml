@@ -55,9 +55,6 @@ Window {
   Login{
     id: login
 
-    width: parent.width
-    height: parent.height
-
     anchors.centerIn: parent
 
     Connections{

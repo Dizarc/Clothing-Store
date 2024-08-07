@@ -13,30 +13,26 @@ Item{
 
   property alias wrongLoginText: loginError.visible
 
-
-  Image{
-    source: "../images/logo.png"
-
-    anchors{
-      top: parent.top
-      topMargin: 150
-      horizontalCenter: parent.horizontalCenter
-    }
-
-    sourceSize.width: 400
-    sourceSize.height: 400
-  }
-
   GridLayout{
     id: grid
 
     anchors.centerIn: parent
 
-    rows: 3
+    rows: 4
     columns: 2
 
     rowSpacing: 10
     columnSpacing: 10
+
+    Image{
+      source: "../images/logo.png"
+
+      Layout.columnSpan: 2
+      Layout.bottomMargin: 50
+
+      sourceSize.width: 400
+      sourceSize.height: 400
+    }
 
     Text{
       text: qsTr("Username:")
@@ -69,7 +65,6 @@ Item{
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
@@ -78,7 +73,6 @@ Item{
 
       color: Style.textColor
       font.pointSize: 12
-
     }
 
     Rectangle{
@@ -125,7 +119,6 @@ Item{
       buttonColor: "#6C261F"
 
       onClicked: Qt.quit()
-
     }
   }
 
