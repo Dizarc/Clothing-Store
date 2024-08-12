@@ -98,7 +98,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backgroundColor, 1.5)
+      color: Style.inputBoxColor
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -131,7 +131,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backgroundColor, 1.5)
+      color: Style.inputBoxColor
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -164,7 +164,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backgroundColor, 1.5)
+      color: Style.inputBoxColor
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -197,7 +197,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backgroundColor, 1.5)
+      color: Style.inputBoxColor
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -230,7 +230,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backgroundColor, 1.5)
+      color: Style.inputBoxColor
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -262,7 +262,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backgroundColor, 1.5)
+      color: Style.inputBoxColor
       border.color: Style.borderColor
       border.width: 1
       radius: 5
@@ -295,7 +295,7 @@ Item {
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backgroundColor, 1.5)
+      color: Style.inputBoxColor
       border.color: Style.borderColor
       border.width: 1
       radius: 5

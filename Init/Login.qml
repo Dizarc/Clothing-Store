@@ -45,7 +45,7 @@ Item{
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backgroundColor, 1.5)
+      color: Style.inputBoxColor
       border.color: Style.borderColor
       border.width: 1
       radius: 8
@@ -79,7 +79,7 @@ Item{
       width: 300
       height: 25
 
-      color: Qt.lighter(Style.backgroundColor, 1.5)
+      color: Style.inputBoxColor
       border.color: Style.borderColor
       border.width: 1
       radius: 8
@@ -105,7 +105,7 @@ Item{
 
       text: qsTr("Login")
 
-      buttonColor: "#399F2E"
+      buttonColor: Style.acceptButtonColor
 
       Keys.onReturnPressed: clicked()
       onClicked: db.loginCheck(username, password)
@@ -116,7 +116,7 @@ Item{
 
       text: qsTr("Exit")
 
-      buttonColor: "#6C261F"
+      buttonColor: Style.denyButtonColor
 
       onClicked: Qt.quit()
     }

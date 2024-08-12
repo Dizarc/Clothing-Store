@@ -43,12 +43,14 @@ qt_add_qml_module(appClothingStore
 
               Custom/Style.qml
               Custom/CustomButton.qml
+              Custom/ThemeSwitch.qml
 
     RESOURCES images/icon.ico
               images/logo.png
               images/userImage.png
               images/addUserImage.png
               images/searchImage.png
+              images/themeIcon.png
 
               Custom/qmldir
 )

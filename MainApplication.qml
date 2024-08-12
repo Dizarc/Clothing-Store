@@ -22,8 +22,7 @@ Item {
   //         duration: 300
   //     }
   // }
-
-  Item{
+  Item {
     id: tabItem
 
     height: 30
@@ -32,36 +31,37 @@ Item {
 
     property int currentIndex: tabSwipeView.currentIndex
 
-    Row{
+    Row {
       id: tabRow
 
-      CustomButton{
+      CustomButton {
         text: qsTr("Home")
 
-        buttonColor: Style.generalButtonColor //Qt.lighter(Style.backgroundColor, 1.5)
+        buttonColor: Style.generalButtonColor
 
         onClicked: tabSwipeView.setCurrentIndex(0)
-
       }
 
-      CustomButton{
+      CustomButton {
         text: qsTr("Storage")
 
-        buttonColor:  Style.generalButtonColor //Qt.lighter(Style.backgroundColor, 1.5)
+        buttonColor: Style.generalButtonColor
 
         onClicked: tabSwipeView.setCurrentIndex(1)
       }
 
-      CustomButton{
+      CustomButton {
         text: qsTr("Employees")
 
-        buttonColor: Style.generalButtonColor //Qt.lighter(Style.backgroundColor, 1.5)
+        buttonColor: Style.generalButtonColor
 
         onClicked: tabSwipeView.setCurrentIndex(2)
       }
+
+      ThemeSwitch { }
     }
 
-    Rectangle{
+    Rectangle {
       id: underline
 
       anchors.top: tabRow.bottom
@@ -73,18 +73,18 @@ Item {
 
       property real targetX: tabItem.currentIndex * underline.width
 
-      NumberAnimation on x{
-        duration: 200;
-        to: underline.targetX;
-        running: underline.x !== underline.targetX;
+      NumberAnimation on x {
+        duration: 200
+        to: underline.targetX
+        running: underline.x !== underline.targetX
       }
     }
   }
 
-  SwipeView{
+  SwipeView {
     id: tabSwipeView
 
-    anchors{
+    anchors {
       top: tabItem.bottom
       topMargin: 10
       left: parent.left
@@ -95,17 +95,16 @@ Item {
     currentIndex: tabItem.currentIndex
     interactive: false
 
-    Item{
-      Home{ }
+    Item {
+      Home {}
     }
 
-    Item{
-      Storage{ }
+    Item {
+      Storage {}
     }
 
-    Item{
-      Employees{ }
+    Item {
+      Employees {}
     }
   }
 }
-
