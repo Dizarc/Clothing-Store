@@ -1,5 +1,6 @@
 import QtQuick 6.6
 import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 import "Init"

@@ -260,7 +260,7 @@ Item {
 
       text: qsTr("Add")
 
-      buttonColor: Style.greenButtonColor
+      buttonColor: Style.acceptButtonColor
 
       onClicked: Emp.addEmployee(firstnameAddInput.text,
                                  lastnameAddInput.text,

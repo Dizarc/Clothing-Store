@@ -212,7 +212,7 @@ Item {
 
       text: qsTr("Search")
 
-      buttonColor: Style.greenButtonColor
+      buttonColor: Style.acceptButtonColor
 
        onClicked: Emp.searchEmployee(firstnameSearchInput.text,
                                      lastnameSearchInput.text,

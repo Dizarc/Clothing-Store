@@ -7,6 +7,6 @@ QtObject{
   property color borderColor: "#ECEDF0"
 
   property color generalButtonColor: "#3A3E44"
-  property color greenButtonColor: "#399F2E"
-  property color redButtonColor: "#6C261F"
+  property color acceptButtonColor: "#399F2E"
+  property color denyButtonColor: "#6C261F"
 }

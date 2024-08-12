@@ -320,7 +320,7 @@ Item {
       id: saveButton
 
       text: qsTr("Save")
-      buttonColor: Style.greenButtonColor
+      buttonColor: Style.acceptButtonColor
 
       onClicked: Emp.updateEmployee(employeeIndex,
                                     firstnameField,
@@ -334,7 +334,7 @@ Item {
       id: passwordButton
 
       text: qsTr("Change Password")
-      buttonColor: Style.greenButtonColor
+      buttonColor: Style.acceptButtonColor
 
       onClicked: Emp.changePasswordEmployee(idField,
                                             oldPasswordField,
@@ -345,7 +345,7 @@ Item {
       id: deleteButton
 
       text: qsTr("delete")
-      buttonColor: Style.redButtonColor
+      buttonColor: Style.denyButtonColor
       onClicked: popup.open()
     }
   }
