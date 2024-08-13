@@ -38,7 +38,7 @@ Item {
 
     anchors.horizontalCenter: addGrid.horizontalCenter
     anchors.top: addImage.bottom
-    anchors.topMargin: 20
+
     text: qsTr("Add Employee");
 
     color: Style.textColor

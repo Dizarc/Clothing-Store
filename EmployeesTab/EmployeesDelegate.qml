@@ -41,6 +41,7 @@ Rectangle {
 
     Row {
       id: empRow
+
       spacing: 5
 
       Image {

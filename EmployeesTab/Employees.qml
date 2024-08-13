@@ -30,10 +30,9 @@ Item {
   GridLayout{
     id: employeeGrid
 
-    width: parent.width / 2
-    height: parent.height
+    anchors.fill: parent
 
-    columns: 1
+    columns: 2
     rows: 3
 
     CustomButton{
@@ -48,6 +47,8 @@ Item {
     CustomButton{
       id: addEmployeeButton
 
+      Layout.row: 1
+      Layout.column: 0
       text: qsTr("Add Employee")
       buttonColor: Style.generalButtonColor
 
@@ -57,9 +58,13 @@ Item {
     TableView {
       id: tableView
 
+      Layout.row: 2
+      Layout.column: 0
+
       Layout.topMargin: 20
       Layout.fillHeight: true
       Layout.fillWidth: true
+      Layout.maximumWidth: parent.width / 2
 
       flickableDirection: Flickable.VerticalFlick
       boundsBehavior: Flickable.StopAtBounds
@@ -75,20 +80,14 @@ Item {
         required property bool selected
       }
     }
-  }
 
-  StackLayout{
-    id: employeeLayout
+    StackLayout{
+      id: employeeLayout
 
-    height: parent.height
-    width: parent.width / 2
-
-    anchors.left: employeeGrid.right
-    anchors.leftMargin: 20
-
-    Item {}
-    EmployeeEdit { id: editEmployee }
-    EmployeeSearch {}
-    EmployeeAdd {}
+      Item {}
+      EmployeeEdit { id: editEmployee }
+      EmployeeSearch {}
+      EmployeeAdd {}
+    }
   }
 }

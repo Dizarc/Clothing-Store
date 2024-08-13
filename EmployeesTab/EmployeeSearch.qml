@@ -24,7 +24,7 @@ Item {
 
     anchors.horizontalCenter: searchGrid.horizontalCenter
     anchors.top: searchImage.bottom
-    anchors.topMargin: 20
+
     text: qsTr("Search Employee");
 
     color: Style.textColor
