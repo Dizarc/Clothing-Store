@@ -4,8 +4,8 @@ import QtQuick.Controls
 Switch {
   id: mySwitch
 
-  implicitWidth: 60
-  implicitHeight: 23
+  implicitWidth: 65
+  implicitHeight: 25
 
   text: Style.theme === Style.lightTheme ? qsTr("Light") : qsTr("Dark")
   checked: Style.theme === Style.lightTheme ? false : true
@@ -21,7 +21,7 @@ Switch {
       x: mySwitch.checked ? parent.width - width : 0
 
       width: 22
-      height: 23
+      height: 25
       radius: 3
 
       Image {
@@ -37,7 +37,7 @@ Switch {
   contentItem: Text {
     width: mySwitch.width
     text: mySwitch.text
-
+    font.pointSize: 11
     color: Style.textColor
 
     verticalAlignment: Text.AlignVCenter

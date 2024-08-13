@@ -6,7 +6,7 @@ QtObject{
   readonly property int lightTheme: 0
   readonly property int darkTheme: 1
 
-  property int theme: darkTheme
+  property int theme: lightTheme
 
   readonly property color lightThemeColor: "#E5E5E5"
   readonly property color darkThemeColor: "#464B52"
