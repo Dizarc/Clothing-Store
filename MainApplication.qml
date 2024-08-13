@@ -9,19 +9,6 @@ import "Custom"
 Item {
   id: applicationItem
 
-  // x: parent.width
-  // y: 0
-  // SequentialAnimation {
-  //     running: true
-
-  //     NumberAnimation {
-  //         target: applicationItem
-  //         property: "x"
-  //         easing.type: Easing.InSine
-  //         to: 0
-  //         duration: 300
-  //     }
-  // }
   Item {
     id: tabItem
 
@@ -97,14 +84,17 @@ Item {
 
     Item {
       Home {}
+      visible: tabSwipeView.currentIndex === 0 ? true : false
     }
 
     Item {
       Storage {}
+      visible:  tabSwipeView.currentIndex === 1 ? true : false
     }
 
     Item {
       Employees {}
+      visible:  tabSwipeView.currentIndex === 2 ? true : false
     }
   }
 }
