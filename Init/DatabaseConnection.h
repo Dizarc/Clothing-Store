@@ -8,6 +8,8 @@
 #include <QFile>
 #include <QIODevice>
 
+#include "BCrypt.hpp"
+
 class DatabaseConnection : public QObject
 {
     Q_OBJECT

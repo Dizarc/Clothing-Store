@@ -28,7 +28,6 @@ qt_add_qml_module(appClothingStore
 
               Init/Login.qml
 
-
               EmployeesTab/Employees.qml
               EmployeesTab/EmployeesDelegate.qml
               EmployeesTab/EmployeeEdit.qml
@@ -66,9 +65,13 @@ set_target_properties(appClothingStore PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+target_include_directories(appClothingStore PUBLIC ${CMAKE_SOURCE_DIR}/libbcrypt/include/bcrypt)
+
 target_link_libraries(appClothingStore
     PRIVATE Qt6::Quick
             Qt6::Sql
+
+            ${CMAKE_SOURCE_DIR}/libbcrypt/out/build/x64-Debug/bcrypt.lib
 )
 
 include(GNUInstallDirs)
@@ -77,3 +80,4 @@ install(TARGETS appClothingStore
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+

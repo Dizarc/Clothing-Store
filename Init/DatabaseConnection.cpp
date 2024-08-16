@@ -144,6 +144,12 @@ void DatabaseConnection::loginCheck(const QString &username, const QString &pass
 {
     QSqlDatabase db = QSqlDatabase::database();
 
+    std::string password1 = "test";
+    std::string hash = BCrypt::generateHash(password1);
+
+    std::cout << BCrypt::validatePassword(password1,hash) << std::endl;
+    std::cout << BCrypt::validatePassword("test1",hash) << std::endl;
+
     QSqlQuery query;
     query.prepare("SELECT id from Employees where username = ? AND password = ?");
     query.addBindValue(username);
