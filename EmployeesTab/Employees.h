@@ -6,6 +6,9 @@
 #include <QSqlTableModel>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QSqlField>
+
+#include <Bcryptcpp.h>
 
 class Employees : public QSqlTableModel
 {

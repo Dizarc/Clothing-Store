@@ -11,13 +11,12 @@ qt_standard_project_setup()
 qt_add_executable(appClothingStore
     main.cpp
 
-    Init/DatabaseConnection.cpp Init/DatabaseConnection.h
+    Init/DatabaseConnection.h Init/DatabaseConnection.cpp
 
     EmployeesTab/Employees.h EmployeesTab/Employees.cpp
 
     StorageTab/ClothesTypesModel.h StorageTab/ClothesTypesModel.cpp
     StorageTab/ClothesModel.h StorageTab/ClothesModel.cpp
-
 )
 
 qt_add_qml_module(appClothingStore
@@ -65,14 +64,15 @@ set_target_properties(appClothingStore PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_include_directories(appClothingStore PUBLIC ${CMAKE_SOURCE_DIR}/libbcrypt/include/bcrypt)
-
 target_link_libraries(appClothingStore
     PRIVATE Qt6::Quick
             Qt6::Sql
 
-            ${CMAKE_SOURCE_DIR}/libbcrypt/out/build/x64-Debug/bcrypt.lib
+            bcryptcpp
 )
+
+qt_add_library(Bcrypt.cpp)
+add_subdirectory(Bcryptcpp)
 
 include(GNUInstallDirs)
 install(TARGETS appClothingStore
@@ -80,4 +80,5 @@ install(TARGETS appClothingStore
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
 

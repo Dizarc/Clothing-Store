@@ -91,15 +91,19 @@ bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword
     QSqlTableModel model;
 
     model.setTable("Employees");
-    model.setFilter("id = "+ QString::number(id) + " AND password = '"+ oldPassword + "'");
+    model.setFilter("id = "+ QString::number(id));
     model.select();
 
     QSqlRecord record = model.record(0);
-    record.setValue("password", newPassword);
-    model.setRecord(0, record);
 
-    if(!record.isNull("id"))
+    QString oldHash = record.field("password").value().toString();
+    if(bcryptcpp::validatePassword(oldPassword.toStdString(), oldHash.toStdString()))
+    {
+        QString newHash = QString::fromStdString(bcryptcpp::generateHash(newPassword.toStdString()));
+        record.setValue("password", newHash);
+        model.setRecord(0, record);
         emit passwordChanged();
+    }
     else
         emit wrongPassword();
 
@@ -141,7 +145,7 @@ bool Employees::addEmployee(const QString &firstname, const QString &lastname, c
     record.setValue("username", username);
     record.setValue("email", email);
     record.setValue("phone", phone);
-    record.setValue("password", password);
+    record.setValue("password", QString::fromStdString(bcryptcpp::generateHash(password.toStdString())));
 
     if(insertRecord(rowCount(), record))
         emit addedEmployee();

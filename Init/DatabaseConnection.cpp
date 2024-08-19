@@ -55,7 +55,7 @@ void DatabaseConnection::createDatabase()
             QStringList line = ts.readLine().split(",");
 
             for(int i = 0; i<line.length(); i++){
-                employeeValues.append("'"+line.at(i));
+                employeeValues.append("'" + line.at(i));
                 employeeValues.append("',");
             }
             employeeValues.chop(1);
@@ -144,22 +144,39 @@ void DatabaseConnection::loginCheck(const QString &username, const QString &pass
 {
     QSqlDatabase db = QSqlDatabase::database();
 
-    std::string password1 = "test";
-    std::string hash = BCrypt::generateHash(password1);
-
-    std::cout << BCrypt::validatePassword(password1,hash) << std::endl;
-    std::cout << BCrypt::validatePassword("test1",hash) << std::endl;
-
     QSqlQuery query;
-    query.prepare("SELECT id from Employees where username = ? AND password = ?");
+    query.prepare("SELECT password from Employees where username = ?");
     query.addBindValue(username);
-    query.addBindValue(password);
 
     if(!query.exec())
         qDebug()<< "QUERY PROBLEM";
 
-    if(query.next())
-        emit rightLogin();
+    if(query.next()){
+        if(bcryptcpp::validatePassword(password.toStdString(), query.value(0).toString().toStdString()))
+            emit rightLogin();
+        else
+            emit wrongLogin();
+    }
     else
         emit wrongLogin();
+
+    //set regular password to encrypted:
+    // QSqlQuery selectQuery;
+    // selectQuery.prepare("SELECT id, password FROM Employees");
+    // selectQuery.exec();
+    // QSqlQuery updateQuery;
+    // updateQuery.prepare("UPDATE Employees SET password = ? WHERE id = ?");
+
+    // while (selectQuery.next()) {
+    //     int id = selectQuery.value(0).toInt();
+    //     QString plainTextPassword = selectQuery.value(1).toString();
+
+    //     std::string encryptedPassword = bcryptcpp::generateHash(plainTextPassword.toStdString());
+
+    //     updateQuery.addBindValue(QString::fromStdString(encryptedPassword));
+    //     updateQuery.addBindValue(id);
+
+    //     updateQuery.exec();
+
+    // }
 }
