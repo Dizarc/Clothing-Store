@@ -11,7 +11,7 @@ qt_standard_project_setup()
 qt_add_executable(appClothingStore
     main.cpp
 
-    Init/DatabaseConnection.h Init/DatabaseConnection.cpp
+    Init/DatabaseController.h Init/DatabaseController.cpp
 
     EmployeesTab/Employees.h EmployeesTab/Employees.cpp
 
@@ -51,6 +51,7 @@ qt_add_qml_module(appClothingStore
               images/themeIcon.png
 
               Custom/qmldir
+              QML_FILES Init/ForgotPassDialog.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

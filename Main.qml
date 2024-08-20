@@ -4,7 +4,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 import "Init"
-
+import com.company.DatabaseController
 /*
   TODO:
   1. Make it so if there are no employees in the employees table make the user create an account.
@@ -28,10 +28,10 @@ Window {
     anchors.centerIn: parent
 
     Connections{
-      target: db
+      target: dbController
 
       function onWrongLogin() {
-        login.wrongLoginText = true
+        login.wrongLogin = true
       }
 
       function onRightLogin(){

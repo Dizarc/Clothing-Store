@@ -286,7 +286,7 @@ Item {
         PropertyChanges {
           buttonOutputText{
             text: qsTr("Added User!")
-            color: "#399F2E"
+            color: Style.acceptButtonColor
           }
         }
       },
@@ -295,7 +295,7 @@ Item {
         PropertyChanges {
           buttonOutputText{
             text: qsTr("Error while adding user!")
-            color: "#399F2E"
+            color: Style.denyButtonColor
           }
         }
       }

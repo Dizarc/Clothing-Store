@@ -5,26 +5,26 @@ import QtQuick.Dialogs
 
 import "../Custom"
 
-Item{
+Item {
   id: loginItem
 
   property alias username: usernameInput.text
   property alias password: passwordInput.text
 
-  property alias wrongLoginText: loginError.visible
+  property alias wrongLogin: wrongLoginText.visible
 
-  GridLayout{
+  GridLayout {
     id: grid
 
     anchors.centerIn: parent
 
-    rows: 4
+    rows: 6
     columns: 2
 
     rowSpacing: 10
     columnSpacing: 10
 
-    Image{
+    Image {
       source: "../images/logo.png"
 
       Layout.columnSpan: 2
@@ -34,14 +34,14 @@ Item{
       sourceSize.height: 400
     }
 
-    Text{
+    Text {
       text: qsTr("Username:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
       width: 300
       height: 25
 
@@ -50,7 +50,7 @@ Item{
       border.width: 1
       radius: 8
 
-      TextInput{
+      TextInput {
         id: usernameInput
 
         anchors.fill: parent
@@ -68,14 +68,14 @@ Item{
       }
     }
 
-    Text{
+    Text {
       text: qsTr("Password:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
       width: 300
       height: 25
 
@@ -84,7 +84,7 @@ Item{
       border.width: 1
       radius: 8
 
-      TextInput{
+      TextInput {
         id: passwordInput
 
         anchors.fill: parent
@@ -100,40 +100,43 @@ Item{
       }
     }
 
-    CustomButton{
-      id: loginButton
-
+    CustomButton {
       text: qsTr("Login")
 
       buttonColor: Style.acceptButtonColor
 
       Keys.onReturnPressed: clicked()
-      onClicked: db.loginCheck(username, password)
+      onClicked: dbController.loginCheck(username, password)
     }
 
-    CustomButton{
-      id: exitButton
-
+    CustomButton {
       text: qsTr("Exit")
 
       buttonColor: Style.denyButtonColor
 
       onClicked: Qt.quit()
     }
+
+    CustomButton {
+      text: qsTr("Forgot password")
+
+      buttonColor: Style.generalButtonColor
+
+      onClicked: forgotPassDialog.open();
+    }
+
+    Text {
+      id: wrongLoginText
+
+      visible: false
+
+      text: qsTr("Wrong credentials try again...")
+      font.bold: true
+      color: Style.denyButtonColor
+    }
   }
 
-  Text{
-    id: loginError
-
-    anchors.top: grid.bottom
-    anchors.left: grid.left
-
-    text: qsTr("Wrong username or password try again...")
-
-    color: "#B21B00"
-    font.bold: true
-    visible: false
+  ForgotPassDialog {
+    id: forgotPassDialog
   }
-
-
 }

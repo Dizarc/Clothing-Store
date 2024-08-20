@@ -10,14 +10,6 @@ import "../../ClothingStore"
 Item {
   id: employeeEditItem
 
-  /*
-    textVisibility: which text to show
-    0: dont show text
-    1: show successful save text
-    2: show successful password change
-    3: show wrong password
-    4: show sucessfull deleted message
-  */
   property int textVisibility: 0
 
   property int employeeIndex
@@ -367,8 +359,6 @@ Item {
       standardButtons: Dialog.Yes | Dialog.Cancel
     }
 
-
-
     background: Rectangle{
       color: Qt.darker(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
@@ -393,11 +383,11 @@ Item {
 
     states: [
       State{
-        name: "saved"; when: textVisibility == 1
+        name: "savedUser"; when: textVisibility == 1
         PropertyChanges {
           buttonOutputText{
             text: qsTr("Saved user!")
-            color: "#399F2E"
+            color: Style.acceptButtonColor
           }
         }
       },
@@ -406,7 +396,7 @@ Item {
         PropertyChanges {
           buttonOutputText{
             text: qsTr("Changed password successfully!")
-            color: "#399F2E"
+            color: Style.acceptButtonColor
           }
         }
       },
@@ -415,16 +405,16 @@ Item {
         PropertyChanges {
           buttonOutputText{
             text: qsTr("Wrong password try again!")
-            color: "#B21B00"
+            color: Style.denyButtonColor
           }
         }
       },
       State{
-        name: "delete"; when: textVisibility == 4
+        name: "successDelete"; when: textVisibility == 4
         PropertyChanges {
           buttonOutputText{
             text: qsTr("Employee deleted successfully!")
-            color: "#399F2E"
+            color: Style.acceptButtonColor
           }
         }
       }

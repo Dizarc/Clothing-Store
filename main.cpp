@@ -4,7 +4,7 @@
 #include <QQuickItem>
 #include <QQmlContext>
 
-#include "Init/DatabaseConnection.h"
+#include "Init/DatabaseController.h"
 #include "EmployeesTab/Employees.h"
 #include "StorageTab/ClothesTypesModel.h"
 #include "StorageTab/ClothesModel.h"
@@ -16,9 +16,9 @@ int main(int argc, char *argv[])
     app.setWindowIcon(QIcon(":/ClothingStore/images/icon.ico"));
     QQmlApplicationEngine engine;
 
-    DatabaseConnection *db = new DatabaseConnection(&app);
-
-    engine.rootContext()->setContextProperty("db", db); //change this to qmlSingleton
+    DatabaseController *db = new DatabaseController(&app);
+    qmlRegisterSingletonInstance("com.company.DatabaseController", 1, 0, "DbController", db);
+    engine.rootContext()->setContextProperty("dbController", db);
 
     Employees *emp = new Employees(&app);
     qmlRegisterSingletonInstance("com.company.Employees", 1, 0, "Emp", emp);

@@ -1,5 +1,5 @@
-#ifndef DATABASECONNECTION_H
-#define DATABASECONNECTION_H
+#ifndef DATABASECONTROLLER_H
+#define DATABASECONTROLLER_H
 
 #include <QObject>
 #include <QDebug>
@@ -13,23 +13,26 @@
 
 #include <bcryptcpp.h>
 
-class DatabaseConnection : public QObject
+class DatabaseController : public QObject
 {
     Q_OBJECT
 public:
-    explicit DatabaseConnection(QObject *parent = nullptr);
+    explicit DatabaseController(QObject *parent = nullptr);
 
 private:
     void createDatabase();
 
 public slots:
     void loginCheck(const QString &username, const QString &password);
+    void forgotPassword(const QString &username);
 
 signals:
     void wrongLogin();
     void rightLogin();
 
+    void rightPassResetCode();
+
 
 };
 
-#endif // DATABASECONNECTION_H
+#endif // DATABASECONTROLLER_H

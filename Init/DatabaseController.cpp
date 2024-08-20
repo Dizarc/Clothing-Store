@@ -1,6 +1,6 @@
-#include "DatabaseConnection.h"
+#include "DatabaseController.h"
 
-DatabaseConnection::DatabaseConnection(QObject *parent)
+DatabaseController::DatabaseController(QObject *parent)
     : QObject{parent}
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -20,7 +20,7 @@ DatabaseConnection::DatabaseConnection(QObject *parent)
 
 }
 
-void DatabaseConnection::createDatabase()
+void DatabaseController::createDatabase()
 {
     QSqlDatabase::database().transaction();
 
@@ -140,7 +140,7 @@ void DatabaseConnection::createDatabase()
         qDebug()<< "PROBLEM TYPES";
 }
 
-void DatabaseConnection::loginCheck(const QString &username, const QString &password)
+void DatabaseController::loginCheck(const QString &username, const QString &password)
 {
     QSqlDatabase db = QSqlDatabase::database();
 
@@ -179,4 +179,9 @@ void DatabaseConnection::loginCheck(const QString &username, const QString &pass
     //     updateQuery.exec();
 
     // }
+}
+
+void DatabaseController::forgotPassword(const QString &username)
+{
+    emit rightPassResetCode();
 }
