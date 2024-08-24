@@ -1,3 +1,9 @@
 [submodule "Bcryptcpp"]
-	path = Bcryptcpp
+	path = libraries/Bcryptcpp
+	url = https://github.com/Dizarc/Bcryptcpp.git
+[submodule "libraries/SmtpClient-for-Qt"]
+	path = libraries/SmtpClient-for-Qt
+	url = https://github.com/bluetiger9/SmtpClient-for-Qt.git
+[submodule "libraries/Bcryptcpp"]
+	path = libraries/Bcryptcpp
 	url = https://github.com/Dizarc/Bcryptcpp.git
