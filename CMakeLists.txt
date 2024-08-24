@@ -70,10 +70,13 @@ target_link_libraries(appClothingStore
             Qt6::Sql
 
             bcryptcpp
+            Qt${QT_VERSION_MAJOR}SmtpMime
 )
 
 qt_add_library(Bcrypt.cpp)
-add_subdirectory(Bcryptcpp)
+add_subdirectory(libraries/Bcryptcpp)
+qt_add_library(Qt${QT_VERSION_MAJOR}SmtpMimeSmtpMime)
+add_subdirectory(libraries/SmtpClient-for-Qt/src)
 
 include(GNUInstallDirs)
 install(TARGETS appClothingStore

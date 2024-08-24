@@ -32,8 +32,8 @@ Dialog{
     }
 
     onRejected: {
-      forgotPassDialog.close();
       forgotPassDialog.visibilityStage = 0;
+      forgotPassDialog.close();
     }
 
     Connections{
@@ -41,6 +41,15 @@ Dialog{
 
       function onRightPassResetCode(){
         forgotPassDialog.visibilityStage = 2;
+      }
+
+      function onWrongCode(){
+        forgotPassDialog.visibilityStage = -1;
+      }
+
+      function onSuccessChangePass(){
+        passwordChangeInfo.text = qsTr("Password changed Successfully!");
+        passwordChangeInfo.color =  Style.acceptButtonColor
       }
     }
 
@@ -57,7 +66,7 @@ Dialog{
       }
 
       Rectangle {
-        width: 200
+        width: 250
         height: 25
 
         color: Style.inputBoxColor
@@ -89,6 +98,7 @@ Dialog{
         buttonColor: Style.generalButtonColor
 
         onClicked: {
+          dbController.sendResetEmail(forgotPassUsername.text);
           forgotPassDialog.visibilityStage = 1;
         }
       }
@@ -108,7 +118,7 @@ Dialog{
 
         visible: forgotPassDialog.visibilityStage > 0 ? true : false
 
-        width: 200
+        width: 250
         height: 25
 
         color: Style.inputBoxColor
@@ -144,8 +154,19 @@ Dialog{
         buttonColor: Style.generalButtonColor
 
         onClicked: {
-          dbController.forgotPassword(forgotPassCodeInput.text);
+          dbController.checkResetCode(forgotPassUsername.text ,forgotPassCodeInput.text);
         }
+      }
+
+      Text {
+        id: wrongCodeText
+
+        visible: forgotPassDialog.visibilityStage < 0 ? true : false
+        text: qsTr("You have entered the wrong code")
+
+        color: Style.denyButtonColor
+        font.bold: true
+        font.pointSize: 12
       }
 
       Text {
@@ -163,7 +184,7 @@ Dialog{
 
         visible: forgotPassDialog.visibilityStage > 1 ? true : false
 
-        width: 200
+        width: 250
         height: 25
 
         color: Style.inputBoxColor
@@ -203,7 +224,7 @@ Dialog{
 
         visible: forgotPassDialog.visibilityStage > 1 ? true : false
 
-        width: 200
+        width: 250
         height: 25
 
         color: Style.inputBoxColor
@@ -239,8 +260,24 @@ Dialog{
         buttonColor: Style.generalButtonColor
 
         onClicked: {
-          //dbController.forgotPassword(forgotPassCodeInput.text);
+          if(enterNewPassInput.text == reenterNewPassInput.text){
+            dbController.changePassword(forgotPassUsername.text, enterNewPassInput.text);
+          }else {
+            passwordChangeInfo.text = qsTr("Passwords do not match");
+            passwordChangeInfo.color =  Style.denyButtonColor
+          }
+
+
         }
       }
+      Text {
+        id: passwordChangeInfo
+
+        text: qsTr("")
+
+        font.bold: true
+        font.pointSize: 12
+      }
+
     }
   }

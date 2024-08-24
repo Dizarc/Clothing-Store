@@ -8,10 +8,12 @@
 #include <QFile>
 #include <QIODevice>
 
-#include <iostream>
-#include <string>
-
 #include <bcryptcpp.h>
+
+#include <QSettings>
+#include <libraries/SmtpClient-for-Qt/src/SmtpMime>
+#include <QUuid>
+#include <QCryptographicHash>
 
 class DatabaseController : public QObject
 {
@@ -22,16 +24,22 @@ public:
 private:
     void createDatabase();
 
+    QString createResetCode(const int &id);
+
 public slots:
     void loginCheck(const QString &username, const QString &password);
-    void forgotPassword(const QString &username);
+
+    void sendResetEmail(const QString &username);
+    void checkResetCode(const QString &username, const QString &code);
+    void changePassword(const QString &username, const QString &password);
 
 signals:
     void wrongLogin();
     void rightLogin();
 
     void rightPassResetCode();
-
+    void wrongCode();
+    void successChangePass();
 
 };
 
