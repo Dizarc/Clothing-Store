@@ -14,8 +14,6 @@ Item {
   property alias wrongLogin: wrongLoginText.visible
 
   GridLayout {
-    id: grid
-
     anchors.centerIn: parent
 
     rows: 6
@@ -122,7 +120,10 @@ Item {
 
       buttonColor: Style.generalButtonColor
 
-      onClicked: forgotPassDialog.open();
+      onClicked: {
+        var d = forgotPassDialogComponent.createObject(loginItem);
+        d.open();
+      }
     }
 
     Text {
@@ -136,7 +137,10 @@ Item {
     }
   }
 
-  ForgotPassDialog {
-    id: forgotPassDialog
+  Component{
+    id: forgotPassDialogComponent
+    ForgotPassDialog {
+      id: forgotPassDialog
+    }
   }
 }

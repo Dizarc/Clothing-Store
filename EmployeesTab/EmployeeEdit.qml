@@ -7,6 +7,7 @@ import com.company.Employees
 
 import "../../ClothingStore"
 
+//TODO: Make sure only admin employees can edit or remove
 Item {
   id: employeeEditItem
 

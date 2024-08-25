@@ -21,7 +21,7 @@ public:
         usernameRole,
         passwordRole,
         emailRole,
-        phoneRole
+        phoneRole,
     };
 
     Employees(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());

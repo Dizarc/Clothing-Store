@@ -208,8 +208,6 @@ Item {
     }
 
     CustomButton{
-      id: searchButton
-
       text: qsTr("Search")
 
       buttonColor: Style.acceptButtonColor
@@ -222,9 +220,8 @@ Item {
     }
 
     CustomButton{
-      id: resetSearchButton
-
       text: qsTr("Reset Search")
+
       buttonColor: Style.generalButtonColor
 
       onClicked: Emp.searchEmployee('', '', '', '', '');

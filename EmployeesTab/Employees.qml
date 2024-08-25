@@ -6,6 +6,11 @@ import com.company.Employees
 
 import "../../ClothingStore"
 
+/*
+  TODO:
+    1.Make it so isadmin works and default users cannot click the employee buttons. Also add a checkbox for admin priviledges.
+    2. Make it so users cannot have the same username
+*/
 Item {
   id: employeeItem
 
@@ -21,6 +26,8 @@ Item {
                    editEmployee.usernameField = username;
                    editEmployee.emailField = email;
                    editEmployee.phoneField = phone;
+                   editEmployee.oldPasswordField = "";
+                   editEmployee.newPasswordField = "";
 
                    //show edit and reset the visibility of the previous button presses.
                    employeeLayout.currentIndex = 1;

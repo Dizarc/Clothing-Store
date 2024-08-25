@@ -4,7 +4,11 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 import "Init"
+import "Custom"
+
 import com.company.DatabaseController
+
+
 /*
   TODO:
   1. Make it so if there are no employees in the employees table make the user create an account.
@@ -19,34 +23,31 @@ Window {
 
   visible: true
   color: Style.backgroundColor
-
   visibility: Qt.WindowFullScreen
 
-  Login{
-    id: login
+  Loader {
+    id: pageLoader
 
-    anchors.centerIn: parent
-
-    Connections{
-      target: dbController
-
-      function onWrongLogin() {
-        login.wrongLogin = true
-      }
-
-      function onRightLogin(){
-
-        var component = Qt.createComponent("MainApplication.qml");
-        var application = component.createObject(root,{ width: root.width, height: root.height});
-
-        if(application === null)
-          console.log("Error creating object");
-
-        login.destroy();
-
-      }
-    }
-
+    anchors.fill: parent
   }
 
+  Component.onCompleted: {
+    if (DbController.isEmployeeTableEmpty) {
+      pageLoader.source = "Init/Signup.qml";
+    } else {
+      pageLoader.source = "Init/Login.qml";
+    }
+  }
+  Connections {
+    target: DbController
+
+    function onWrongLogin() {
+      if (pageLoader.item && pageLoader.item.wrongLogin !== undefined)
+        pageLoader.item.wrongLogin = true;
+    }
+
+    function onRightLogin() {
+      pageLoader.source = "MainApplication.qml";
+    }
+  }
 }

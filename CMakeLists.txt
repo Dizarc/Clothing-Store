@@ -26,6 +26,8 @@ qt_add_qml_module(appClothingStore
               MainApplication.qml
 
               Init/Login.qml
+              Init/ForgotPassDialog.qml
+              Init/Signup.qml
 
               EmployeesTab/Employees.qml
               EmployeesTab/EmployeesDelegate.qml
@@ -51,7 +53,6 @@ qt_add_qml_module(appClothingStore
               images/themeIcon.png
 
               Custom/qmldir
-              QML_FILES Init/ForgotPassDialog.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

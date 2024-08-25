@@ -5,6 +5,8 @@ import com.company.Employees
 
 import "../../ClothingStore"
 
+//TODO: make a reenter password to make sure user has inputted the correct password.
+// also... the gridlayout is 7 rows not 6..
 Item {
   id: employeeAddItem
 
@@ -256,8 +258,6 @@ Item {
     }
 
     CustomButton{
-      id: searchButton
-
       text: qsTr("Add")
 
       buttonColor: Style.acceptButtonColor

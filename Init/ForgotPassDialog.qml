@@ -4,6 +4,7 @@ import QtQuick.Controls.Basic
 import QtQuick.Dialogs
 
 import "../Custom"
+
 import com.company.DatabaseController
 
 Dialog{
@@ -12,7 +13,8 @@ Dialog{
     property int visibilityStage: 0
 
     implicitWidth: 350
-    implicitHeight: 500
+    implicitHeight: 600
+
     anchors.centerIn: Overlay.overlay
 
     title: qsTr("Forgot Password");
@@ -32,19 +34,22 @@ Dialog{
     }
 
     onRejected: {
-      forgotPassDialog.visibilityStage = 0;
       forgotPassDialog.close();
     }
 
     Connections{
-      target: dbController
+      target: DbController
 
       function onRightPassResetCode(){
+        checkCodeText.text = qsTr("Code is correct. Enter new password");
+        checkCodeText.color =  Style.acceptButtonColor
+
         forgotPassDialog.visibilityStage = 2;
       }
 
       function onWrongCode(){
-        forgotPassDialog.visibilityStage = -1;
+        checkCodeText.text = qsTr("Code expired or wrong code!")
+        checkCodeText.color =  Style.denyButtonColor
       }
 
       function onSuccessChangePass(){
@@ -75,7 +80,7 @@ Dialog{
         radius: 8
 
         TextInput {
-          id: forgotPassUsername
+          id: forgotPassUsernameInput
 
           anchors.fill: parent
 
@@ -93,13 +98,17 @@ Dialog{
       }
 
       CustomButton {
+        id: sendEmailButton
+
         text: qsTr("Send Email")
 
         buttonColor: Style.generalButtonColor
 
         onClicked: {
-          dbController.sendResetEmail(forgotPassUsername.text);
+          DbController.sendResetEmail(forgotPassUsernameInput.text);
           forgotPassDialog.visibilityStage = 1;
+
+          sendEmailButton.enabled = false;
         }
       }
 
@@ -154,17 +163,14 @@ Dialog{
         buttonColor: Style.generalButtonColor
 
         onClicked: {
-          dbController.checkResetCode(forgotPassUsername.text ,forgotPassCodeInput.text);
+          DbController.checkResetCode(forgotPassUsernameInput.text ,forgotPassCodeInput.text);
         }
       }
 
       Text {
-        id: wrongCodeText
+        id: checkCodeText
 
-        visible: forgotPassDialog.visibilityStage < 0 ? true : false
-        text: qsTr("You have entered the wrong code")
-
-        color: Style.denyButtonColor
+        text: qsTr("")
         font.bold: true
         font.pointSize: 12
       }
@@ -209,6 +215,7 @@ Dialog{
           maximumLength: 25
         }
       }
+
       Text {
         id: reenterNewPassText
 
@@ -261,15 +268,15 @@ Dialog{
 
         onClicked: {
           if(enterNewPassInput.text == reenterNewPassInput.text){
-            dbController.changePassword(forgotPassUsername.text, enterNewPassInput.text);
+            DbController.changePassword(forgotPassUsernameInput.text, enterNewPassInput.text);
+
           }else {
             passwordChangeInfo.text = qsTr("Passwords do not match");
             passwordChangeInfo.color =  Style.denyButtonColor
           }
-
-
         }
       }
+
       Text {
         id: passwordChangeInfo
 
@@ -278,6 +285,5 @@ Dialog{
         font.bold: true
         font.pointSize: 12
       }
-
     }
   }

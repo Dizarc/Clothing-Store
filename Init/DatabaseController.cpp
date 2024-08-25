@@ -33,21 +33,14 @@ void DatabaseController::createDatabase()
                              " id INTEGER PRIMARY KEY AUTOINCREMENT,"
                              " firstname TEXT NOT NULL,"
                              " lastname TEXT NOT NULL,"
-                             " username TEXT NOT NULL,"
+                             " username TEXT NOT NULL UNIQUE,"
                              " password TEXT NOT NULL,"
                              " email TEXT NOT NULL,"
-                             " phone VARCHAR(10) NOT NULL);";
+                             " phone VARCHAR(10) NOT NULL,"
+                             " isAdmin INTEGER DEFAULT 0);";
+
     if(!query.exec(employeesTable))
         qDebug()<< "Problem while creating employees table...";
-
-    // QString empValues = "INSERT INTO Employees(firstname, lastname, username, password, email, phone) VALUES "
-    //                                     "( "
-    //                                         "\"Root\", "
-    //                                         "\"Admin\", "
-    //                                         "\"root\", "
-    //                                         "\"root\", "
-    //                                         "\"faruk_yildiz@protonmail.com\", "
-    //                                         "'6995613105'); ";
 
     QFile f("DATA.csv");
     if(f.open(QIODevice::ReadOnly)){
@@ -151,6 +144,17 @@ void DatabaseController::createDatabase()
         qDebug()<< "Problem while adding to ClothesSizes table...";
 }
 
+bool DatabaseController::isEmployeeTableEmpty()
+{
+    QSqlQuery query("SELECT COUNT(*) FROM Employees");
+
+    if (query.next()) {
+        int count = query.value(0).toInt();
+        return (count == 0);
+    }
+    return true;
+}
+
 void DatabaseController::loginCheck(const QString &username, const QString &password)
 {
     QSqlQuery query;
@@ -161,6 +165,7 @@ void DatabaseController::loginCheck(const QString &username, const QString &pass
         qDebug()<< "Problem while getting password from Employees table...";
         return;
     }
+
     if(query.next()){
         if(bcryptcpp::validatePassword(password.toStdString(), query.value(0).toString().toStdString()))
             emit rightLogin();
@@ -205,21 +210,26 @@ void DatabaseController::sendResetEmail(const QString &username)
     if(!userQuery.next())
         return;
 
+    QString toEmail = userQuery.value(0).toString();
+    QString firstname = userQuery.value(1).toString();
+    QString lastname = userQuery.value(2).toString();
+    int id = userQuery.value(3).toInt();
+
     //ADD SMTP login credentials from config.ini
     QSettings settings("config.ini", QSettings::IniFormat);
-    QString email = settings.value("email/address").toString();
+    QString fromEmail = settings.value("email/address").toString();
     QString password = settings.value("email/password").toString();
 
     MimeMessage message;
 
-    EmailAddress sender(email, "Clothing Store");
+    EmailAddress sender(fromEmail, "Clothing Store");
 
     message.setSender(sender);
 
-    EmailAddress to(userQuery.value(0).toString(), userQuery.value(1).toString() + " " + userQuery.value(2).toString());
+    EmailAddress to(toEmail, firstname + " " + lastname);
     message.addRecipient(to);
 
-    QString code = createResetCode(userQuery.value(3).toInt());
+    QString code = createResetCode(id);
     if(code.isEmpty())
         return;
 
@@ -227,7 +237,7 @@ void DatabaseController::sendResetEmail(const QString &username)
 
     MimeText text;
 
-    text.setText("Hi,\n This is the code you requested to reset your account password: " + code);
+    text.setText("Hi,\n This is the code you requested to reset your account password: " + code + "\n Your code will expire in 10 minutes.");
 
     message.addPart(&text);
 
@@ -239,7 +249,7 @@ void DatabaseController::sendResetEmail(const QString &username)
         return;
     }
 
-    smtp.login(email, password);
+    smtp.login(fromEmail, password);
 
     if (!smtp.waitForAuthenticated()) {
         qDebug() << "Failed to login!";
@@ -284,10 +294,76 @@ QString DatabaseController::createResetCode(const int &id)
 
 void DatabaseController::checkResetCode(const QString &username, const QString &code)
 {
+    QSqlQuery userQuery;
+    userQuery.prepare("SELECT id from Employees where username = ?");
+    userQuery.addBindValue(username);
+
+    if(!userQuery.exec()){
+        qDebug()<< "Problem while getting id from Employees table...";
+        return;
+    }
+
+    if(!userQuery.next())
+        return;
+
+    QSqlQuery resetQuery;
+    resetQuery.prepare("SELECT token, tokenExpiry from EmployeePasswordReset where id = ?");
+    resetQuery.addBindValue(userQuery.value(0).toInt());
+
+    if(!resetQuery.exec()){
+        qDebug()<< "Problem while getting token, tokenExpiry from EmployeePasswordReset table...";
+        return;
+    }
+
+    if(!resetQuery.next()){
+        emit wrongCode();
+        return;
+    }
+
+    QString tokenRead = resetQuery.value(0).toString();
+    QDateTime dateCreated = resetQuery.value(1).toDateTime();
+
+    if(tokenRead != code){
+        emit wrongCode();
+        return;
+    }
+
+    //if reset code input is more than 10 minutes after creation leave
+    if((QDateTime::currentDateTime() - dateCreated) > std::chrono::milliseconds(600000)){
+        emit wrongCode();
+        return;
+    }
+
     emit rightPassResetCode();
 }
 
 void DatabaseController::changePassword(const QString &username, const QString &password)
 {
+    QSqlQuery userQuery;
+    userQuery.prepare("SELECT id from Employees where username = ?");
+    userQuery.addBindValue(username);
+
+    if(!userQuery.exec()){
+        qDebug()<< "Problem while getting id from Employees table...";
+        return;
+    }
+
+    if(!userQuery.next())
+        return;
+
+    int id = userQuery.value(0).toInt();
+
+    std::string encryptedPassword = bcryptcpp::generateHash(password.toStdString());
+
+    QSqlQuery updateQuery;
+    updateQuery.prepare("UPDATE Employees SET password = ? WHERE id = ?");
+    updateQuery.addBindValue(QString::fromStdString(encryptedPassword));
+    updateQuery.addBindValue(id);
+
+    if(!updateQuery.exec()){
+        qDebug()<< "Problem while updating password in Employees table...";
+        return;
+    }
+
     emit successChangePass();
 }

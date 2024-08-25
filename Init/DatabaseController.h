@@ -18,9 +18,11 @@
 class DatabaseController : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool isEmployeeTableEmpty READ isEmployeeTableEmpty NOTIFY isEmployeeTableEmptyChanged);
+
 public:
     explicit DatabaseController(QObject *parent = nullptr);
-
+    bool isEmployeeTableEmpty();
 private:
     void createDatabase();
 
@@ -34,6 +36,7 @@ public slots:
     void changePassword(const QString &username, const QString &password);
 
 signals:
+    void isEmployeeTableEmptyChanged();
     void wrongLogin();
     void rightLogin();
 
