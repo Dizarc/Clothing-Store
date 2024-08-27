@@ -11,8 +11,6 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  1. Make it so if there are no employees in the employees table make the user create an account.
-  2. Implement a forgot my password feature!
   3. Create a logout function and an exit application button after a login.
   4. Make usernames be unique and that someone cant just add a new user with an existing username.
 */

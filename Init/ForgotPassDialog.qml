@@ -272,7 +272,7 @@ Dialog{
 
           }else {
             passwordChangeInfo.text = qsTr("Passwords do not match");
-            passwordChangeInfo.color =  Style.denyButtonColor
+            passwordChangeInfo.color = Style.denyButtonColor
           }
         }
       }

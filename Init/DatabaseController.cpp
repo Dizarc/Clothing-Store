@@ -367,3 +367,24 @@ void DatabaseController::changePassword(const QString &username, const QString &
 
     emit successChangePass();
 }
+
+bool DatabaseController::createAdminUser(const QString firstname, const QString lastname, const QString username, const QString email, const QString phone, const QString password)
+{
+    QSqlQuery insertQuery;
+    insertQuery.prepare("INSERT INTO Employees (firstname, lastname, username, email, phone, password, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    insertQuery.addBindValue(firstname);
+    insertQuery.addBindValue(lastname);
+    insertQuery.addBindValue(username);
+    insertQuery.addBindValue(email);
+    insertQuery.addBindValue(phone);
+    insertQuery.addBindValue(QString::fromStdString(bcryptcpp::generateHash(password.toStdString())));
+    insertQuery.addBindValue(1);
+
+    if(!insertQuery.exec()){
+        qDebug()<< "Problem while inserting into Employees table...";
+        return false;
+    }
+
+    emit rightLogin();
+    return true;
+}
