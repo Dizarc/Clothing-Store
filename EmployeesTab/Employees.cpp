@@ -9,7 +9,7 @@ Employees::Employees(QObject *parent, QSqlDatabase db) : QSqlTableModel(parent, 
 QVariant Employees::data(const QModelIndex &index, int role) const
 {
     if(role < Qt::UserRole){
-       return QSqlTableModel::data(index, role);
+        return QSqlTableModel::data(index, role);
     }
 
     QVariant value;
@@ -40,6 +40,9 @@ QVariant Employees::data(const QModelIndex &index, int role) const
     case phoneRole:
         value = QSqlTableModel::data(this->index(index.row(), 6));
         break;
+    case isAdminRole:
+        value = QSqlTableModel::data(this->index(index.row(), 7));
+        break;
     default:
         break;
     }
@@ -58,6 +61,7 @@ QHash<int, QByteArray> Employees::roleNames() const
     roles[passwordRole] = "password";
     roles[emailRole] = "email";
     roles[phoneRole] = "phone";
+    roles[isAdminRole] = "isAdmin";
 
     return roles;
 }
@@ -67,23 +71,27 @@ QHash<int, QByteArray> Employees::roleNames() const
     updateEmployee uses the index from the delegate
     changePasswordEmployee uses the id from the row.
 */
-bool Employees::updateEmployee(const int &index, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
+bool Employees::updateEmployee(const int &index, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const int &isAdmin)
 {
     QModelIndex firstnameIndex = this->index(index, 1);
     QModelIndex lastnameIndex = this->index(index, 2);
     QModelIndex usernameIndex = this->index(index, 3);
     QModelIndex emailIndex = this->index(index, 5);
     QModelIndex phoneIndex = this->index(index, 6);
+    QModelIndex isAdminIndex = this->index(index, 7);
 
     setData(firstnameIndex, firstname, Qt::EditRole);
     setData(lastnameIndex, lastname, Qt::EditRole);
     setData(usernameIndex, username, Qt::EditRole);
     setData(emailIndex, email, Qt::EditRole);
     setData(phoneIndex, phone, Qt::EditRole);
+    setData(isAdminIndex, isAdmin, Qt::EditRole);
 
-    emit editedEmployee();
+    bool submitting = submitAll();
+    if(submitting == false)
+        revert();
 
-    return submitAll();
+    return submitting;
 }
 
 bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword, const QString &newPassword)
@@ -97,45 +105,42 @@ bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword
     QSqlRecord record = model.record(0);
 
     QString oldHash = record.field("password").value().toString();
+
     if(bcryptcpp::validatePassword(oldPassword.toStdString(), oldHash.toStdString()))
     {
         QString newHash = QString::fromStdString(bcryptcpp::generateHash(newPassword.toStdString()));
         record.setValue("password", newHash);
         model.setRecord(0, record);
-        emit passwordChanged();
-    }
-    else
-        emit wrongPassword();
 
-    return model.submitAll();
+        return model.submitAll();
+    }
+
+    return false;
 }
 
 bool Employees::deleteEmployee(const int &index)
 {
     removeRow(index);
     select();
-
-    emit deletedEmployee();
-
     return submitAll();
 }
 
-bool Employees::searchEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone)
+bool Employees::searchEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const int &isAdmin)
 {
     setFilter("(firstname LIKE CONCAT('" + firstname + "', '%') OR '" + firstname + "' = '')"
-                    + " AND "
-                    + "(lastname LIKE CONCAT('" + lastname + "', '%') OR '" + lastname + "' = '')"
-                    + " AND "
-                    + "(username LIKE CONCAT('" + username + "', '%') OR '" + username + "' = '')"
-                    + " AND "
-                    + "(email LIKE CONCAT('" + email + "', '%') OR '" + email + "' = '')"
-                    + " AND "
-                    + "(phone LIKE CONCAT('" + phone + "', '%') OR '" + phone + "' = '')"
-                    );
+              + " AND "
+              + "(lastname LIKE CONCAT('" + lastname + "', '%') OR '" + lastname + "' = '')"
+              + " AND "
+              + "(username LIKE CONCAT('" + username + "', '%') OR '" + username + "' = '')"
+              + " AND "
+              + "(email LIKE CONCAT('" + email + "', '%') OR '" + email + "' = '')"
+              + " AND "
+              + "(phone LIKE CONCAT('" + phone + "', '%') OR '" + phone + "' = '')"
+              );
     return select();
 }
 
-bool Employees::addEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QString &password)
+bool Employees::addEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QString &password, const int &isAdmin)
 {
     insertRow(rowCount() + 1);
     QSqlRecord record = this->record(rowCount());
@@ -146,13 +151,12 @@ bool Employees::addEmployee(const QString &firstname, const QString &lastname, c
     record.setValue("email", email);
     record.setValue("phone", phone);
     record.setValue("password", QString::fromStdString(bcryptcpp::generateHash(password.toStdString())));
+    record.setValue("isAdmin", isAdmin);
 
-    if(insertRecord(rowCount(), record))
-        emit addedEmployee();
-    else
-        emit notAddedEmployee();
+    if(insertRecord(rowCount(), record)){
+        select();
+        return submitAll();
+    }
 
-    select();
-
-    return submitAll();
+    return false;
 }

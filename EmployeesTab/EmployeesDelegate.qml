@@ -20,6 +20,7 @@ Rectangle {
   required property string password
   required property string email
   required property string phone
+  required property bool isAdmin
 
   required property int index
 
@@ -34,7 +35,8 @@ Rectangle {
                   lastname,
                   username,
                   email,
-                  phone);
+                  phone,
+                  isAdmin);
 
       selectionModel.select(tableView.index(employeesDelegate.index, 0), ItemSelectionModel.SelectCurrent);
     }

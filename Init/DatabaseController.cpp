@@ -1,8 +1,5 @@
 #include "DatabaseController.h"
-/*
-    TO-DO:
-     Code the rest of the password reset functioning.
-*/
+
 DatabaseController::DatabaseController(QObject *parent)
     : QObject{parent}
 {
@@ -47,12 +44,17 @@ void DatabaseController::createDatabase()
         QTextStream ts(&f);
 
         while(!ts.atEnd()){
-            QString employeeValues = "INSERT INTO Employees(firstname, lastname, username, password, email, phone) VALUES (";
+            QString employeeValues = "INSERT INTO Employees(firstname, lastname, username, password, email, phone, isAdmin) VALUES (";
             QStringList line = ts.readLine().split(",");
 
             for(int i = 0; i<line.length(); i++){
-                employeeValues.append("'" + line.at(i));
-                employeeValues.append("',");
+                if(i == 3){
+                    employeeValues.append("'" + bcryptcpp::generateHash(line.at(i).toStdString()));
+                    employeeValues.append("',");
+                }else{
+                    employeeValues.append("'" + line.at(i));
+                    employeeValues.append("',");
+                }
             }
             employeeValues.chop(1);
             employeeValues.append(");");
@@ -155,46 +157,33 @@ bool DatabaseController::isEmployeeTableEmpty()
     return true;
 }
 
+bool DatabaseController::isCurrentlyAdmin(){
+    return m_isCurrentlyAdmin;
+}
+
 void DatabaseController::loginCheck(const QString &username, const QString &password)
 {
     QSqlQuery query;
-    query.prepare("SELECT password from Employees where username = ?");
+    query.prepare("SELECT password, isAdmin from Employees where username = ?");
     query.addBindValue(username);
 
     if(!query.exec()){
-        qDebug()<< "Problem while getting password from Employees table...";
+        qDebug()<< "Problem while getting password, isAdmin from Employees table...";
         return;
     }
 
     if(query.next()){
-        if(bcryptcpp::validatePassword(password.toStdString(), query.value(0).toString().toStdString()))
+        if(bcryptcpp::validatePassword(password.toStdString(), query.value(0).toString().toStdString())){
             emit rightLogin();
+            //m_isCurrentlyAdmin = query.value(1).toBool();
+        }
         else
             emit wrongLogin();
     }
     else
         emit wrongLogin();
-
-    //set regular passwords to encrypted:
-    // QSqlQuery selectQuery;
-    // selectQuery.prepare("SELECT id, password FROM Employees");
-    // selectQuery.exec();
-    // QSqlQuery updateQuery;
-    // updateQuery.prepare("UPDATE Employees SET password = ? WHERE id = ?");
-
-    // while (selectQuery.next()) {
-    //     int id = selectQuery.value(0).toInt();
-    //     QString plainTextPassword = selectQuery.value(1).toString();
-
-    //     std::string encryptedPassword = bcryptcpp::generateHash(plainTextPassword.toStdString());
-
-    //     updateQuery.addBindValue(QString::fromStdString(encryptedPassword));
-    //     updateQuery.addBindValue(id);
-
-    //     updateQuery.exec();
-
-    // }
 }
+
 
 void DatabaseController::sendResetEmail(const QString &username)
 {

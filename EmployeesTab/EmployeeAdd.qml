@@ -1,29 +1,16 @@
 import QtQuick 6.6
 import QtQuick.Layouts
+import QtQuick.Controls.Basic
 
 import com.company.Employees
 
 import "../../ClothingStore"
 
-//TODO: make a reenter password to make sure user has inputted the correct password.
-// also... the gridlayout is 7 rows not 6..
 Item {
   id: employeeAddItem
 
-  property int textVisibility: 0
+  property alias textVisibility: buttonOutputText.state
 
-  Connections{
-    target: Emp
-
-    function onAddedEmployee(){
-      textVisibility = 1;
-    }
-
-    function onNotAddedEmployee(){
-      textVisibility = 2;
-    }
-
-  }
   Image {
     id: addImage
 
@@ -35,38 +22,38 @@ Item {
     sourceSize.height: 150
   }
 
-  Text{
+  Text {
     id: addText
 
     anchors.horizontalCenter: addGrid.horizontalCenter
     anchors.top: addImage.bottom
 
-    text: qsTr("Add Employee");
+    text: qsTr("Add Employee")
 
     color: Style.textColor
     font.pointSize: 15
   }
 
-  GridLayout{
+  GridLayout {
     id: addGrid
 
     anchors.top: addText.bottom
     anchors.topMargin: 10
 
-    rows: 6
+    rows: 7
     columns: 2
 
     rowSpacing: 10
     columnSpacing: 30
 
-    Text{
-      text: qsTr("Firstname: ");
+    Text {
+      text: qsTr("Firstname:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -76,7 +63,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: firstnameAddInput
 
         anchors.fill: parent
@@ -88,18 +75,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Lastname: ");
+    Text {
+      text: qsTr("Lastname:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -109,7 +95,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: lastnameAddInput
 
         anchors.fill: parent
@@ -121,18 +107,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Username: ");
+    Text {
+      text: qsTr("Username:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -142,7 +127,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: usernameAddInput
 
         anchors.fill: parent
@@ -154,18 +139,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Email: ");
+    Text {
+      text: qsTr("Email:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -175,7 +159,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: emailAddInput
 
         anchors.fill: parent
@@ -187,17 +171,16 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 35
-
       }
     }
-    Text{
-      text: qsTr("Phone: ");
+    Text {
+      text: qsTr("Phone:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -207,7 +190,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: phoneAddInput
 
         anchors.fill: parent
@@ -219,18 +202,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Password: ");
+    Text {
+      text: qsTr("Password:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -240,7 +222,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: passwordAddInput
 
         anchors.fill: parent
@@ -253,25 +235,103 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
+      }
+    }
+    Text {
+      text: qsTr("Re-enter password:")
 
+      color: Style.textColor
+      font.pointSize: 12
+    }
+
+    Rectangle {
+
+      width: 300
+      height: 25
+
+      color: Style.inputBoxColor
+      border.color: Style.borderColor
+      border.width: 1
+      radius: 5
+
+      TextInput {
+        id: repasswordAddInput
+
+        anchors.fill: parent
+
+        leftPadding: 5
+        echoMode: TextInput.Password
+
+        activeFocusOnTab: true
+
+        color: Style.textColor
+        font.pointSize: 12
+        maximumLength: 25
+      }
+    }
+    Text {
+      text: qsTr("Is admin:")
+
+      color: Style.textColor
+      font.pointSize: 12
+    }
+
+    CheckBox{
+      id: isAdminCheckBox
+
+      text: isAdminCheckBox.checked == true ? qsTr("true") :  qsTr("false")
+      font.pointSize: 11
+
+      indicator: Rectangle {
+              implicitWidth: 26
+              implicitHeight: 26
+              x: isAdminCheckBox.leftPadding
+              y: parent.height / 2 - height / 2
+              radius: 3
+              color: Style.backgroundColor
+              border.color: Style.borderColor
+
+              Rectangle {
+                  width: 14
+                  height: 14
+                  x: 6
+                  y: 6
+                  radius: 2
+                  color: isAdminCheckBox.down ? Style.textColor : Qt.lighter( Style.textColor, 1.5)
+                  visible: isAdminCheckBox.checked
+              }
+          }
+      contentItem: Text {
+        text: isAdminCheckBox.text
+        font: isAdminCheckBox.font
+
+        color: Style.textColor
+        verticalAlignment: Text.AlignVCenter
+        leftPadding: isAdminCheckBox.indicator.width + isAdminCheckBox.spacing
       }
     }
 
-    CustomButton{
+    CustomButton {
       text: qsTr("Add")
 
       buttonColor: Style.acceptButtonColor
 
-      onClicked: Emp.addEmployee(firstnameAddInput.text,
-                                 lastnameAddInput.text,
-                                 usernameAddInput.text,
-                                 emailAddInput.text,
-                                 phoneAddInput.text,
-                                 passwordAddInput.text);
+      onClicked: {
+        if(passwordAddInput.text == repasswordAddInput.text){
+          if (Emp.addEmployee(firstnameAddInput.text, lastnameAddInput.text,
+                              usernameAddInput.text, emailAddInput.text,
+                              phoneAddInput.text, passwordAddInput.text,
+                              isAdminCheckBox.checked))
+            buttonOutputText.state = "added"
+          else
+            buttonOutputText.state = "notAdded"
+        }else
+          buttonOutputText.state = "notMatchingPasswords"
+      }
     }
   }
 
-  Text{
+  Text {
     id: buttonOutputText
 
     anchors.top: addGrid.bottom
@@ -281,20 +341,29 @@ Item {
     font.bold: true
 
     states: [
-      State{
-        name: "added"; when: textVisibility == 1
+      State {
+        name: "added"
         PropertyChanges {
-          buttonOutputText{
+          buttonOutputText {
             text: qsTr("Added User!")
             color: Style.acceptButtonColor
           }
         }
       },
-      State{
-        name: "notAdded"; when: textVisibility == 2
+      State {
+        name: "notAdded"
         PropertyChanges {
-          buttonOutputText{
-            text: qsTr("Error while adding user!")
+          buttonOutputText {
+            text: qsTr("Error while adding user!\nMake sure username is unique!")
+            color: Style.denyButtonColor
+          }
+        }
+      },
+      State {
+        name: "notMatchingPasswords"
+        PropertyChanges {
+          buttonOutputText {
+            text: qsTr("Passwords do not match!")
             color: Style.denyButtonColor
           }
         }

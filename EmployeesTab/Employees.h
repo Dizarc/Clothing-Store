@@ -22,6 +22,7 @@ public:
         passwordRole,
         emailRole,
         phoneRole,
+        isAdminRole,
     };
 
     Employees(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());
@@ -34,7 +35,8 @@ public slots:
                         const QString &lastname,
                         const QString &username,
                         const QString &email,
-                        const QString &phone);
+                        const QString &phone,
+                        const int &isAdmin);
 
     bool changePasswordEmployee(const int &id,
                                 const QString &oldPassword,
@@ -46,20 +48,15 @@ public slots:
                         const QString &lastname,
                         const QString &username,
                         const QString &email,
-                        const QString &phone);
+                        const QString &phone,
+                        const int &isAdmin);
 
     bool addEmployee(const QString &firstname,
                      const QString &lastname,
                      const QString &username,
                      const QString &email,
                      const QString &phone,
-                     const QString &password);
-signals:
-    void passwordChanged();
-    void wrongPassword();
-    void editedEmployee();
-    void deletedEmployee();
-    void addedEmployee();
-    void notAddedEmployee();
+                     const QString &password,
+                     const int &isAdmin);
 };
 #endif // EMPLOYEES_H

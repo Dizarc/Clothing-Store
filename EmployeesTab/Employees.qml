@@ -6,19 +6,14 @@ import com.company.Employees
 
 import "../../ClothingStore"
 
-/*
-  TODO:
-    1.Make it so isadmin works and default users cannot click the employee buttons. Also add a checkbox for admin priviledges.
-    2. Make it so users cannot have the same username
-*/
 Item {
   id: employeeItem
 
   anchors.fill: parent
 
-  signal userClicked(int id,int index, string firstname, string lastname, string username, string email, string phone)
+  signal userClicked(int id,int index, string firstname, string lastname, string username, string email, string phone, bool isAdmin)
 
-  onUserClicked: (id, index, firstname, lastname, username, email, phone) => {
+  onUserClicked: (id, index, firstname, lastname, username, email, phone, isAdmin) => {
                    editEmployee.idField = id;
                    editEmployee.employeeIndex = index;
                    editEmployee.firstnameField = firstname;
@@ -28,10 +23,11 @@ Item {
                    editEmployee.phoneField = phone;
                    editEmployee.oldPasswordField = "";
                    editEmployee.newPasswordField = "";
+                   editEmployee.isAdminField = isAdmin;
 
-                   //show edit and reset the visibility of the previous button presses.
                    employeeLayout.currentIndex = 1;
-                   editEmployee.textVisibility = 0;
+                   editEmployee.textVisibility = "nothing";
+                   addEmployee.textVisibility = "nothing";
                  }
 
   GridLayout{
@@ -94,7 +90,7 @@ Item {
       Item {}
       EmployeeEdit { id: editEmployee }
       EmployeeSearch {}
-      EmployeeAdd {}
+      EmployeeAdd {id: addEmployee}
     }
   }
 }

@@ -19,10 +19,14 @@ class DatabaseController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool isEmployeeTableEmpty READ isEmployeeTableEmpty NOTIFY isEmployeeTableEmptyChanged);
+    Q_PROPERTY(bool isCurrentlyAdmin READ isCurrentlyAdmin NOTIFY isCurrentlyAdminChanged);
+
 
 public:
     explicit DatabaseController(QObject *parent = nullptr);
     bool isEmployeeTableEmpty();
+    bool isCurrentlyAdmin();
+
 private:
     void createDatabase();
 
@@ -38,6 +42,7 @@ public slots:
     bool createAdminUser(const QString firstname, const QString lastname, const QString username, const QString email, const QString phone, const QString password);
 signals:
     void isEmployeeTableEmptyChanged();
+    void isCurrentlyAdminChanged();
     void wrongLogin();
     void rightLogin();
 
@@ -45,6 +50,8 @@ signals:
     void wrongCode();
     void successChangePass();
 
+private:
+    bool m_isCurrentlyAdmin;
 };
 
 #endif // DATABASECONTROLLER_H

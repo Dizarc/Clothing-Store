@@ -5,13 +5,13 @@ import QtQuick.Dialogs
 
 import com.company.Employees
 
-import "../../ClothingStore"
+import "../../ClothingStore/Custom"
 
 //TODO: Make sure only admin employees can edit or remove
 Item {
   id: employeeEditItem
 
-  property int textVisibility: 0
+  property alias textVisibility: buttonOutputText.state
 
   property int employeeIndex
   property int idField
@@ -24,25 +24,7 @@ Item {
   property alias oldPasswordField: oldPasswordEditInput.text
   property alias newPasswordField: newPasswordEditInput.text
 
-  Connections{
-    target: Emp
-
-    function onEditedEmployee(){
-      textVisibility = 1;
-    }
-
-    function onPasswordChanged(){
-      textVisibility = 2;
-    }
-
-    function onWrongPassword(){
-      textVisibility = 3;
-    }
-
-    function onDeletedEmployee(){
-      textVisibility = 4;
-    }
-  }
+  property alias isAdminField: isAdminCheckBox.checked
 
   Image {
     id: editImage
@@ -55,38 +37,38 @@ Item {
     sourceSize.height: 150
   }
 
-  Text{
+  Text {
     id: editText
 
     anchors.horizontalCenter: editGrid.horizontalCenter
     anchors.top: editImage.bottom
 
-    text: qsTr("Edit Employee "+ usernameField);
+    text: qsTr("Edit Employee " + usernameField)
 
     color: Style.textColor
     font.pointSize: 15
   }
 
-  GridLayout{
+  GridLayout {
     id: editGrid
 
     anchors.top: editText.bottom
     anchors.topMargin: 10
 
-    rows: 8
+    rows: 9
     columns: 2
 
     rowSpacing: 10
     columnSpacing: 30
 
-    Text{
-      text: qsTr("Firstname: ");
+    Text {
+      text: qsTr("Firstname:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -96,7 +78,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: firstnameEditInput
 
         anchors.fill: parent
@@ -108,18 +90,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Lastname: ");
+    Text {
+      text: qsTr("Lastname:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -129,7 +110,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: lastnameEditInput
 
         anchors.fill: parent
@@ -141,18 +122,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Username: ");
+    Text {
+      text: qsTr("Username:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -162,7 +142,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: usernameEditInput
 
         anchors.fill: parent
@@ -174,18 +154,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Email: ");
+    Text {
+      text: qsTr("Email:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -195,7 +174,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: emailEditInput
 
         anchors.fill: parent
@@ -207,18 +186,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 35
-
       }
     }
 
-    Text{
-      text: qsTr("Phone: ");
+    Text {
+      text: qsTr("Phone:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -228,7 +206,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: phoneEditInput
 
         anchors.fill: parent
@@ -240,18 +218,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Old Password:")
+    Text {
+      text: qsTr("Old password:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
       width: 300
       height: 25
 
@@ -260,7 +237,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: oldPasswordEditInput
 
         anchors.fill: parent
@@ -276,15 +253,14 @@ Item {
       }
     }
 
-    Text{
-      text: qsTr("new Password:")
+    Text {
+      text: qsTr("new password:")
 
       color: Style.textColor
       font.pointSize: 12
-
     }
 
-    Rectangle{
+    Rectangle {
       width: 300
       height: 25
 
@@ -293,7 +269,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: newPasswordEditInput
 
         anchors.fill: parent
@@ -309,32 +285,79 @@ Item {
       }
     }
 
-    CustomButton{
+    Text {
+      text: qsTr("Is admin:")
+
+      color: Style.textColor
+      font.pointSize: 12
+    }
+
+    CheckBox{
+      id: isAdminCheckBox
+
+      text: isAdminCheckBox.checked == true ? qsTr("true") :  qsTr("false")
+      font.pointSize: 11
+
+      indicator: Rectangle {
+              implicitWidth: 26
+              implicitHeight: 26
+              x: isAdminCheckBox.leftPadding
+              y: parent.height / 2 - height / 2
+              radius: 3
+              color: Style.backgroundColor
+              border.color: Style.borderColor
+
+              Rectangle {
+                  width: 14
+                  height: 14
+                  x: 6
+                  y: 6
+                  radius: 2
+                  color: isAdminCheckBox.down ? Style.textColor : Qt.lighter( Style.textColor, 1.5)
+                  visible: isAdminCheckBox.checked
+              }
+          }
+      contentItem: Text {
+        text: isAdminCheckBox.text
+        font: isAdminCheckBox.font
+
+        color: Style.textColor
+        verticalAlignment: Text.AlignVCenter
+        leftPadding: isAdminCheckBox.indicator.width + isAdminCheckBox.spacing
+      }
+    }
+
+    CustomButton {
       id: saveButton
 
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
 
-      onClicked: Emp.updateEmployee(employeeIndex,
-                                    firstnameField,
-                                    lastnameField,
-                                    usernameField,
-                                    emailField,
-                                    phoneField);
+      onClicked: {
+        if (Emp.updateEmployee(employeeIndex, firstnameField, lastnameField,
+                               usernameField, emailField, phoneField, isAdminField))
+          buttonOutputText.state = "successSave";
+        else
+          buttonOutputText.state = "failedSave";
+      }
     }
 
-    CustomButton{
+    CustomButton {
       id: passwordButton
 
       text: qsTr("Change Password")
       buttonColor: Style.acceptButtonColor
 
-      onClicked: Emp.changePasswordEmployee(idField,
-                                            oldPasswordField,
-                                            newPasswordField)
+      onClicked: {
+        if (Emp.changePasswordEmployee(idField, oldPasswordField,
+                                       newPasswordField))
+          buttonOutputText.state = "sucessPasswordChange"
+        else
+          buttonOutputText.state = "failedPasswordChange"
+      }
     }
 
-    CustomButton{
+    CustomButton {
       id: deleteButton
 
       text: qsTr("delete")
@@ -343,37 +366,42 @@ Item {
     }
   }
 
-  Dialog{
+  Dialog {
     id: popup
 
     anchors.centerIn: Overlay.overlay
-    title: qsTr("Are you sure you want to delete the employee: " + usernameField + "?");
+    title: qsTr(
+             "Are you sure you want to delete the employee: " + usernameField + "?")
 
     modal: true
 
-    footer: DialogButtonBox{
+    footer: DialogButtonBox {
 
-      delegate: CustomButton{
+      delegate: CustomButton {
         buttonColor: Style.generalButtonColor
       }
 
       standardButtons: Dialog.Yes | Dialog.Cancel
     }
 
-    background: Rectangle{
+    background: Rectangle {
       color: Qt.darker(Style.backgroundColor, 1.5)
       border.color: Style.borderColor
     }
 
     onAccepted: {
-      Emp.deleteEmployee(employeeIndex);
-      popup.close();
+      if (Emp.deleteEmployee(employeeIndex))
+        buttonOutputText.state = "successDelete"
+      else
+        buttonOutputText.state = "failedDelete"
+
+      popup.close()
     }
 
-    onRejected: popup.close();
+    onRejected: popup.close()
   }
 
-  Text{
+  Text {
     id: buttonOutputText
 
     anchors.top: editGrid.bottom
@@ -383,43 +411,68 @@ Item {
     font.bold: true
 
     states: [
-      State{
-        name: "savedUser"; when: textVisibility == 1
+      State {
+        name: "nothing"
         PropertyChanges {
-          buttonOutputText{
+          buttonOutputText {
+            text: qsTr("")
+          }
+        }
+      },
+      State {
+        name: "successSave"
+        PropertyChanges {
+          buttonOutputText {
             text: qsTr("Saved user!")
             color: Style.acceptButtonColor
           }
         }
       },
-      State{
-        name: "correctPassword"; when: textVisibility == 2
+      State {
+        name: "failedSave"
         PropertyChanges {
-          buttonOutputText{
+          buttonOutputText {
+            text: qsTr("Failed to save user! \n Make sure username does not already exist!")
+            color: Style.denyButtonColor
+          }
+        }
+      },
+      State {
+        name: "successPasswordChange"
+        PropertyChanges {
+          buttonOutputText {
             text: qsTr("Changed password successfully!")
             color: Style.acceptButtonColor
           }
         }
       },
-      State{
-        name: "wrongPassword"; when: textVisibility == 3
+      State {
+        name: "failedPasswordChange"
         PropertyChanges {
-          buttonOutputText{
+          buttonOutputText {
             text: qsTr("Wrong password try again!")
             color: Style.denyButtonColor
           }
         }
       },
-      State{
-        name: "successDelete"; when: textVisibility == 4
+      State {
+        name: "successDelete"
         PropertyChanges {
-          buttonOutputText{
+          buttonOutputText {
             text: qsTr("Employee deleted successfully!")
             color: Style.acceptButtonColor
+          }
+        }
+      },
+      State {
+        name: "failedDelete"
+        PropertyChanges {
+          buttonOutputText {
+            text: qsTr("Employee was not deleted!")
+            color: Style.denyButtonColor
           }
         }
       }
     ]
   }
-
 }
