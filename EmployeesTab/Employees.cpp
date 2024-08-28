@@ -125,18 +125,23 @@ bool Employees::deleteEmployee(const int &index)
     return submitAll();
 }
 
-bool Employees::searchEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const int &isAdmin)
+bool Employees::searchEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QVariant &isAdmin)
 {
-    setFilter("(firstname LIKE CONCAT('" + firstname + "', '%') OR '" + firstname + "' = '')"
-              + " AND "
-              + "(lastname LIKE CONCAT('" + lastname + "', '%') OR '" + lastname + "' = '')"
-              + " AND "
-              + "(username LIKE CONCAT('" + username + "', '%') OR '" + username + "' = '')"
-              + " AND "
-              + "(email LIKE CONCAT('" + email + "', '%') OR '" + email + "' = '')"
-              + " AND "
-              + "(phone LIKE CONCAT('" + phone + "', '%') OR '" + phone + "' = '')"
-              );
+    QString filter = "(firstname LIKE CONCAT('" + firstname + "', '%') OR '" + firstname + "' = '')"
+                     + " AND "
+                     + "(lastname LIKE CONCAT('" + lastname + "', '%') OR '" + lastname + "' = '')"
+                     + " AND "
+                     + "(username LIKE CONCAT('" + username + "', '%') OR '" + username + "' = '')"
+                     + " AND "
+                     + "(email LIKE CONCAT('" + email + "', '%') OR '" + email + "' = '')"
+                     + " AND "
+                     + "(phone LIKE CONCAT('" + phone + "', '%') OR '" + phone + "' = '')";
+
+    if(!isAdmin.isNull())
+        filter += " AND (isAdmin = " + QString::number(isAdmin.toBool()) + ")";
+
+    setFilter(filter);
+
     return select();
 }
 

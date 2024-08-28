@@ -7,7 +7,6 @@ import com.company.Employees
 
 import "../../ClothingStore/Custom"
 
-//TODO: Make sure only admin employees can edit or remove
 Item {
   id: employeeEditItem
 
@@ -292,31 +291,32 @@ Item {
       font.pointSize: 12
     }
 
-    CheckBox{
+    CheckBox {
       id: isAdminCheckBox
 
-      text: isAdminCheckBox.checked == true ? qsTr("true") :  qsTr("false")
+      text: isAdminCheckBox.checked == true ? qsTr("true") : qsTr("false")
       font.pointSize: 11
 
       indicator: Rectangle {
-              implicitWidth: 26
-              implicitHeight: 26
-              x: isAdminCheckBox.leftPadding
-              y: parent.height / 2 - height / 2
-              radius: 3
-              color: Style.backgroundColor
-              border.color: Style.borderColor
+        implicitWidth: 26
+        implicitHeight: 26
+        x: isAdminCheckBox.leftPadding
+        y: parent.height / 2 - height / 2
+        radius: 3
+        color: Style.backgroundColor
+        border.color: Style.borderColor
 
-              Rectangle {
-                  width: 14
-                  height: 14
-                  x: 6
-                  y: 6
-                  radius: 2
-                  color: isAdminCheckBox.down ? Style.textColor : Qt.lighter( Style.textColor, 1.5)
-                  visible: isAdminCheckBox.checked
-              }
-          }
+        Rectangle {
+          width: 14
+          height: 14
+          x: 6
+          y: 6
+          radius: 2
+          color: isAdminCheckBox.down ? Style.textColor : Qt.lighter(
+                                          Style.textColor, 1.5)
+          visible: isAdminCheckBox.checked
+        }
+      }
       contentItem: Text {
         text: isAdminCheckBox.text
         font: isAdminCheckBox.font
@@ -330,20 +330,25 @@ Item {
     CustomButton {
       id: saveButton
 
+      enabled: isAdminLogged
+
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
 
       onClicked: {
         if (Emp.updateEmployee(employeeIndex, firstnameField, lastnameField,
-                               usernameField, emailField, phoneField, isAdminField))
-          buttonOutputText.state = "successSave";
+                               usernameField, emailField, phoneField,
+                               isAdminField))
+          buttonOutputText.state = "successSave"
         else
-          buttonOutputText.state = "failedSave";
+          buttonOutputText.state = "failedSave"
       }
     }
 
     CustomButton {
       id: passwordButton
+
+      enabled: isAdminLogged
 
       text: qsTr("Change Password")
       buttonColor: Style.acceptButtonColor
@@ -359,6 +364,8 @@ Item {
 
     CustomButton {
       id: deleteButton
+
+      enabled: isAdminLogged
 
       text: qsTr("delete")
       buttonColor: Style.denyButtonColor
@@ -432,7 +439,8 @@ Item {
         name: "failedSave"
         PropertyChanges {
           buttonOutputText {
-            text: qsTr("Failed to save user! \n Make sure username does not already exist!")
+            text: qsTr(
+                    "Failed to save user! \n Make sure username does not already exist!")
             color: Style.denyButtonColor
           }
         }

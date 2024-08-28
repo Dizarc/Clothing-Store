@@ -10,9 +10,7 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  1. Get the application to understand when an admin has logged in and implement only admin privileges(already started on it on DatabaseController class)
-  2. Create a logout function and an exit application button after a login.
-  3. dont forget to add to search a way to search for admins too!
+  Start on Storage tab...
 */
 Window {
   id: root
@@ -22,6 +20,8 @@ Window {
   visible: true
   color: Style.backgroundColor
   visibility: Qt.WindowFullScreen
+
+  property bool isAdminLogged: false
 
   Loader {
     id: pageLoader
@@ -35,8 +35,8 @@ Window {
     } else {
       pageLoader.source = "Init/Login.qml";
     }
-
   }
+
   Connections {
     target: DbController
 
@@ -46,8 +46,7 @@ Window {
     }
 
     function onRightLogin() {
-      //isAdminLogged = DbController.isCurrentlyAdmin;
-      //console.log(DbController.isCurrentlyAdmin);
+      isAdminLogged = DbController.isCurrentlyAdmin;
       pageLoader.source = "MainApplication.qml";
     }
   }

@@ -46,6 +46,26 @@ Item {
       }
 
       ThemeSwitch { }
+
+      CustomButton{
+        text: qsTr("Logout")
+
+        implicitWidth: 65
+        implicitHeight: 25
+        buttonColor: Style.denyButtonColor
+
+        onClicked: pageLoader.source = "Init/Login.qml"
+      }
+
+      CustomButton{
+        text: qsTr("Exit")
+
+        implicitWidth: 65
+        implicitHeight: 25
+        buttonColor: Style.denyButtonColor
+
+        onClicked: Qt.quit()
+      }
     }
 
     Rectangle {

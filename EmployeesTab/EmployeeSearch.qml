@@ -20,19 +20,19 @@ Item {
     sourceSize.height: 150
   }
 
-  Text{
+  Text {
     id: searchText
 
     anchors.horizontalCenter: searchGrid.horizontalCenter
     anchors.top: searchImage.bottom
 
-    text: qsTr("Search Employee");
+    text: qsTr("Search Employee")
 
     color: Style.textColor
     font.pointSize: 15
   }
 
-  GridLayout{
+  GridLayout {
     id: searchGrid
 
     anchors.top: searchText.bottom
@@ -44,14 +44,14 @@ Item {
     rowSpacing: 10
     columnSpacing: 30
 
-    Text{
-      text: qsTr("Firstname:");
+    Text {
+      text: qsTr("Firstname:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
       width: 300
       height: 25
 
@@ -60,7 +60,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: firstnameSearchInput
 
         anchors.fill: parent
@@ -72,18 +72,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Lastname:");
+    Text {
+      text: qsTr("Lastname:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -93,7 +92,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: lastnameSearchInput
 
         anchors.fill: parent
@@ -105,18 +104,17 @@ Item {
         color: Style.textColor
         font.pointSize: 12
         maximumLength: 25
-
       }
     }
 
-    Text{
-      text: qsTr("Username:");
+    Text {
+      text: qsTr("Username:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -126,7 +124,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: usernameSearchInput
 
         anchors.fill: parent
@@ -141,14 +139,14 @@ Item {
       }
     }
 
-    Text{
-      text: qsTr("Email:");
+    Text {
+      text: qsTr("Email:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -158,7 +156,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: emailSearchInput
 
         anchors.fill: parent
@@ -173,14 +171,14 @@ Item {
       }
     }
 
-    Text{
-      text: qsTr("Phone:");
+    Text {
+      text: qsTr("Phone:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    Rectangle{
+    Rectangle {
 
       width: 300
       height: 25
@@ -190,7 +188,7 @@ Item {
       border.width: 1
       radius: 5
 
-      TextInput{
+      TextInput {
         id: phoneSearchInput
 
         anchors.fill: parent
@@ -205,67 +203,114 @@ Item {
       }
     }
 
-    Text{
-      text: qsTr("Is admin:");
+    Text {
+      text: qsTr("Is admin:")
 
       color: Style.textColor
       font.pointSize: 12
     }
 
-    CheckBox{
-      id: isAdminCheckBox
+    ComboBox {
+      id: adminStatus
 
-      text: isAdminCheckBox.checked == true ? qsTr("true") :  qsTr("false")
-      font.pointSize: 11
+      model: [qsTr("All"), qsTr("Admins"), qsTr("Non admins")]
 
-      indicator: Rectangle {
-              implicitWidth: 26
-              implicitHeight: 26
-              x: isAdminCheckBox.leftPadding
-              y: parent.height / 2 - height / 2
-              radius: 3
-              color: Style.backgroundColor
-              border.color: Style.borderColor
+      implicitWidth: 150
+      implicitHeight: 25
 
-              Rectangle {
-                  width: 14
-                  height: 14
-                  x: 6
-                  y: 6
-                  radius: 2
-                  color: isAdminCheckBox.down ? Style.textColor : Qt.lighter( Style.textColor, 1.5)
-                  visible: isAdminCheckBox.checked
-              }
-          }
+      font.pointSize: 12
+
+      delegate: ItemDelegate {
+        id: adminStatusDelegate
+
+        required property var model
+        required property int index
+
+        width: adminStatus.width
+        implicitHeight: 25
+
+        highlighted: adminStatus.highlightedIndex === index
+
+        contentItem: Text {
+          text: adminStatusDelegate.model[adminStatus.textRole]
+          color: Style.textColor
+          font: adminStatus.font
+
+          elide: Text.ElideRight
+          verticalAlignment: Text.AlignVCenter
+        }
+      }
+
       contentItem: Text {
-        text: isAdminCheckBox.text
-        font: isAdminCheckBox.font
+        leftPadding: 5
+        rightPadding: adminStatus.indicator.width + adminStatus.spacing
 
+        text: adminStatus.displayText
+        font: adminStatus.font
         color: Style.textColor
+
         verticalAlignment: Text.AlignVCenter
-        leftPadding: isAdminCheckBox.indicator.width + isAdminCheckBox.spacing
+      }
+
+      background: Rectangle {
+        color: Style.inputBoxColor
+        border.color: Style.borderColor
+        border.width: adminStatus.visualFocus ? 2 : 1
+        radius: 3
+      }
+
+      popup: Popup {
+        y: adminStatus.height - 1
+        width: adminStatus.width
+        implicitHeight: contentItem.implicitHeight
+        padding: 1
+
+        contentItem: ListView {
+          clip: true
+          implicitHeight: contentHeight
+          model: adminStatus.popup.visible ? adminStatus.delegateModel : null
+          currentIndex: adminStatus.highlightedIndex
+        }
+
+        background: Rectangle {
+          color: Style.inputBoxColor
+          border.color: Style.borderColor
+          radius: 3
+        }
       }
     }
 
-    CustomButton{
+    CustomButton {
       text: qsTr("Search")
 
       buttonColor: Style.acceptButtonColor
 
-       onClicked: Emp.searchEmployee(firstnameSearchInput.text,
-                                     lastnameSearchInput.text,
-                                     usernameSearchInput.text,
-                                     emailSearchInput.text,
-                                     phoneSearchInput.text,
-                                     isAdminCheckBox.cheked);
+      onClicked: {
+        var isAnAdmin = null
+        if (adminStatus.currentIndex === 1)
+          isAnAdmin = true
+        else if (adminStatus.currentIndex === 2)
+          isAnAdmin = false
+        Emp.searchEmployee(firstnameSearchInput.text, lastnameSearchInput.text,
+                           usernameSearchInput.text, emailSearchInput.text,
+                           phoneSearchInput.text, isAnAdmin)
+      }
     }
 
-    CustomButton{
+    CustomButton {
       text: qsTr("Reset Search")
 
       buttonColor: Style.generalButtonColor
 
-      onClicked: Emp.searchEmployee('', '', '', '', '', 0);
+      onClicked: {
+        firstnameSearchInput.text = ""
+        lastnameSearchInput.text = ""
+        usernameSearchInput.text = ""
+        emailSearchInput.text = ""
+        phoneSearchInput.text = ""
+        adminStatus.currentIndex = 0
+        Emp.searchEmployee('', '', '', '', '', null)
+      }
     }
   }
 }

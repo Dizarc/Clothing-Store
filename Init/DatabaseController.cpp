@@ -161,6 +161,13 @@ bool DatabaseController::isCurrentlyAdmin(){
     return m_isCurrentlyAdmin;
 }
 
+void DatabaseController::setIsCurrentlyAdmin(bool isAdmin){
+    if(m_isCurrentlyAdmin != isAdmin){
+        m_isCurrentlyAdmin = isAdmin;
+        emit isCurrentlyAdminChanged();
+    }
+}
+
 void DatabaseController::loginCheck(const QString &username, const QString &password)
 {
     QSqlQuery query;
@@ -174,8 +181,10 @@ void DatabaseController::loginCheck(const QString &username, const QString &pass
 
     if(query.next()){
         if(bcryptcpp::validatePassword(password.toStdString(), query.value(0).toString().toStdString())){
+
+            setIsCurrentlyAdmin(query.value(1).toBool());
+
             emit rightLogin();
-            //m_isCurrentlyAdmin = query.value(1).toBool();
         }
         else
             emit wrongLogin();

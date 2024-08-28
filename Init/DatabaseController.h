@@ -26,6 +26,7 @@ public:
     explicit DatabaseController(QObject *parent = nullptr);
     bool isEmployeeTableEmpty();
     bool isCurrentlyAdmin();
+    void setIsCurrentlyAdmin(bool isAdmin);
 
 private:
     void createDatabase();
@@ -43,6 +44,7 @@ public slots:
 signals:
     void isEmployeeTableEmptyChanged();
     void isCurrentlyAdminChanged();
+
     void wrongLogin();
     void rightLogin();
 

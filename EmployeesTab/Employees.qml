@@ -50,6 +50,8 @@ Item {
     CustomButton{
       id: addEmployeeButton
 
+      enabled: isAdminLogged
+
       Layout.row: 1
       Layout.column: 0
       text: qsTr("Add Employee")

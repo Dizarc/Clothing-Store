@@ -49,7 +49,7 @@ public slots:
                         const QString &username,
                         const QString &email,
                         const QString &phone,
-                        const int &isAdmin);
+                        const QVariant &isAdmin);
 
     bool addEmployee(const QString &firstname,
                      const QString &lastname,
