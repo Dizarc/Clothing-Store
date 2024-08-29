@@ -1,5 +1,6 @@
 import QtQuick 6.6
 import QtQuick.Controls
+import QtQuick.Layouts
 
 import "../../ClothingStore"
 
@@ -11,53 +12,86 @@ Item {
 
   anchors.fill: parent
 
-  CustomButton{
-    id: backButton
+  GridLayout {
+    id: storageGrid
 
-    enabled: false
+    anchors.fill: parent
+    columns: 2
+    rows: 2
 
-    anchors.top: parent.top
-    anchors.left: parent.left
+    columnSpacing: 10
+    rowSpacing: 10
 
-    text: qsTr("BACK")
-    buttonColor: Style.generalButtonColor
+    CustomButton {
+      id: backButton
 
-    onClicked: {
-      storageView.pop();
-      enabled = false;
+      enabled: false
+
+      text: qsTr("BACK")
+      buttonColor: Style.generalButtonColor
+
+      onClicked: {
+        storageView.pop();
+          enabled = false
+      }
     }
-  }
 
-  StackView{
-    id: storageView
+    CustomButton {
+      id: addTypesButton
 
-    anchors.top: backButton.bottom
-    anchors.topMargin: 5
-    width: parent.width
-    height: parent.height - backButton.height
+      text: qsTr("Add a new type")
+      buttonColor: Style.generalButtonColor
 
-    initialItem: clothesTypesView
-  }
+      onClicked: {
 
-  GridView{
-    id: clothesTypesView
+      }
+    }
 
-    cellWidth: 150
-    cellHeight: 200
+    StackView {
+      id: storageView
 
-    flickableDirection: Flickable.VerticalFlick
-    boundsBehavior: Flickable.StopAtBounds
+      width: parent.width / 2
 
-    model: ClothesTypesModel
+      Layout.fillHeight: true
+      Layout.fillWidth: true
+      Layout.maximumWidth: parent.width / 2
+      Layout.topMargin: 20
 
-    delegate: ClothesTypesDelegate {}
-  }
+      initialItem: clothesTypesView
+    }
 
-  TreeView{
-    id: clothesView
+    GridView {
+      id: clothesTypesView
 
-    model: ClothesModel
+      cellWidth: 150
+      cellHeight: 200
 
-    delegate: ClothesDelegate {}
+      flickableDirection: Flickable.VerticalFlick
+      boundsBehavior: Flickable.StopAtBounds
+
+      model: ClothesTypesModel
+
+      delegate: ClothesTypesDelegate {}
+    }
+
+    TreeView {
+      id: clothesView
+
+      property int clothesTypeId: -1
+
+      model: ClothesModel
+
+      delegate: ClothesDelegate {
+        id: clothesDelegated
+      }
+
+      Component.onCompleted: {
+        ClothesModel.filterTypeId = clothesTypeId
+      }
+
+      onClothesTypeIdChanged: {
+        ClothesModel.filterTypeId = clothesTypeId
+      }
+    }
   }
 }

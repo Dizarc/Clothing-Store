@@ -3,9 +3,13 @@
 DatabaseController::DatabaseController(QObject *parent)
     : QObject{parent}
 {
+    QDir documentsDir(documentsDirPath);
+    if(!documentsDir.exists())
+        documentsDir.mkpath(".");
+
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setHostName("localhost");
-    db.setDatabaseName("clothes");
+    db.setDatabaseName(documentsDirPath + "/clothes");
     db.setUserName("manager");
     db.setPassword("clothingManager");
     bool ok = db.open();
@@ -39,7 +43,7 @@ void DatabaseController::createDatabase()
     if(!query.exec(employeesTable))
         qDebug()<< "Problem while creating employees table...";
 
-    QFile f("DATA.csv");
+    QFile f(documentsDirPath + "/DATA.csv");
     if(f.open(QIODevice::ReadOnly)){
         QTextStream ts(&f);
 
@@ -82,7 +86,7 @@ void DatabaseController::createDatabase()
     QString clothesTypesTable = "CREATE TABLE ClothesTypes("
                                 " typeId INTEGER PRIMARY KEY AUTOINCREMENT,"
                                 " typeName TEXT NOT NULL,"
-                                " typeImage BLOB);";
+                                " TypeImageSource TEXT NOT NULL);";
 
     if(!query.exec(clothesTypesTable))
         qDebug()<< "Problem while creating ClothesTypes table...";
@@ -113,9 +117,9 @@ void DatabaseController::createDatabase()
     if(!query.exec(clothesSizesTable))
         qDebug()<< "Problem while creating ClothesSizes table...";
 
-    QString typesValues = "INSERT INTO ClothesTypes(typeName, typeImage) VALUES"
-                          " (\"Pants\", 'INSERT IMAGE HERE'),"
-                          " (\"Shoes\", 'INSERT IMAGE HERE');";
+    QString typesValues = "INSERT INTO ClothesTypes(typeName, typeImageSource) VALUES"
+                          " (\"Pants\", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\"),"
+                          " (\"Shoes\", \"" + documentsDirPath + "/storage_images/types_images/shoesImage.png" + "\");";
 
     if(!query.exec(typesValues))
         qDebug()<< "Problem while adding to ClothesTypes table...";
@@ -214,7 +218,7 @@ void DatabaseController::sendResetEmail(const QString &username)
     int id = userQuery.value(3).toInt();
 
     //ADD SMTP login credentials from config.ini
-    QSettings settings("config.ini", QSettings::IniFormat);
+    QSettings settings(documentsDirPath + "/config.ini", QSettings::IniFormat);
     QString fromEmail = settings.value("email/address").toString();
     QString password = settings.value("email/password").toString();
 

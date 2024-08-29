@@ -10,7 +10,8 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  Start on Storage tab...
+  1. Implement a add clothes types functionality with image insertion etc.
+  2. Make UI seemless while switching from all the functionalities in the storage tab.
 */
 Window {
   id: root

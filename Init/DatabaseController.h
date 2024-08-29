@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QDir>
+#include <QStandardPaths>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QFile>
@@ -20,7 +22,6 @@ class DatabaseController : public QObject
     Q_OBJECT
     Q_PROPERTY(bool isEmployeeTableEmpty READ isEmployeeTableEmpty NOTIFY isEmployeeTableEmptyChanged);
     Q_PROPERTY(bool isCurrentlyAdmin READ isCurrentlyAdmin NOTIFY isCurrentlyAdminChanged);
-
 
 public:
     explicit DatabaseController(QObject *parent = nullptr);
@@ -53,6 +54,8 @@ signals:
     void successChangePass();
 
 private:
+    const QString documentsDirPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ClothingStoreDocuments";
+
     bool m_isCurrentlyAdmin;
 };
 

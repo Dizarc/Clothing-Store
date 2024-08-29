@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSqlTableModel>
+#include <QFile>
 
 class ClothesTypesModel : public QSqlTableModel
 {
@@ -11,7 +12,7 @@ public:
     enum Roles{
         typeIdRole = Qt::UserRole + 1,
         typeNameRole,
-        typeImageRole
+        typeImageSourceRole
     };
 
     explicit ClothesTypesModel(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());

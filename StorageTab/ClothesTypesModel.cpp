@@ -25,7 +25,7 @@ QVariant ClothesTypesModel::data(const QModelIndex &index, int role) const
     case typeNameRole:
         value = QSqlTableModel::data(this->index(index.row(), 1));
         break;
-    case typeImageRole:
+    case typeImageSourceRole:
         value = QSqlTableModel::data(this->index(index.row(), 2));
         break;
     default:
@@ -41,7 +41,7 @@ QHash<int, QByteArray> ClothesTypesModel::roleNames() const
 
     roles[typeIdRole] = "typeId";
     roles[typeNameRole] = "typeName";
-    roles[typeImageRole] = "typeImage";
+    roles[typeImageSourceRole] = "typeImageSource";
 
     return roles;
 }

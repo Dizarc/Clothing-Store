@@ -8,7 +8,7 @@ Rectangle{
 
   required property string typeId
   required property string typeName
-  required property string typeImage
+  required property string typeImageSource
 
   required property int index
 
@@ -25,10 +25,11 @@ Rectangle{
 
     onClicked: {
       clothesTypesView.currentIndex = index;
-      storageView.push(clothesView/*, {"typeId" : index}*/);
-      backButton.enabled = true;
-    }
 
+      backButton.enabled = true;
+
+      storageView.push(clothesView, {"clothesTypeId" : typeId});
+    }
   }
 
   Column{
@@ -36,17 +37,18 @@ Rectangle{
     spacing: 5
 
     Text{
-      text: typeId
-      color: Style.textColor
-    }
-
-    Text{
       text: typeName
       color: Style.textColor
     }
-    Text{
-      text: typeImage
-      color: Style.textColor
+
+    Image {
+      id: imageView
+
+      source: "file:/" + typeImageSource
+
+      sourceSize.width: 50
+      sourceSize.height: 70
+
     }
   }
 }

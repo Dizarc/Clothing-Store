@@ -37,6 +37,7 @@ qt_add_qml_module(appClothingStore
 
               StorageTab/Storage.qml
               StorageTab/ClothesTypesDelegate.qml
+              StorageTab/ClothesTypesAdd.qml
               StorageTab/ClothesDelegate.qml
 
               HomeTab/Home.qml
