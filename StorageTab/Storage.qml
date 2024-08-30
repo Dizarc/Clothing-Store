@@ -17,7 +17,7 @@ Item {
 
     anchors.fill: parent
     columns: 2
-    rows: 2
+    rows: 3
 
     columnSpacing: 10
     rowSpacing: 10
@@ -31,33 +31,60 @@ Item {
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-        storageView.pop();
-          enabled = false
+        storageView.pop()
+        enabled = false
       }
     }
 
     CustomButton {
       id: addTypesButton
 
+      enabled: isAdminLogged
+
+      Layout.row: 1
+      Layout.column: 0
+
       text: qsTr("Add a new type")
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-
+        var component = Qt.createComponent("ClothesTypesAdd.qml")
+        var window = component.createObject()
+        window.show()
       }
     }
 
     StackView {
       id: storageView
 
-      width: parent.width / 2
+      initialItem: clothesTypesView
 
+      width: parent.width
+      height: parent.height
+
+      Layout.row: 2
+      Layout.column: 0
       Layout.fillHeight: true
       Layout.fillWidth: true
-      Layout.maximumWidth: parent.width / 2
       Layout.topMargin: 20
 
-      initialItem: clothesTypesView
+      pushEnter: Transition {
+        YAnimator {
+          from: (storageView.mirrored ? -1 : 1) * storageView.height
+          to: 0
+          duration: 400
+          easing.type: Easing.OutCubic
+        }
+      }
+
+      popExit: Transition {
+        YAnimator {
+          from: 0
+          to: (storageView.mirrored ? -1 : 1) * storageView.height
+          duration: 400
+          easing.type: Easing.OutCubic
+        }
+      }
     }
 
     GridView {

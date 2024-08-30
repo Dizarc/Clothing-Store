@@ -49,6 +49,7 @@ Rectangle{
       sourceSize.width: 50
       sourceSize.height: 70
 
+      fillMode: Image.PreserveAspectFit
     }
   }
 }
