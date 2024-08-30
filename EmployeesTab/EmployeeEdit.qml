@@ -22,6 +22,7 @@ Item {
 
   property alias oldPasswordField: oldPasswordEditInput.text
   property alias newPasswordField: newPasswordEditInput.text
+  property alias renewPasswordField: renewPasswordEditInput.text
 
   property alias isAdminField: isAdminCheckBox.checked
 
@@ -67,29 +68,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: firstnameEditInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: firstnameEditInput
     }
 
     Text {
@@ -99,29 +79,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: lastnameEditInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: lastnameEditInput
     }
 
     Text {
@@ -131,29 +90,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: usernameEditInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: usernameEditInput
     }
 
     Text {
@@ -163,29 +101,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: emailEditInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 35
-      }
+    CustomInputBox{
+      id: emailEditInput
     }
 
     Text {
@@ -195,29 +112,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: phoneEditInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: phoneEditInput
     }
 
     Text {
@@ -227,29 +123,9 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: oldPasswordEditInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-        echoMode: TextInput.Password
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: oldPasswordEditInput
+      echo: TextInput.Password
     }
 
     Text {
@@ -259,29 +135,21 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-      width: 300
-      height: 25
+    CustomInputBox{
+      id: newPasswordEditInput
+      echo: TextInput.Password
+    }
 
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
+    Text {
+      text: qsTr("re enter password:")
 
-      TextInput {
-        id: newPasswordEditInput
+      color: Style.textColor
+      font.pointSize: 12
+    }
 
-        anchors.fill: parent
-
-        leftPadding: 5
-        echoMode: TextInput.Password
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: renewPasswordEditInput
+      echo: TextInput.Password
     }
 
     Text {
@@ -294,7 +162,7 @@ Item {
     CheckBox {
       id: isAdminCheckBox
 
-      text: isAdminCheckBox.checked == true ? qsTr("true") : qsTr("false")
+      text: isAdminCheckBox.checked === true ? qsTr("true") : qsTr("false")
       font.pointSize: 11
 
       indicator: Rectangle {
@@ -354,11 +222,15 @@ Item {
       buttonColor: Style.acceptButtonColor
 
       onClicked: {
-        if (Emp.changePasswordEmployee(idField, oldPasswordField,
-                                       newPasswordField))
-          buttonOutputText.state = "sucessPasswordChange"
-        else
-          buttonOutputText.state = "failedPasswordChange"
+        if(newPasswordEditInput.text === renewPasswordEditInput.text){
+          if (Emp.changePasswordEmployee(idField, oldPasswordField,
+                                         newPasswordField))
+            buttonOutputText.state = "successPasswordChange"
+          else
+            buttonOutputText.state = "failedPasswordChange"
+        }else{
+          buttonOutputText.state = "passwordNotSame"
+        }
       }
     }
 
@@ -459,6 +331,15 @@ Item {
         PropertyChanges {
           buttonOutputText {
             text: qsTr("Wrong password try again!")
+            color: Style.denyButtonColor
+          }
+        }
+      },
+      State {
+        name: "passwordNotSame"
+        PropertyChanges {
+          buttonOutputText {
+            text: qsTr("new password does not match!")
             color: Style.denyButtonColor
           }
         }

@@ -70,31 +70,8 @@ Dialog{
         font.pointSize: 12
       }
 
-      Rectangle {
-        width: 250
-        height: 25
-
-        color: Style.inputBoxColor
-        border.color: Style.borderColor
-        border.width: 1
-        radius: 8
-
-        TextInput {
-          id: forgotPassUsernameInput
-
-          anchors.fill: parent
-
-          leftPadding: 8
-
-          activeFocusOnTab: true
-          focus: true
-
-          cursorVisible: true
-
-          color: Style.textColor
-          font.pointSize: 12
-          maximumLength: 25
-        }
+      CustomInputBox{
+        id: forgotPassUsernameInput
       }
 
       CustomButton {
@@ -122,36 +99,11 @@ Dialog{
         font.pointSize: 12
       }
 
-      Rectangle {
-        id: forgotPassCodeInputRect
-
+      CustomInputBox{
+        id: forgotPassCodeInput
         visible: forgotPassDialog.visibilityStage > 0 ? true : false
-
-        width: 250
-        height: 25
-
-        color: Style.inputBoxColor
-        border.color: Style.borderColor
-        border.width: 1
-        radius: 8
-
-        TextInput {
-          id: forgotPassCodeInput
-
-          anchors.fill: parent
-
-          leftPadding: 8
-
-          activeFocusOnTab: true
-          focus: true
-
-          cursorVisible: true
-
-          color: Style.textColor
-          font.pointSize: 12
-          maximumLength: 25
-        }
       }
+
 
       CustomButton {
         id: checkCodeButton
@@ -185,35 +137,10 @@ Dialog{
         font.pointSize: 12
       }
 
-      Rectangle {
-        id: enterNewPassInputRect
-
+      CustomInputBox{
+        id: enterNewPassInput
+        echo: TextInput.Password
         visible: forgotPassDialog.visibilityStage > 1 ? true : false
-
-        width: 250
-        height: 25
-
-        color: Style.inputBoxColor
-        border.color: Style.borderColor
-        border.width: 1
-        radius: 8
-
-        TextInput {
-          id: enterNewPassInput
-
-          anchors.fill: parent
-
-          leftPadding: 8
-
-          activeFocusOnTab: true
-          focus: true
-
-          cursorVisible: true
-
-          color: Style.textColor
-          font.pointSize: 12
-          maximumLength: 25
-        }
       }
 
       Text {
@@ -226,35 +153,10 @@ Dialog{
         font.pointSize: 12
       }
 
-      Rectangle {
-        id: reenterNewPassInputRect
-
+      CustomInputBox{
+        id: reenterNewPassInput
+        echo: TextInput.Password
         visible: forgotPassDialog.visibilityStage > 1 ? true : false
-
-        width: 250
-        height: 25
-
-        color: Style.inputBoxColor
-        border.color: Style.borderColor
-        border.width: 1
-        radius: 8
-
-        TextInput {
-          id: reenterNewPassInput
-
-          anchors.fill: parent
-
-          leftPadding: 8
-
-          activeFocusOnTab: true
-          focus: true
-
-          cursorVisible: true
-
-          color: Style.textColor
-          font.pointSize: 12
-          maximumLength: 25
-        }
       }
 
       CustomButton {

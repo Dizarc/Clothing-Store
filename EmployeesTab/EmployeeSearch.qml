@@ -51,28 +51,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: firstnameSearchInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: firstnameSearchInput
     }
 
     Text {
@@ -82,29 +62,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: lastnameSearchInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: lastnameSearchInput
     }
 
     Text {
@@ -114,29 +73,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: usernameSearchInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: usernameSearchInput
     }
 
     Text {
@@ -146,29 +84,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: emailSearchInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 35
-      }
+    CustomInputBox{
+      id: emailSearchInput
     }
 
     Text {
@@ -178,29 +95,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: phoneSearchInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: phoneSearchInput
     }
 
     Text {

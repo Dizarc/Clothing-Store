@@ -51,4 +51,9 @@ Switch {
       Style.theme = Style.lightTheme
   }
 
+  MouseArea {
+    anchors.fill: parent
+    cursorShape: Qt.PointingHandCursor
+    acceptedButtons: Qt.NoButton
+  }
 }

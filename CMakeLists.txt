@@ -44,6 +44,7 @@ qt_add_qml_module(appClothingStore
 
               Custom/Style.qml
               Custom/CustomButton.qml
+              Custom/CustomInputBox.qml
               Custom/ThemeSwitch.qml
 
     RESOURCES images/icon.ico

@@ -8,9 +8,6 @@ import "../Custom"
 Item {
   id: loginItem
 
-  property alias username: usernameInput.text
-  property alias password: passwordInput.text
-
   property alias wrongLogin: wrongLoginText.visible
 
   GridLayout {
@@ -39,31 +36,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 8
-
-      TextInput {
-        id: usernameInput
-
-        anchors.fill: parent
-
-        leftPadding: 8
-
-        activeFocusOnTab: true
-        focus: true
-
-        cursorVisible: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: usernameInput
     }
 
     Text {
@@ -73,29 +47,9 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 8
-
-      TextInput {
-        id: passwordInput
-
-        anchors.fill: parent
-
-        leftPadding: 8
-        echoMode: TextInput.Password
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: passwordInput
+      echo: TextInput.Password
     }
 
     CustomButton {
@@ -104,7 +58,7 @@ Item {
       buttonColor: Style.acceptButtonColor
 
       Keys.onReturnPressed: clicked()
-      onClicked: dbController.loginCheck(username, password)
+      onClicked: dbController.loginCheck(usernameInput.text, passwordInput.text)
     }
 
     CustomButton {

@@ -33,30 +33,9 @@ Window {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
+    CustomInputBox{
+      id: typeNameInput
       anchors.horizontalCenter: parent.horizontalCenter
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: typeNameInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
     }
 
     Text{

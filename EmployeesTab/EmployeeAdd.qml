@@ -53,29 +53,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: firstnameAddInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: firstnameAddInput
     }
 
     Text {
@@ -85,29 +64,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: lastnameAddInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: lastnameAddInput
     }
 
     Text {
@@ -117,29 +75,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: usernameAddInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: usernameAddInput
     }
 
     Text {
@@ -149,30 +86,10 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: emailAddInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 35
-      }
+    CustomInputBox{
+      id: emailAddInput
     }
+
     Text {
       text: qsTr("Phone:")
 
@@ -180,29 +97,8 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: phoneAddInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: phoneAddInput
     }
 
     Text {
@@ -212,31 +108,11 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: passwordAddInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-        echoMode: TextInput.Password
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: passwordAddInput
+      echo: TextInput.Password
     }
+
     Text {
       text: qsTr("Re-enter password:")
 
@@ -244,31 +120,11 @@ Item {
       font.pointSize: 12
     }
 
-    Rectangle {
-
-      width: 300
-      height: 25
-
-      color: Style.inputBoxColor
-      border.color: Style.borderColor
-      border.width: 1
-      radius: 5
-
-      TextInput {
-        id: repasswordAddInput
-
-        anchors.fill: parent
-
-        leftPadding: 5
-        echoMode: TextInput.Password
-
-        activeFocusOnTab: true
-
-        color: Style.textColor
-        font.pointSize: 12
-        maximumLength: 25
-      }
+    CustomInputBox{
+      id: repasswordAddInput
+      echo: TextInput.Password
     }
+
     Text {
       text: qsTr("Is admin:")
 
@@ -279,7 +135,7 @@ Item {
     CheckBox{
       id: isAdminCheckBox
 
-      text: isAdminCheckBox.checked == true ? qsTr("true") :  qsTr("false")
+      text: isAdminCheckBox.checked === true ? qsTr("true") :  qsTr("false")
       font.pointSize: 11
 
       indicator: Rectangle {
@@ -317,7 +173,7 @@ Item {
       buttonColor: Style.acceptButtonColor
 
       onClicked: {
-        if(passwordAddInput.text == repasswordAddInput.text){
+        if(passwordAddInput.text === repasswordAddInput.text){
           if (Emp.addEmployee(firstnameAddInput.text, lastnameAddInput.text,
                               usernameAddInput.text, emailAddInput.text,
                               phoneAddInput.text, passwordAddInput.text,

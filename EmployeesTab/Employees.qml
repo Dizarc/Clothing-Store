@@ -23,6 +23,7 @@ Item {
                    editEmployee.phoneField = phone;
                    editEmployee.oldPasswordField = "";
                    editEmployee.newPasswordField = "";
+                   editEmployee.renewPasswordField = "";
                    editEmployee.isAdminField = isAdmin;
 
                    employeeLayout.currentIndex = 1;
