@@ -27,6 +27,9 @@ public:
 
 public slots:
     bool addNewType(const QString &typeName, const QString &typeImageSource);
+    bool deleteType(const int &id);
+    bool renameType(const int &id, const QString name);
+    bool changeTypeImage(const int &id, const QString &typeImageSource);
 };
 
 #endif // CLOTHESTYPESMODEL_H

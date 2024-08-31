@@ -10,7 +10,8 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  1. Finish add clothing type functionality.
+  1. Make right click menu look better in the storage tab.
+  2. When deleting a type actually delete each item inside it too from the Clothes table.
 */
 Window {
   id: root

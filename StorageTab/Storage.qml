@@ -38,7 +38,7 @@ Item {
     StackView {
       id: storageView
 
-      initialItem: clothesTypesView
+      initialItem: clothesTypes
 
       width: parent.width
       height: parent.height
@@ -69,7 +69,7 @@ Item {
     }
 
     ClothesTypes{
-      id: clothesTypesView
+      id: clothesTypes
     }
 
     TreeView {

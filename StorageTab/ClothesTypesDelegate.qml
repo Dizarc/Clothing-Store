@@ -3,6 +3,7 @@ import QtQuick.Controls
 
 import "../../ClothingStore"
 import "../Custom"
+
 Rectangle {
   id: clothesTypesDelegate
 
@@ -14,6 +15,7 @@ Rectangle {
 
   width: clothesTypesView.cellWidth - 5
   height: clothesTypesView.cellHeight - 5
+
   color: typeMouseArea.pressed ? Qt.lighter(
                                    Style.inputBoxColor,
                                    1.5) : (typeMouseArea.hovered ? Qt.lighter(
@@ -28,26 +30,21 @@ Rectangle {
     anchors.fill: parent
     cursorShape: Qt.PointingHandCursor
     hoverEnabled: true
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-    onClicked: {
-      if(mouse.button === Qt.LeftButton){
-        clothesTypesView.currentIndex = index
+    onClicked: mouse => {
+                 if (mouse.button === Qt.LeftButton) {
+                   clothesTypesView.currentIndex = index
+                   clothesTypesColumn.textState = "nothing"
 
-        backButton.enabled = true
+                   backButton.enabled = true
 
-        storageView.push(clothesView, {
-                           "clothesTypeId": typeId
-                         })
-      }
-    }
-
-    onPressed: {
-      if(mouse.button === Qt.RightButton){
-        contextMenu.popup();
-        contextMenu.x = mouse.x;
-        contextMenu.y = mouse.y;
-      }
-    }
+                   storageView.push(clothesView, {
+                                      "clothesTypeId": typeId
+                                    })
+                  } else if (mouse.button === Qt.RightButton)
+                    contextMenu.popup()
+                }
   }
 
   Column {
@@ -63,6 +60,7 @@ Rectangle {
 
     Image {
       id: imageView
+
       anchors.horizontalCenter: parent.horizontalCenter
       source: typeImageSource !== "" ? "file:/" + typeImageSource : ""
       visible: typeImageSource !== ""
@@ -73,22 +71,33 @@ Rectangle {
     }
   }
 
-  Menu{
+  Menu {
     id: contextMenu
 
-    MenuItem{
+    MenuItem {
       text: qsTr("Delete")
 
       onTriggered: {
-
+        deleteClothesTypesDialog.id = index
+        deleteClothesTypesDialog.open()
       }
     }
 
-    MenuItem{
+    MenuItem {
       text: qsTr("Rename")
 
       onTriggered: {
+        renameClothesTypesDialog.id = typeId
+        renameClothesTypesDialog.open()
+      }
+    }
 
+    MenuItem {
+      text: qsTr("Change Image")
+
+      onTriggered: {
+        changeImageClothesTypesDialog.id = typeId
+        changeImageClothesTypesDialog.open()
       }
     }
   }

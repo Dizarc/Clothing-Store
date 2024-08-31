@@ -73,3 +73,62 @@ bool ClothesTypesModel::addNewType(const QString &typeName, const QString &typeI
 
     return false;
 }
+
+bool ClothesTypesModel::deleteType(const int &index)
+{
+    //NOT FINISHED!!! ADD DELETING clothes that belong to each type...
+    removeRow(index);
+    select();
+    return submitAll();
+}
+
+bool ClothesTypesModel::renameType(const int &id, const QString name)
+{
+    QSqlTableModel model;
+
+    model.setTable("ClothesTypes");
+    model.setFilter("typeId = "+ QString::number(id));
+    model.select();
+
+    QSqlRecord record = model.record(0);
+
+    record.setValue("typeName", name);
+
+    model.setRecord(0, record);
+
+    select();
+
+    return model.submitAll();
+}
+
+bool ClothesTypesModel::changeTypeImage(const int &id, const QString &typeImageSource)
+{
+
+    QString localFilePath = QUrl(typeImageSource).toLocalFile();
+    QFile image(localFilePath);
+
+    QString newImage = "";
+    if(image.exists())
+        newImage = DatabaseController::documentsDirPath + "/storage_images/types_images/" + QFileInfo(localFilePath).fileName();
+
+    if(!newImage.isEmpty()){
+        if(!image.copy(newImage))
+            return false;
+    }
+
+    QSqlTableModel model;
+
+    model.setTable("ClothesTypes");
+    model.setFilter("typeId = "+ QString::number(id));
+    model.select();
+
+    QSqlRecord record = model.record(0);
+
+    record.setValue("typeImageSource", newImage);
+
+    model.setRecord(0, record);
+
+    select();
+
+    return model.submitAll();
+}

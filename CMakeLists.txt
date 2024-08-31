@@ -40,6 +40,7 @@ qt_add_qml_module(appClothingStore
               StorageTab/ClothesTypesDelegate.qml
               StorageTab/ClothesTypesAdd.qml
               StorageTab/ClothesTypes.qml
+              StorageTab/ClothesTypesEditingDialog.qml
 
               StorageTab/ClothesDelegate.qml
 
