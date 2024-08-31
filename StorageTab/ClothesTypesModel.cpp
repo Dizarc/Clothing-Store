@@ -45,3 +45,31 @@ QHash<int, QByteArray> ClothesTypesModel::roleNames() const
 
     return roles;
 }
+
+bool ClothesTypesModel::addNewType(const QString &typeName, const QString &typeImageSource)
+{
+    QString localFilePath = QUrl(typeImageSource).toLocalFile();
+    QFile image(localFilePath);
+
+    QString newImage = "";
+    if(image.exists())
+        newImage = DatabaseController::documentsDirPath + "/storage_images/types_images/" + QFileInfo(localFilePath).fileName();
+
+    if(!newImage.isEmpty()){
+        if(!image.copy(newImage))
+            return false;
+    }
+
+    insertRow(rowCount() + 1);
+    QSqlRecord record = this->record(rowCount());
+
+    record.setValue("typeName", typeName);
+    record.setValue("TypeImageSource", newImage);
+
+    if(insertRecord(rowCount(), record)){
+        select();
+        return submitAll();
+    }
+
+    return false;
+}

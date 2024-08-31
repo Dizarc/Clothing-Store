@@ -46,8 +46,9 @@ Window {
     }
 
     Rectangle{
-      width: 75
-      height: 100
+      id: imageRect
+      width: 300
+      height: 300
 
       anchors.horizontalCenter: parent.horizontalCenter
 
@@ -71,7 +72,7 @@ Window {
 
       Text{
         id: hoverText
-
+        anchors.centerIn: parent
         color: Style.textColor
         text: qsTr("Click to open image")
         font.pointSize: 12
@@ -80,8 +81,21 @@ Window {
 
       MouseArea{
         anchors.fill: parent
+
         cursorShape: Qt.PointingHandCursor
+        hoverEnabled: true
+
         onClicked: imageChoicefileDialog.open()
+
+        onEntered: {
+          hoverText.opacity = 1.0
+          imageRect.opacity = 0.7
+        }
+
+        onExited: {
+          hoverText.opacity = 0.0
+          imageRect.opacity = 1.0
+        }
       }
     }
 
@@ -93,8 +107,10 @@ Window {
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
       onClicked: {
-        saveTypeOutputText.state = "successSave"
-        clothesTypeAddWindow.close()
+        if(clothesTypesModel.addNewType(typeNameInput.text, typeImage.source))
+          clothesTypeAddWindow.close()
+        else
+          saveTypeOutputText.state = "failedSave"
       }
     }
 

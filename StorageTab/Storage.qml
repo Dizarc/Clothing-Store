@@ -4,7 +4,6 @@ import QtQuick.Layouts
 
 import "../../ClothingStore"
 
-import com.company.ClothesTypesModel
 import com.company.ClothesModel
 
 Item {
@@ -33,24 +32,6 @@ Item {
       onClicked: {
         storageView.pop()
         enabled = false
-      }
-    }
-
-    CustomButton {
-      id: addTypesButton
-
-      enabled: isAdminLogged
-
-      Layout.row: 1
-      Layout.column: 0
-
-      text: qsTr("Add a new type")
-      buttonColor: Style.generalButtonColor
-
-      onClicked: {
-        var component = Qt.createComponent("ClothesTypesAdd.qml")
-        var window = component.createObject()
-        window.show()
       }
     }
 
@@ -87,18 +68,8 @@ Item {
       }
     }
 
-    GridView {
+    ClothesTypes{
       id: clothesTypesView
-
-      cellWidth: 150
-      cellHeight: 200
-
-      flickableDirection: Flickable.VerticalFlick
-      boundsBehavior: Flickable.StopAtBounds
-
-      model: ClothesTypesModel
-
-      delegate: ClothesTypesDelegate {}
     }
 
     TreeView {

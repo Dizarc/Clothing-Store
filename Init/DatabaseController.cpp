@@ -1,5 +1,8 @@
 #include "DatabaseController.h"
 
+const QString DatabaseController::documentsDirPath =
+    QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ClothingStoreDocuments";
+
 DatabaseController::DatabaseController(QObject *parent)
     : QObject{parent}
 {
@@ -86,7 +89,7 @@ void DatabaseController::createDatabase()
     QString clothesTypesTable = "CREATE TABLE ClothesTypes("
                                 " typeId INTEGER PRIMARY KEY AUTOINCREMENT,"
                                 " typeName TEXT NOT NULL,"
-                                " TypeImageSource TEXT NOT NULL);";
+                                " typeImageSource TEXT NOT NULL);";
 
     if(!query.exec(clothesTypesTable))
         qDebug()<< "Problem while creating ClothesTypes table...";

@@ -2,7 +2,7 @@
 #define CLOTHESMODEL_H
 
 #include <QObject>
-#include <QSqlRelationalTableModel>
+#include <QSqlTableModel>
 
 class ClothesModel : public QSqlTableModel
 {

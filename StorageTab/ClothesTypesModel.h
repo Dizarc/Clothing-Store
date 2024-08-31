@@ -3,7 +3,12 @@
 
 #include <QObject>
 #include <QSqlTableModel>
+#include <QSqlTableModel>
+#include <QSqlRecord>
 #include <QFile>
+#include <QUrl>
+
+#include "Init/DatabaseController.h"
 
 class ClothesTypesModel : public QSqlTableModel
 {
@@ -19,6 +24,9 @@ public:
 
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
+
+public slots:
+    bool addNewType(const QString &typeName, const QString &typeImageSource);
 };
 
 #endif // CLOTHESTYPESMODEL_H

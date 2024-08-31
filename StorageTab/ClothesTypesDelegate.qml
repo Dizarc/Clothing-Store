@@ -2,8 +2,8 @@ import QtQuick 6.6
 import QtQuick.Controls
 
 import "../../ClothingStore"
-
-Rectangle{
+import "../Custom"
+Rectangle {
   id: clothesTypesDelegate
 
   required property string typeId
@@ -14,42 +14,82 @@ Rectangle{
 
   width: clothesTypesView.cellWidth - 5
   height: clothesTypesView.cellHeight - 5
-  color: typeMouseArea.pressed ? Qt.lighter(Style.backgroundColor, 1.5) : Qt.darker(Style.backgroundColor, 1.5)
-  border.color: "black"
+  color: typeMouseArea.pressed ? Qt.lighter(
+                                   Style.inputBoxColor,
+                                   1.5) : (typeMouseArea.hovered ? Qt.lighter(
+                                                                     Style.inputBoxColor,
+                                                                     1.2) : Style.inputBoxColor)
+  border.color: Style.borderColor
   border.width: 2
 
-  MouseArea{
+  MouseArea {
     id: typeMouseArea
+
     anchors.fill: parent
     cursorShape: Qt.PointingHandCursor
+    hoverEnabled: true
 
     onClicked: {
-      clothesTypesView.currentIndex = index;
+      if(mouse.button === Qt.LeftButton){
+        clothesTypesView.currentIndex = index
 
-      backButton.enabled = true;
+        backButton.enabled = true
 
-      storageView.push(clothesView, {"clothesTypeId" : typeId});
+        storageView.push(clothesView, {
+                           "clothesTypeId": typeId
+                         })
+      }
+    }
+
+    onPressed: {
+      if(mouse.button === Qt.RightButton){
+        contextMenu.popup();
+        contextMenu.x = mouse.x;
+        contextMenu.y = mouse.y;
+      }
     }
   }
 
-  Column{
-    anchors.centerIn: parent
-    spacing: 5
+  Column {
+    anchors.fill: parent
+    spacing: 20
 
-    Text{
+    Text {
+      anchors.horizontalCenter: parent.horizontalCenter
       text: typeName
+      font.pointSize: 12
       color: Style.textColor
     }
 
     Image {
       id: imageView
+      anchors.horizontalCenter: parent.horizontalCenter
+      source: typeImageSource !== "" ? "file:/" + typeImageSource : ""
+      visible: typeImageSource !== ""
 
-      source: "file:/" + typeImageSource
-
-      sourceSize.width: 50
-      sourceSize.height: 70
+      sourceSize.width: clothesTypesDelegate.width - 6
 
       fillMode: Image.PreserveAspectFit
+    }
+  }
+
+  Menu{
+    id: contextMenu
+
+    MenuItem{
+      text: qsTr("Delete")
+
+      onTriggered: {
+
+      }
+    }
+
+    MenuItem{
+      text: qsTr("Rename")
+
+      onTriggered: {
+
+      }
     }
   }
 }

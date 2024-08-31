@@ -17,6 +17,7 @@
 #include <QUuid>
 #include <QCryptographicHash>
 
+
 class DatabaseController : public QObject
 {
     Q_OBJECT
@@ -24,6 +25,8 @@ class DatabaseController : public QObject
     Q_PROPERTY(bool isCurrentlyAdmin READ isCurrentlyAdmin NOTIFY isCurrentlyAdminChanged);
 
 public:
+    static const QString documentsDirPath;
+
     explicit DatabaseController(QObject *parent = nullptr);
     bool isEmployeeTableEmpty();
     bool isCurrentlyAdmin();
@@ -54,8 +57,6 @@ signals:
     void successChangePass();
 
 private:
-    const QString documentsDirPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ClothingStoreDocuments";
-
     bool m_isCurrentlyAdmin;
 };
 
