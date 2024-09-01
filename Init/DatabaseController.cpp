@@ -18,11 +18,11 @@ DatabaseController::DatabaseController(QObject *parent)
     bool ok = db.open();
 
     if(!ok){
-        qDebug() << "Problem occured while connecting to db!";
+        qWarning() << "Problem occured while connecting to db!";
     }
     if(db.tables().isEmpty()){
         createDatabase();
-        qDebug() <<"CREATING";
+        qWarning() <<"CREATING";
     }
 
 }
@@ -44,7 +44,7 @@ void DatabaseController::createDatabase()
                              " isAdmin INTEGER DEFAULT 0);";
 
     if(!query.exec(employeesTable))
-        qDebug()<< "Problem while creating employees table...";
+        qWarning()<< "Problem while creating employees table...";
 
     QFile f(documentsDirPath + "/DATA.csv");
     if(f.open(QIODevice::ReadOnly)){
@@ -66,7 +66,7 @@ void DatabaseController::createDatabase()
             employeeValues.chop(1);
             employeeValues.append(");");
             if(!query.exec(employeeValues))
-                qDebug()<< "Problem while adding to Employees table...";
+                qWarning()<< "Problem while adding to Employees table...";
         }
         f.close();
     }
@@ -79,7 +79,7 @@ void DatabaseController::createDatabase()
                                     "FOREIGN KEY (id) REFERENCES Employees(id));";
 
     if(!query.exec(employeePasswordReset))
-        qDebug()<< "Problem while creating EmployeePasswordReset table...";
+        qWarning()<< "Problem while creating EmployeePasswordReset table...";
     /*
         clothesTypes table has types inside it example: Pants, Shoes, Shirts
         Clothes table has each clothing inside it example: Jeans, work boots etc. Each of those has one clothing type.
@@ -92,7 +92,7 @@ void DatabaseController::createDatabase()
                                 " typeImageSource TEXT NOT NULL);";
 
     if(!query.exec(clothesTypesTable))
-        qDebug()<< "Problem while creating ClothesTypes table...";
+        qWarning()<< "Problem while creating ClothesTypes table...";
 
     QString clothesTable = "CREATE TABLE Clothes("
                            " clothingId INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -101,14 +101,14 @@ void DatabaseController::createDatabase()
                            " FOREIGN KEY (typeId) REFERENCES ClothesTypes(typeId));";
 
     if(!query.exec(clothesTable))
-        qDebug()<< "Problem while creating clothesTable table...";
+        qWarning()<< "Problem while creating clothesTable table...";
 
     QString sizesTable = "CREATE TABLE Sizes("
                          " sizeId INTEGER PRIMARY KEY AUTOINCREMENT,"
                          " sizeName TEXT NOT NULL);";
 
     if(!query.exec(sizesTable))
-        qDebug()<< "Problem while creating Sizes table...";
+        qWarning()<< "Problem while creating Sizes table...";
 
     QString clothesSizesTable = "CREATE TABLE ClothesSizes("
                                 " clothingId INTEGER,"
@@ -118,20 +118,20 @@ void DatabaseController::createDatabase()
                                 " FOREIGN KEY (sizeId) REFERENCES sizes(sizeId));";
 
     if(!query.exec(clothesSizesTable))
-        qDebug()<< "Problem while creating ClothesSizes table...";
+        qWarning()<< "Problem while creating ClothesSizes table...";
 
     QString typesValues = "INSERT INTO ClothesTypes(typeName, typeImageSource) VALUES"
                           " (\"Pants\", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\"),"
                           " (\"Shoes\", \"" + documentsDirPath + "/storage_images/types_images/shoesImage.png" + "\");";
 
     if(!query.exec(typesValues))
-        qDebug()<< "Problem while adding to ClothesTypes table...";
+        qWarning()<< "Problem while adding to ClothesTypes table...";
 
     QString sizesValues = "INSERT INTO Sizes(sizeName) VALUES"
                           " (\"Small\"), (\"Medium\"), (\"Large\");";
 
     if(!query.exec(sizesValues))
-        qDebug()<< "Problem while adding to Sizes table...";
+        qWarning()<< "Problem while adding to Sizes table...";
 
     QString clothesValues = "INSERT INTO Clothes(clothingName, typeId) VALUES"
                             " (\"Jeans\", 1),"
@@ -140,7 +140,7 @@ void DatabaseController::createDatabase()
                             " (\"Sneakers\", 2);";
 
     if(!query.exec(clothesValues))
-        qDebug()<< "Problem while adding to Clothes table...";
+        qWarning()<< "Problem while adding to Clothes table...";
 
     QString clothesSizesValues = "INSERT INTO ClothesSizes(clothingId, sizeId) VALUES"
                                  " (1, 2)," //jeans medium
@@ -150,7 +150,7 @@ void DatabaseController::createDatabase()
                                  " (4, 1);"; // sneakers small
 
     if(!query.exec(clothesSizesValues))
-        qDebug()<< "Problem while adding to ClothesSizes table...";
+        qWarning()<< "Problem while adding to ClothesSizes table...";
 }
 
 bool DatabaseController::isEmployeeTableEmpty()
@@ -182,7 +182,7 @@ void DatabaseController::loginCheck(const QString &username, const QString &pass
     query.addBindValue(username);
 
     if(!query.exec()){
-        qDebug()<< "Problem while getting password, isAdmin from Employees table...";
+        qWarning()<< "Problem while getting password, isAdmin from Employees table...";
         return;
     }
 
@@ -208,7 +208,7 @@ void DatabaseController::sendResetEmail(const QString &username)
     userQuery.addBindValue(username);
 
     if(!userQuery.exec()){
-        qDebug()<< "Problem while getting email, firstname, lastname, id from Employees table...";
+        qWarning()<< "Problem while getting email, firstname, lastname, id from Employees table...";
         return;
     }
 
@@ -250,20 +250,20 @@ void DatabaseController::sendResetEmail(const QString &username)
 
     smtp.connectToHost();
     if (!smtp.waitForReadyConnected()) {
-        qDebug() << "Failed to connect to host!";
+        qWarning() << "Failed to connect to host!";
         return;
     }
 
     smtp.login(fromEmail, password);
 
     if (!smtp.waitForAuthenticated()) {
-        qDebug() << "Failed to login!";
+        qWarning() << "Failed to login!";
         return;
     }
 
     smtp.sendMail(message);
     if (!smtp.waitForMailSent()) {
-        qDebug() << "Failed to send mail!";
+        qWarning() << "Failed to send mail!";
         return;
     }
 
@@ -276,7 +276,7 @@ QString DatabaseController::createResetCode(const int &id)
     deleteQuery.prepare("DELETE FROM EmployeePasswordReset");
 
     if(!deleteQuery.exec()){
-        qDebug()<< "Problem while deleting rows from EmployeePasswordReset table...";
+        qWarning()<< "Problem while deleting rows from EmployeePasswordReset table...";
         return "";
     }
 
@@ -290,7 +290,7 @@ QString DatabaseController::createResetCode(const int &id)
     insertQuery.addBindValue(QDateTime::currentDateTime());
 
     if(!insertQuery.exec()){
-        qDebug()<< "Problem while inserting into EmployeePasswordReset table...";
+        qWarning()<< "Problem while inserting into EmployeePasswordReset table...";
         return "";
     }
 
@@ -304,7 +304,7 @@ void DatabaseController::checkResetCode(const QString &username, const QString &
     userQuery.addBindValue(username);
 
     if(!userQuery.exec()){
-        qDebug()<< "Problem while getting id from Employees table...";
+        qWarning()<< "Problem while getting id from Employees table...";
         return;
     }
 
@@ -316,7 +316,7 @@ void DatabaseController::checkResetCode(const QString &username, const QString &
     resetQuery.addBindValue(userQuery.value(0).toInt());
 
     if(!resetQuery.exec()){
-        qDebug()<< "Problem while getting token, tokenExpiry from EmployeePasswordReset table...";
+        qWarning()<< "Problem while getting token, tokenExpiry from EmployeePasswordReset table...";
         return;
     }
 
@@ -349,7 +349,7 @@ void DatabaseController::changePassword(const QString &username, const QString &
     userQuery.addBindValue(username);
 
     if(!userQuery.exec()){
-        qDebug()<< "Problem while getting id from Employees table...";
+        qWarning()<< "Problem while getting id from Employees table...";
         return;
     }
 
@@ -366,7 +366,7 @@ void DatabaseController::changePassword(const QString &username, const QString &
     updateQuery.addBindValue(id);
 
     if(!updateQuery.exec()){
-        qDebug()<< "Problem while updating password in Employees table...";
+        qWarning()<< "Problem while updating password in Employees table...";
         return;
     }
 
@@ -386,7 +386,7 @@ bool DatabaseController::createAdminUser(const QString firstname, const QString 
     insertQuery.addBindValue(1);
 
     if(!insertQuery.exec()){
-        qDebug()<< "Problem while inserting into Employees table...";
+        qWarning()<< "Problem while inserting into Employees table...";
         return false;
     }
 

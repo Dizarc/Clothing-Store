@@ -74,16 +74,16 @@ Rectangle {
   Menu {
     id: contextMenu
 
-    MenuItem {
+    Action {
       text: qsTr("Delete")
 
       onTriggered: {
-        deleteClothesTypesDialog.id = index
+        deleteClothesTypesDialog.id = typeId
         deleteClothesTypesDialog.open()
       }
     }
 
-    MenuItem {
+    Action {
       text: qsTr("Rename")
 
       onTriggered: {
@@ -92,7 +92,7 @@ Rectangle {
       }
     }
 
-    MenuItem {
+    Action {
       text: qsTr("Change Image")
 
       onTriggered: {
@@ -100,5 +100,35 @@ Rectangle {
         changeImageClothesTypesDialog.open()
       }
     }
+
+    delegate: MenuItem {
+            id: menuItem
+
+            implicitWidth: 100
+            implicitHeight: 30
+
+            contentItem: Text {
+                text: menuItem.text
+                font: menuItem.font
+                color: Style.textColor
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+            }
+
+            background: Rectangle {
+                implicitWidth: 100
+                implicitHeight: 40
+                color: menuItem.highlighted ? Style.inputBoxColor : Style.backgroundColor
+            }
+        }
+
+        background: Rectangle {
+            implicitWidth: 100
+            implicitHeight: 40
+            color: Style.backgroundColor
+            border.color: Style.borderColor
+            radius: 2
+        }
   }
 }

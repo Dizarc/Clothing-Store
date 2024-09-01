@@ -19,13 +19,14 @@ Rectangle {
 
     anchors.fill: parent
 
+    clip: true
     leftPadding: 5
 
     activeFocusOnTab: true
 
     color: Style.textColor
     font.pointSize: 12
-    maximumLength: 25
+    maximumLength: 45
   }
 
   MouseArea {
@@ -33,5 +34,4 @@ Rectangle {
     acceptedButtons: Qt.NoButton
     cursorShape: Qt.IBeamCursor
   }
-
 }

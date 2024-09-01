@@ -10,8 +10,9 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  1. Make right click menu look better in the storage tab.
-  2. When deleting a type actually delete each item inside it too from the Clothes table.
+  2. When deleting type if you go inside the uncategorized type,
+    leave and delete another type with clothes belonging to it they will not show in uncategorized
+  3. make images fit in storage tab even if they are bigger
 */
 Window {
   id: root

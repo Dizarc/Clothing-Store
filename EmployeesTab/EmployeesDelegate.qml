@@ -60,6 +60,8 @@ Rectangle {
 
         font.pointSize: 12
         width: 30
+
+        clip: true
       }
 
       Text {
@@ -69,6 +71,8 @@ Rectangle {
 
         font.pointSize: 12
         width: 150
+
+        clip: true
       }
 
       Text{
@@ -78,6 +82,8 @@ Rectangle {
 
         font.pointSize: 12
         width: 150
+
+        clip: true
       }
 
       Text {
@@ -87,6 +93,8 @@ Rectangle {
 
         font.pointSize: 12
         width: 300
+
+        clip: true
       }
 
       Text {
@@ -96,6 +104,8 @@ Rectangle {
 
         font.pointSize: 12
         width: 100
+
+        clip: true
       }
     }
   }

@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QUrl>
 
+#include "ClothesModel.h"
 #include "Init/DatabaseController.h"
 
 class ClothesTypesModel : public QSqlTableModel
@@ -30,6 +31,9 @@ public slots:
     bool deleteType(const int &id);
     bool renameType(const int &id, const QString name);
     bool changeTypeImage(const int &id, const QString &typeImageSource);
+
+private:
+    int getUncategorizedTypeId();
 };
 
 #endif // CLOTHESTYPESMODEL_H

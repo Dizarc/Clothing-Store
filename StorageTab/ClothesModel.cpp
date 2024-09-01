@@ -58,9 +58,27 @@ void ClothesModel::setFilterTypeId(int typeId)
         if(m_filterTypeId == -1)
             setFilter(QString());
         else
-            setFilter(QString("typeId = %1").arg(m_filterTypeId));
+            setFilter("typeId = " + QString::number(typeId));
 
         select();
         emit filterTypeIdChanged();
     }
+}
+
+bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId)
+{
+    QSqlTableModel model;
+    model.setTable("Clothes");
+    model.setFilter("typeId = " + QString::number(oldTypeId));
+    model.select();
+
+    for(int i = 0; i < model.rowCount(); ++i){
+        QSqlRecord record = model.record(i);
+        record.setValue("typeId", newTypeId);
+        model.setRecord(i, record);
+    }
+
+    select();
+
+    return submitAll();
 }

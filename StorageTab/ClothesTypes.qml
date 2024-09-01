@@ -125,13 +125,14 @@ ColumnLayout {
     id: deleteClothesTypesDialog
 
     title: qsTr("Are you sure you want to delete this type?"
-                + "\nEvery clothing inside this type will also get deleted!")
+                + "\nEvery clothing inside this type will become \"uncategorized\"")
 
     onAccepted: {
       if(ClothesTypesModel.deleteType(id))
        clothesTypesOutputText.state = "successDelete"
       else
        clothesTypesOutputText.state = "failedDelete"
+
       deleteClothesTypesDialog.close()
     }
   }
@@ -146,6 +147,7 @@ ColumnLayout {
        clothesTypesOutputText.state = "successRename"
       else
        clothesTypesOutputText.state = "failedRename"
+
       renameClothesTypesDialog.close()
     }
 
@@ -176,6 +178,7 @@ ColumnLayout {
        clothesTypesOutputText.state = "successImageChange"
       else
        clothesTypesOutputText.state = "failedImageChange"
+
       changeImageClothesTypesDialog.close()
     }
 
