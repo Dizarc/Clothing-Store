@@ -81,6 +81,11 @@ bool ClothesTypesModel::deleteType(const int &id)
         return false;
     }
 
+    if(id == uncategorizedId){
+        qWarning()<< "cannot delete uncategorized type!";
+        return false;
+    }
+
     ClothesModel clothes;
 
     if(!clothes.reassignClothes(id, uncategorizedId)){

@@ -56,7 +56,7 @@ void ClothesModel::setFilterTypeId(int typeId)
     if(m_filterTypeId != typeId){
         m_filterTypeId = typeId;
         if(m_filterTypeId == -1)
-            setFilter(QString());
+            setFilter("1 = 0");
         else
             setFilter("typeId = " + QString::number(typeId));
 

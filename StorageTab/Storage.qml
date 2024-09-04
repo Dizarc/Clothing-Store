@@ -30,8 +30,11 @@ Item {
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-        storageView.pop()
-        enabled = false
+
+        if(storageView.currentItem === clothesView){
+          storageView.pop()
+          enabled = false
+        }
       }
     }
 
@@ -64,6 +67,12 @@ Item {
           to: (storageView.mirrored ? -1 : 1) * storageView.height
           duration: 400
           easing.type: Easing.OutCubic
+        }
+
+        onRunningChanged:{
+          if(running === false)
+            if(storageView.currentItem === clothesTypes)
+              clothesView.clothesTypeId = -1;
         }
       }
     }

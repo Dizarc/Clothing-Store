@@ -10,9 +10,8 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  2. When deleting type if you go inside the uncategorized type,
-    leave and delete another type with clothes belonging to it they will not show in uncategorized
-  3. make images fit in storage tab even if they are bigger
+  1. make images fit in storage tab even if they are bigger
+  2. Make clothes model Look BEAUTIFUL.
 */
 Window {
   id: root
