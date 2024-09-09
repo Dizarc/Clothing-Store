@@ -62,7 +62,7 @@ ColumnLayout {
       State {
         name: "failedRename"
         PropertyChanges {
-          buttonOutputText {
+          clothesTypesOutputText {
             text: qsTr("Failed to rename type!")
             color: Style.denyButtonColor
           }
@@ -212,8 +212,7 @@ ColumnLayout {
           anchors.fill: parent
 
           source: ""
-          sourceSize.width: 50
-          sourceSize.height: 70
+          sourceSize.width: changeImageRect.width - 6
 
           fillMode: Image.PreserveAspectFit
         }

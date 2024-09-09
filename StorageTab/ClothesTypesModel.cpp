@@ -77,8 +77,11 @@ bool ClothesTypesModel::deleteType(const int &id)
     int uncategorizedId = getUncategorizedTypeId();
 
     if(uncategorizedId == -1){
-        qWarning()<< "uncategorized type not found!";
-        return false;
+        if(!addNewType("uncategorized", "")){
+            qWarning()<< "uncategorized type not created!";
+            return false;
+        }
+        uncategorizedId = getUncategorizedTypeId();
     }
 
     if(id == uncategorizedId){
@@ -109,6 +112,18 @@ bool ClothesTypesModel::deleteType(const int &id)
 
 bool ClothesTypesModel::renameType(const int &id, const QString name)
 {
+    int uncategorizedId = getUncategorizedTypeId();
+
+    if(id == uncategorizedId){
+        qWarning()<< "cannot change uncategorized types name!";
+        return false;
+    }
+
+    if((name == "uncategorized") && (uncategorizedId != -1)){
+        qWarning()<< "name uncategorized cannot be used!";
+        return false;
+    }
+
     QSqlTableModel model;
 
     model.setTable("ClothesTypes");
@@ -128,7 +143,6 @@ bool ClothesTypesModel::renameType(const int &id, const QString name)
 
 bool ClothesTypesModel::changeTypeImage(const int &id, const QString &typeImageSource)
 {
-
     QString localFilePath = QUrl(typeImageSource).toLocalFile();
     QFile image(localFilePath);
 
@@ -136,10 +150,8 @@ bool ClothesTypesModel::changeTypeImage(const int &id, const QString &typeImageS
     if(image.exists())
         newImage = DatabaseController::documentsDirPath + "/storage_images/types_images/" + QFileInfo(localFilePath).fileName();
 
-    if(!newImage.isEmpty()){
-        if(!image.copy(newImage))
-            return false;
-    }
+    if(!newImage.isEmpty())
+        image.copy(newImage);
 
     QSqlTableModel model;
 
@@ -166,13 +178,8 @@ int ClothesTypesModel::getUncategorizedTypeId()
     model.setFilter("typeName = \"uncategorized\"");
     model.select();
 
-    if(model.rowCount() == 0){
-        if(!addNewType("uncategorized", ""))
-            return -1;
-
-        model.setFilter("typeName = \"uncategorized\"");
-        model.select();
-    }
+    if(model.rowCount() == 0)
+        return -1;
 
     QSqlRecord record = model.record(0);
 

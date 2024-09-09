@@ -64,8 +64,7 @@ Window {
         anchors.fill: parent
 
         source: ""
-        sourceSize.width: 50
-        sourceSize.height: 70
+        sourceSize.width: imageRect.width - 6
 
         fillMode: Image.PreserveAspectFit
       }

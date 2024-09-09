@@ -10,8 +10,10 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  1. make images fit in storage tab even if they are bigger
-  2. Make clothes model Look BEAUTIFUL.
+  1. Make clothes model Look BEAUTIFUL.
+  2. Make it so when window minize is clicked it resizes into 500x500
+  3. Place each storageTab view into its own folder.
+  4. Change it so when a user clicks on an add image it brings up the documents folder which the images belong to.
 */
 Window {
   id: root
@@ -24,10 +26,12 @@ Window {
 
   property bool isAdminLogged: false
 
-  Loader {
-    id: pageLoader
-
-    anchors.fill: parent
+  onVisibilityChanged: {
+    if(root.visibility === Qt.Windowed){
+      root.width = 500;
+      root.height = 500;
+      console.log("WHAT")
+    }
   }
 
   Component.onCompleted: {
@@ -36,6 +40,12 @@ Window {
     } else {
       pageLoader.source = "Init/Login.qml";
     }
+  }
+
+  Loader {
+    id: pageLoader
+
+    anchors.fill: parent
   }
 
   Connections {

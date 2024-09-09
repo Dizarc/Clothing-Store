@@ -88,7 +88,7 @@ void DatabaseController::createDatabase()
     */
     QString clothesTypesTable = "CREATE TABLE ClothesTypes("
                                 " typeId INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                " typeName TEXT NOT NULL,"
+                                " typeName TEXT NOT NULL UNIQUE,"
                                 " typeImageSource TEXT NOT NULL);";
 
     if(!query.exec(clothesTypesTable))
