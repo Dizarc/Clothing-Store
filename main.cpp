@@ -6,8 +6,8 @@
 
 #include "Init/DatabaseController.h"
 #include "EmployeesTab/Employees.h"
-#include "StorageTab/ClothesTypesModel.h"
-#include "StorageTab/ClothesModel.h"
+#include "StorageTab/ClothesTypes/ClothesTypesModel.h"
+#include "StorageTab/Clothes/ClothesModel.h"
 
 int main(int argc, char *argv[])
 {

@@ -1,7 +1,7 @@
 import QtQuick 6.6
 import QtQuick.Controls
 
-import "../Custom"
+import "../../Custom"
 
 Dialog {
   id: clothesTypesEditingDialog

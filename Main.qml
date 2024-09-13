@@ -10,10 +10,9 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  1. Make clothes model Look BEAUTIFUL.
+  1. Make clothes.qml Look better.
   2. Make it so when window minize is clicked it resizes into 500x500
-  3. Place each storageTab view into its own folder.
-  4. Change it so when a user clicks on an add image it brings up the documents folder which the images belong to.
+  3. Make bigger images fit into the box with the type in storage tab.
 */
 Window {
   id: root

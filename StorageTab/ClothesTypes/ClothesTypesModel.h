@@ -8,7 +8,7 @@
 #include <QFile>
 #include <QUrl>
 
-#include "ClothesModel.h"
+#include "StorageTab/Clothes/ClothesModel.h"
 #include "Init/DatabaseController.h"
 
 class ClothesTypesModel : public QSqlTableModel

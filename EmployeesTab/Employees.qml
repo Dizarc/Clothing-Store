@@ -27,8 +27,8 @@ Item {
                    editEmployee.isAdminField = isAdmin;
 
                    employeeLayout.currentIndex = 1;
-                   editEmployee.textVisibility = "nothing";
-                   addEmployee.textVisibility = "nothing";
+                   editEmployee.textVisibility = "";
+                   addEmployee.textVisibility = "";
                  }
 
   GridLayout{

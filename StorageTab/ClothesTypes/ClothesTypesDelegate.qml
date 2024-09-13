@@ -1,8 +1,8 @@
 import QtQuick 6.6
 import QtQuick.Controls
 
-import "../../ClothingStore"
-import "../Custom"
+import "../../../ClothingStore"
+import "../../Custom"
 
 Rectangle {
   id: clothesTypesDelegate
@@ -35,11 +35,11 @@ Rectangle {
     onClicked: mouse => {
                  if (mouse.button === Qt.LeftButton) {
                    clothesTypesView.currentIndex = index
-                   clothesTypesColumn.textState = "nothing"
+                   clothesTypesColumn.clothesTypesTextState = ""
 
                    backButton.enabled = true
 
-                   storageView.push(clothesView, {
+                   storageView.push(clothesComponent, {
                                       "clothesTypeId": typeId
                                     })
                   } else if (mouse.button === Qt.RightButton)

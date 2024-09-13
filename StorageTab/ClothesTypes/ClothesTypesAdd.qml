@@ -2,7 +2,9 @@ import QtQuick 6.6
 import QtQuick.Dialogs
 import QtCore
 
-import "../Custom"
+import "../../Custom"
+
+import com.company.ClothesTypesModel
 
 Window {
   id: clothesTypeAddWindow
@@ -106,49 +108,25 @@ Window {
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
       onClicked: {
-        if(clothesTypesModel.addNewType(typeNameInput.text, typeImage.source))
+        if(ClothesTypesModel.addNewType(typeNameInput.text, typeImage.source)){
+          clothesTypesTextState.state = "successCreated" //DOESNT WORK
           clothesTypeAddWindow.close()
+        }
         else
-          saveTypeOutputText.state = "failedSave"
+          failedSaveText.visible = true
       }
     }
 
     Text {
-      id: saveTypeOutputText
+      id: failedSaveText
 
       anchors.horizontalCenter: parent.horizontalCenter
 
-      text: qsTr("")
-      font.bold: true
+      visible: false
 
-      states: [
-        State {
-          name: "nothing"
-          PropertyChanges {
-            buttonOutputText {
-              text: qsTr("")
-            }
-          }
-        },
-        State {
-          name: "successSave"
-          PropertyChanges {
-            saveTypeOutputText {
-              text: qsTr("Saved type!")
-              color: Style.acceptButtonColor
-            }
-          }
-        },
-        State {
-          name: "failedSave"
-          PropertyChanges {
-            saveTypeOutputText {
-              text: qsTr("Failed to save Type!")
-              color: Style.denyButtonColor
-            }
-          }
-        }
-      ]
+      text: qsTr("Failed to save Type!")
+      color: Style.denyButtonColor
+      font.bold: true
     }
   }
 
@@ -157,8 +135,7 @@ Window {
     title: qsTr("Select an Image")
 
     nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp)"]
-    currentFolder: StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
-
+    currentFolder: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
     onAccepted: typeImage.source = selectedFile
   }
 

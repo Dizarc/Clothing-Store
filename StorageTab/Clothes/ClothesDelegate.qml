@@ -1,6 +1,6 @@
 import QtQuick 6.6
 
-import "../../ClothingStore"
+import "../../../ClothingStore"
 
 Rectangle {
   id: clothesDelegate

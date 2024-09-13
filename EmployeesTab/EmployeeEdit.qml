@@ -291,14 +291,6 @@ Item {
 
     states: [
       State {
-        name: "nothing"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("")
-          }
-        }
-      },
-      State {
         name: "successSave"
         PropertyChanges {
           buttonOutputText {

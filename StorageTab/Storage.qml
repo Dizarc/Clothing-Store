@@ -4,7 +4,8 @@ import QtQuick.Layouts
 
 import "../../ClothingStore"
 
-import com.company.ClothesModel
+import "../StorageTab/ClothesTypes"
+import "../StorageTab/Clothes"
 
 Item {
   id: storageItem
@@ -30,8 +31,8 @@ Item {
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-
-        if(storageView.currentItem === clothesView){
+        //MIGHT HAVE SOME ISSUES REGARDING Components. Check when you will add a new one
+        if(storageView.currentItem != storageView.initialItem ){
           storageView.pop()
           enabled = false
         }
@@ -41,7 +42,7 @@ Item {
     StackView {
       id: storageView
 
-      initialItem: clothesTypes
+      initialItem: clothesTypesComponent
 
       width: parent.width
       height: parent.height
@@ -71,33 +72,21 @@ Item {
 
         onRunningChanged:{
           if(running === false)
-            if(storageView.currentItem === clothesTypes)
-              clothesView.clothesTypeId = -1;
+            if(storageView.currentItem === clothesTypesComponent)
+              clothes.clothesTypeId = -1;
         }
       }
     }
-
-    ClothesTypes{
-      id: clothesTypes
+    Component{
+      id: clothesTypesComponent
+      ClothesTypes{
+      }
     }
 
-    TreeView {
-      id: clothesView
-
-      property int clothesTypeId: -1
-
-      model: ClothesModel
-
-      delegate: ClothesDelegate {
-        id: clothesDelegated
-      }
-
-      Component.onCompleted: {
-        ClothesModel.filterTypeId = clothesTypeId
-      }
-
-      onClothesTypeIdChanged: {
-        ClothesModel.filterTypeId = clothesTypeId
+    Component{
+      id: clothesComponent
+      Clothes{
+        id: clothes
       }
     }
   }

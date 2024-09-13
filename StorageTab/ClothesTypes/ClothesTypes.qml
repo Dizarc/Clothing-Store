@@ -4,8 +4,8 @@ import QtQuick.Controls
 import QtQuick.Dialogs
 import QtCore
 
-import "../Custom"
-import "../StorageTab"
+import "../../Custom"
+import "../"
 
 import com.company.ClothesTypesModel
 
@@ -14,79 +14,10 @@ ColumnLayout {
 
   spacing: 5
 
-  property alias textState: clothesTypesOutputText.state
+  property alias clothesTypesTextState: clothesTypesOutputText.state
 
-  Text{
+  StorageTabInfoText{
     id: clothesTypesOutputText
-
-    text: qsTr("")
-    font.bold: true
-
-    states: [
-      State {
-        name: "nothing"
-        PropertyChanges {
-          clothesTypesOutputText {
-            text: qsTr("")
-          }
-        }
-      },
-      State {
-        name: "successDelete"
-        PropertyChanges {
-          clothesTypesOutputText {
-            text: qsTr("Deleted type!")
-            color: Style.acceptButtonColor
-          }
-        }
-      },
-      State {
-        name: "failedDelete"
-        PropertyChanges {
-          clothesTypesOutputText {
-            text: qsTr(
-                    "Failed to delete type!")
-            color: Style.denyButtonColor
-          }
-        }
-      },
-      State {
-        name: "successRename"
-        PropertyChanges {
-          clothesTypesOutputText {
-            text: qsTr("Renamed type!")
-            color: Style.acceptButtonColor
-          }
-        }
-      },
-      State {
-        name: "failedRename"
-        PropertyChanges {
-          clothesTypesOutputText {
-            text: qsTr("Failed to rename type!")
-            color: Style.denyButtonColor
-          }
-        }
-      },
-      State {
-        name: "successImageChange"
-        PropertyChanges {
-          clothesTypesOutputText {
-            text: qsTr("changed image in the type!")
-            color: Style.acceptButtonColor
-          }
-        }
-      },
-      State {
-        name: "failedImageChange"
-        PropertyChanges {
-          clothesTypesOutputText {
-            text: qsTr("Failed to change image in the type!")
-            color: Style.denyButtonColor
-          }
-        }
-      }
-    ]
   }
 
   CustomButton {
@@ -129,9 +60,9 @@ ColumnLayout {
 
     onAccepted: {
       if(ClothesTypesModel.deleteType(id))
-       clothesTypesOutputText.state = "successDelete"
+       clothesTypesTextState = "successDelete"
       else
-       clothesTypesOutputText.state = "failedDelete"
+       clothesTypesTextState = "failedDelete"
 
       deleteClothesTypesDialog.close()
     }
@@ -144,9 +75,9 @@ ColumnLayout {
 
     onAccepted: {
       if(ClothesTypesModel.renameType(id, typeNameInput.text))
-       clothesTypesOutputText.state = "successRename"
+       clothesTypesTextState = "successRename"
       else
-       clothesTypesOutputText.state = "failedRename"
+       clothesTypesTextState = "failedRename"
 
       renameClothesTypesDialog.close()
     }
@@ -175,9 +106,9 @@ ColumnLayout {
 
     onAccepted: {
       if(ClothesTypesModel.changeTypeImage(id, changeTypeImage.source))
-       clothesTypesOutputText.state = "successImageChange"
+       clothesTypesTextState = "successImageChange"
       else
-       clothesTypesOutputText.state = "failedImageChange"
+       clothesTypesTextState = "failedImageChange"
 
       changeImageClothesTypesDialog.close()
     }
@@ -252,7 +183,7 @@ ColumnLayout {
       title: qsTr("Select an Image")
 
       nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp)"]
-      currentFolder: StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
+      currentFolder: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
 
       onAccepted: changeTypeImage.source = selectedFile
     }
