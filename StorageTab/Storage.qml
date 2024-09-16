@@ -31,8 +31,7 @@ Item {
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-        //MIGHT HAVE SOME ISSUES REGARDING Components. Check when you will add a new one
-        if(storageView.currentItem != storageView.initialItem ){
+        if(storageView.currentItem !== storageView.initialItem ){
           storageView.pop()
           enabled = false
         }

@@ -11,8 +11,6 @@ import com.company.DatabaseController
 /*
   TODO:
   1. Make clothes.qml Look better.
-  2. Make it so when window minize is clicked it resizes into 500x500
-  3. Make bigger images fit into the box with the type in storage tab.
 */
 Window {
   id: root
@@ -26,10 +24,11 @@ Window {
   property bool isAdminLogged: false
 
   onVisibilityChanged: {
-    if(root.visibility === Qt.Windowed){
-      root.width = 500;
-      root.height = 500;
-      console.log("WHAT")
+    if(root.visibility === Window.Windowed){
+      width = 700;
+      height = 500;
+      x = Screen.width/2 - width/2
+      y = Screen.height/2 - height/2
     }
   }
 

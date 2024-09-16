@@ -48,12 +48,21 @@ Rectangle {
   }
 
   Column {
+    id: delegateColumn
     anchors.fill: parent
-    spacing: 20
+    spacing: 10
 
     Text {
-      anchors.horizontalCenter: parent.horizontalCenter
+      id: textView
+
       text: typeName
+      height: implicitHeight
+      width: parent.width - 6
+
+      anchors.horizontalCenter: parent.horizontalCenter
+      horizontalAlignment: Text.AlignHCenter
+      wrapMode: Text.Wrap
+
       font.pointSize: 12
       color: Style.textColor
     }
@@ -65,7 +74,8 @@ Rectangle {
       source: typeImageSource !== "" ? "file:/" + typeImageSource : ""
       visible: typeImageSource !== ""
 
-      sourceSize.width: clothesTypesDelegate.width - 6
+      width: clothesTypesDelegate.width - 6
+      height: Math.min((clothesTypesDelegate.height - textView.height - delegateColumn.spacing), clothesTypesDelegate.height - 6)
 
       fillMode: Image.PreserveAspectFit
     }
