@@ -269,8 +269,11 @@ Item {
     }
 
     onAccepted: {
-      if (Emp.deleteEmployee(employeeIndex))
+      if (Emp.deleteEmployee(employeeIndex)){
         buttonOutputText.state = "successDelete"
+        successPopup.open()
+        employeeLayout.currentIndex = 0;
+      }
       else
         buttonOutputText.state = "failedDelete"
 
@@ -278,6 +281,31 @@ Item {
     }
 
     onRejected: popup.close()
+  }
+
+  Dialog {
+    id: successPopup
+
+    anchors.centerIn: Overlay.overlay
+    title: qsTr("Successfully deleted the employee.")
+
+    modal: true
+
+    footer: DialogButtonBox {
+
+      delegate: CustomButton {
+        buttonColor: Style.generalButtonColor
+      }
+
+      standardButtons: Dialog.Ok
+    }
+
+    background: Rectangle {
+      color: Qt.darker(Style.backgroundColor, 1.5)
+      border.color: Style.borderColor
+    }
+
+    onAccepted: successPopup.close()
   }
 
   Text {
