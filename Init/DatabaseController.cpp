@@ -97,6 +97,8 @@ void DatabaseController::createDatabase()
     QString clothesTable = "CREATE TABLE Clothes("
                            " clothingId INTEGER PRIMARY KEY AUTOINCREMENT,"
                            " clothingName TEXT NOT NULL,"
+                           " clothingDescription TEXT NOT NULL,"
+                           " clothingImageSource TEXT NOT NULL,"
                            " typeId INTEGER,"
                            " FOREIGN KEY (typeId) REFERENCES ClothesTypes(typeId));";
 
@@ -133,11 +135,11 @@ void DatabaseController::createDatabase()
     if(!query.exec(sizesValues))
         qWarning()<< "Problem while adding to Sizes table...";
 
-    QString clothesValues = "INSERT INTO Clothes(clothingName, typeId) VALUES"
-                            " (\"Jeans\", 1),"
-                            " (\"Chino Pants\", 1),"
-                            " (\"Boots\", 2),"
-                            " (\"Sneakers\", 2);";
+    QString clothesValues = "INSERT INTO Clothes(clothingName, clothingDescription, clothingImageSource, typeId) VALUES"
+                            " (\"Jeans\", \"Durable and strong jeans! \", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
+                            " (\"Chino Pants\", \"Durable and strong chinos!\" , \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
+                            " (\"Boots\", \"Durable and strong boots!\" , \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 2),"
+                            " (\"Sneakers\", \"Durable and strong sneakers!\", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\" , 2);";
 
     if(!query.exec(clothesValues))
         qWarning()<< "Problem while adding to Clothes table...";

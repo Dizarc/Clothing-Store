@@ -14,6 +14,8 @@ public:
     enum Roles{
         clothingIdRole = Qt::UserRole + 1,
         clothingNameRole,
+        clothingDescriptionRole,
+        clothingImageSourceRole,
         typeIdRole
     };
 

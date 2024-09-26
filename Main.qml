@@ -10,7 +10,7 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  1. Make clothes.qml Look better.
+  1. Make it so the clothing shows up with all its information when a clothing is clicked.
 */
 Window {
   id: root

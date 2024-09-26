@@ -6,6 +6,7 @@ import "../../ClothingStore"
 
 import "../StorageTab/ClothesTypes"
 import "../StorageTab/Clothes"
+import "../StorageTab/ClothingItem"
 
 Item {
   id: storageItem
@@ -31,10 +32,8 @@ Item {
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-        if(storageView.currentItem !== storageView.initialItem ){
-          storageView.pop()
-          enabled = false
-        }
+        if(storageView.currentItem !== storageView.initialItem)
+          storageView.pop() 
       }
     }
 
@@ -76,6 +75,7 @@ Item {
         }
       }
     }
+
     Component{
       id: clothesTypesComponent
       ClothesTypes{
@@ -86,6 +86,14 @@ Item {
       id: clothesComponent
       Clothes{
         id: clothes
+      }
+    }
+
+    Component{
+      id: clothingComponent
+
+      ClothingItem{
+        id: clothingItem
       }
     }
   }
