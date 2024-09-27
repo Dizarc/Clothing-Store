@@ -39,7 +39,10 @@ Rectangle {
       clothesColumn.clothesTextState = ""
 
       storageView.push(clothingComponent, {
-                         "clothingId": clothingId
+                         "clothingId": clothingId,
+                         "clothingName": clothingName,
+                         "clothingDescription": clothingDescription,
+                         "clothingImageSource": clothingImageSource
                        })
     }
   }
@@ -52,6 +55,7 @@ Rectangle {
 
     Text {
       id: textView
+
       text: clothingName
 
       height: implicitHeight

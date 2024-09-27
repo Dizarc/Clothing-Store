@@ -10,7 +10,8 @@ import com.company.DatabaseController
 
 /*
   TODO:
-  1. Make it so the clothing shows up with all its information when a clothing is clicked.
+    1. Make clothingItem look better
+    2. Add buttons to clothingItem
 */
 Window {
   id: root
