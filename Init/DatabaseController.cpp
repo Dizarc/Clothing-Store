@@ -115,6 +115,7 @@ void DatabaseController::createDatabase()
     QString clothesSizesTable = "CREATE TABLE ClothesSizes("
                                 " clothingId INTEGER,"
                                 " sizeId INTEGER,"
+                                " count INTEGER,"
                                 " PRIMARY KEY (clothingId, sizeId),"
                                 " FOREIGN KEY (clothingId) REFERENCES Clothes(clothingId),"
                                 " FOREIGN KEY (sizeId) REFERENCES sizes(sizeId));";
@@ -310,8 +311,10 @@ void DatabaseController::checkResetCode(const QString &username, const QString &
         return;
     }
 
-    if(!userQuery.next())
+    if(!userQuery.next()){
+        emit wrongCode();
         return;
+    }
 
     QSqlQuery resetQuery;
     resetQuery.prepare("SELECT token, tokenExpiry from EmployeePasswordReset where id = ?");

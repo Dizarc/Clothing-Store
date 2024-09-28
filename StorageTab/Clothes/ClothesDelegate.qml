@@ -3,6 +3,8 @@ import QtQuick 6.6
 import "../../../ClothingStore"
 import "../../Custom"
 
+import com.company.ClothesSizesModel
+
 Rectangle {
   id: clothesDelegate
 
@@ -38,6 +40,7 @@ Rectangle {
       clothesGridView.currentIndex = index
       clothesColumn.clothesTextState = ""
 
+      ClothesSizesModel.filterSizes(clothingId);
       storageView.push(clothingComponent, {
                          "clothingId": clothingId,
                          "clothingName": clothingName,

@@ -10,8 +10,9 @@ import com.company.DatabaseController
 
 /*
   TODO:
-    1. Make clothingItem look better
-    2. Add buttons to clothingItem
+    1. Make combobox with sizing work for the clothingItem
+    2. Make it so when buttons are clicked the clothing item is added or removed
+    3. add count of clothing items based on sizing next to combo box.
 */
 Window {
   id: root

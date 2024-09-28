@@ -16,7 +16,10 @@ qt_add_executable(appClothingStore
     EmployeesTab/Employees.h EmployeesTab/Employees.cpp
 
     StorageTab/ClothesTypes/ClothesTypesModel.h StorageTab/ClothesTypes/ClothesTypesModel.cpp
+
     StorageTab/Clothes/ClothesModel.h StorageTab/Clothes/ClothesModel.cpp
+
+    StorageTab/ClothingItem/ClothesSizesModel.h StorageTab/ClothingItem/ClothesSizesModel.cpp
 )
 
 qt_add_qml_module(appClothingStore
@@ -44,10 +47,10 @@ qt_add_qml_module(appClothingStore
               StorageTab/ClothesTypes/ClothesTypes.qml
               StorageTab/ClothesTypes/ClothesTypesEditingDialog.qml
 
-              StorageTab/ClothingItem/ClothingItem.qml
-
               StorageTab/Clothes/Clothes.qml
               StorageTab/Clothes/ClothesDelegate.qml
+
+              StorageTab/ClothingItem/ClothingItem.qml
 
               HomeTab/Home.qml
 

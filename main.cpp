@@ -8,6 +8,7 @@
 #include "EmployeesTab/Employees.h"
 #include "StorageTab/ClothesTypes/ClothesTypesModel.h"
 #include "StorageTab/Clothes/ClothesModel.h"
+#include "StorageTab/ClothingItem/ClothesSizesModel.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,6 +32,10 @@ int main(int argc, char *argv[])
     ClothesModel *clothesModel = new ClothesModel(&app);
     qmlRegisterSingletonInstance("com.company.ClothesModel", 1, 0, "ClothesModel", clothesModel);
     engine.rootContext()->setContextProperty("clothesModel", clothesModel);
+
+    ClothesSizesModel *clothesSizesModel = new ClothesSizesModel(&app);
+    qmlRegisterSingletonInstance("com.company.ClothesSizesModel", 1, 0, "ClothesSizesModel", clothesSizesModel);
+    engine.rootContext()->setContextProperty("clothesSizesModel", clothesSizesModel);
 
     const QUrl url(u"qrc:/ClothingStore/Main.qml"_qs);
 

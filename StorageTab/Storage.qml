@@ -55,7 +55,7 @@ Item {
         YAnimator {
           from: (storageView.mirrored ? -1 : 1) * storageView.height
           to: 0
-          duration: 400
+          duration: 300
           easing.type: Easing.OutCubic
         }
       }
@@ -64,7 +64,7 @@ Item {
         YAnimator {
           from: 0
           to: (storageView.mirrored ? -1 : 1) * storageView.height
-          duration: 400
+          duration: 300
           easing.type: Easing.OutCubic
         }
 
