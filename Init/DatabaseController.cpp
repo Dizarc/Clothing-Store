@@ -145,12 +145,12 @@ void DatabaseController::createDatabase()
     if(!query.exec(clothesValues))
         qWarning()<< "Problem while adding to Clothes table...";
 
-    QString clothesSizesValues = "INSERT INTO ClothesSizes(clothingId, sizeId) VALUES"
-                                 " (1, 2)," //jeans medium
-                                 " (1, 3)," // jeans large
-                                 " (2, 2)," // chino medium
-                                 " (3, 1)," // boots small
-                                 " (4, 1);"; // sneakers small
+    QString clothesSizesValues = "INSERT INTO ClothesSizes(clothingId, sizeId, count) VALUES"
+                                 " (1, 2, 3)," //jeans medium
+                                 " (1, 3, 2)," // jeans large
+                                 " (2, 2, 5)," // chino medium
+                                 " (3, 1, 21)," // boots small
+                                 " (4, 1, 1);"; // sneakers small
 
     if(!query.exec(clothesSizesValues))
         qWarning()<< "Problem while adding to ClothesSizes table...";

@@ -19,11 +19,7 @@ Rectangle {
   width: clothesGridView.cellHeight - 5
   height: clothesGridView.cellHeight - 5
 
-  color: typeMouseArea.pressed ? Qt.lighter(
-                                   Style.inputBoxColor,
-                                   1.5) : (typeMouseArea.hovered ? Qt.lighter(
-                                                                     Style.inputBoxColor,
-                                                                     1.2) : Style.inputBoxColor)
+  color: typeMouseArea.pressed ? Qt.lighter(Style.inputBoxColor, 1.2) : Style.inputBoxColor
 
   border.color: Style.borderColor
   border.width: 2

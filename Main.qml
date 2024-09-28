@@ -10,9 +10,11 @@ import com.company.DatabaseController
 
 /*
   TODO:
-    1. Make combobox with sizing work for the clothingItem
-    2. Make it so when buttons are clicked the clothing item is added or removed
-    3. add count of clothing items based on sizing next to combo box.
+    1. Change cursor shape when hovering over the clothing combo box
+    2. add a number input box to specify how many of the particular size for that clothing to add/remove(defaults to x1)
+    3. Make it so when buttons(add,remove) are clicked the item(s) are added or removed
+    4. Make it so the item description text box is editable by admins(with saving which will ask for confirmation)
+    5. Make the cells for each clothing item bigger and add the name of the item below the image box
 */
 Window {
   id: root
