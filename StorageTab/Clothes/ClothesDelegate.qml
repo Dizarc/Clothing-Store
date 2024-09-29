@@ -19,13 +19,17 @@ Rectangle {
   width: clothesGridView.cellHeight - 5
   height: clothesGridView.cellHeight - 5
 
-  color: typeMouseArea.pressed ? Qt.lighter(Style.inputBoxColor, 1.2) : Style.inputBoxColor
+  color: clothesMouseArea.pressed ? Qt.lighter(
+                                   Style.inputBoxColor,
+                                   1.2) : clothesMouseArea.containsMouse ? Qt.lighter(
+                                                                          Style.inputBoxColor,
+                                                                          1.1) : Style.inputBoxColor
 
   border.color: Style.borderColor
   border.width: 2
 
   MouseArea {
-    id: typeMouseArea
+    id: clothesMouseArea
 
     anchors.fill: parent
     cursorShape: Qt.PointingHandCursor
@@ -47,13 +51,13 @@ Rectangle {
   }
 
   Column {
-    id: delegateColumn
+    id: clothesDelegateColumn
 
     anchors.fill: parent
     spacing: 10
 
     Text {
-      id: textView
+      id: clothesTextView
 
       text: clothingName
 
@@ -69,15 +73,13 @@ Rectangle {
     }
 
     Image {
-      id: imageView
-
       anchors.horizontalCenter: parent.horizontalCenter
       source: clothingImageSource !== "" ? "file:/" + clothingImageSource : ""
       visible: clothingImageSource !== ""
 
       width: clothesDelegate.width - 6
       height: Math.min(
-                (clothesDelegate.height - textView.height - delegateColumn.spacing),
+                (clothesDelegate.height - clothesTextView.height - clothesDelegateColumn.spacing),
                 clothesDelegate.height - 6)
 
       fillMode: Image.PreserveAspectFit

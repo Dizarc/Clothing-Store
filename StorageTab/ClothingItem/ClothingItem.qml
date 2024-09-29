@@ -1,6 +1,8 @@
 import QtQuick 6.6
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
+import QtQuick.Dialogs
+import QtCore
 
 import "../ClothesTypes"
 import "../Clothes"
@@ -28,7 +30,7 @@ Item {
     visible: clothingImageSource !== ""
 
     anchors.top: clothesOutputText.bottom
-    width: parent.width / 3
+    width: parent.width / 2
 
     fillMode: Image.PreserveAspectFit
   }
@@ -40,7 +42,7 @@ Item {
     anchors.left: imageView.right
     anchors.top: parent.top
 
-    spacing: 5
+    spacing: 10
 
     Text {
       text: clothingName
@@ -54,12 +56,14 @@ Item {
       ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
       ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
-      width: parent.width / 2
-      height: parent.height / 3
+      width: parent.width / 1.5
+      height: parent.height / 2
 
       TextArea {
-        readOnly: !isAdminLogged
+        id: clothingTextArea
 
+        readOnly: true
+        wrapMode: Text.WordWrap
         text: clothingDescription
         font.pointSize: 12
         color: Style.textColor
@@ -71,10 +75,15 @@ Item {
         }
       }
     }
-    Row{
+
+    Row {
+      id: sizingRow
+
+      property int sizeCount: 0
+
       spacing: 5
 
-      Text{
+      Text {
         text: qsTr("Size:")
         font.pointSize: 12
         color: Style.textColor
@@ -86,7 +95,7 @@ Item {
         width: 125
         height: 25
 
-        editable: isAdminLogged
+        currentIndex: -1
 
         font.pointSize: 12
 
@@ -108,13 +117,14 @@ Item {
             text: sizeId
             color: Style.textColor
             font: control.font
-            elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
           }
 
           background: Rectangle {
+            color: controlDelegate.pressed ? Qt.lighter(
+                                               Style.generalButtonColor,
+                                               1.2) : controlDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
             border.color: Style.borderColor
-            color:  controlDelegate.pressed ? Qt.lighter(Style.generalButtonColor, 1.1) : Style.generalButtonColor
             radius: 2
           }
 
@@ -122,7 +132,9 @@ Item {
 
           onClicked: {
             control.displayText = sizeId
-            sizeInfoText.text = qsTr("Available: " + controlDelegate.count)
+            sizeInfoText.text = qsTr(
+                  "Available: " + "<b>" + controlDelegate.count + "</b>")
+            sizingRow.sizeCount = controlDelegate.count
           }
         }
 
@@ -135,15 +147,15 @@ Item {
 
           color: Style.textColor
           verticalAlignment: Text.AlignVCenter
-          elide: Text.ElideRight
         }
 
         background: Rectangle {
-          implicitWidth: 100
-          implicitHeight: 25
+          color: control.pressed ? Qt.lighter(
+                                     Style.inputBoxColor,
+                                     1.2) : control.hovered ? Qt.lighter(
+                                                                Style.inputBoxColor,
+                                                                1.1) : Style.inputBoxColor
           border.color: Style.borderColor
-          color: Style.inputBoxColor
-          border.width: control.visualFocus ? 2 : 1
           radius: 2
         }
 
@@ -161,17 +173,28 @@ Item {
 
             ScrollIndicator.vertical: ScrollIndicator {}
           }
+
+          MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            acceptedButtons: Qt.NoButton
+          }
+        }
+
+        MouseArea {
+          anchors.fill: parent
+          cursorShape: Qt.PointingHandCursor
+          acceptedButtons: Qt.NoButton
         }
       }
 
-      Text{
+      Text {
         id: sizeInfoText
 
         text: qsTr("No size selected")
         font.pointSize: 12
         color: Style.textColor
       }
-
     }
 
     Row {
@@ -182,15 +205,46 @@ Item {
 
         buttonColor: Style.acceptButtonColor
 
+        enabled: control.currentIndex !== -1
+        opacity: control.currentIndex === -1 ? 0.5 : 1
+
         //onClicked:
       }
 
+      Text {
+        text: qsTr("count: ")
+        font.pointSize: 12
+        color: Style.textColor
+      }
+
+      CustomSpinBox {}
+    }
+
+    Row {
+      spacing: 5
+
       CustomButton {
-        text: qsTr("Sell")
+        text: qsTr("Remove")
 
         buttonColor: Style.denyButtonColor
 
+        enabled: control.currentIndex !== -1
+        opacity: control.currentIndex === -1 ? 0.5 : 1
+
         //onClicked:
+      }
+
+      Text {
+        text: qsTr("count: ")
+        font.pointSize: 12
+        color: Style.textColor
+      }
+
+      CustomSpinBox {
+        id: removeSpinBox
+
+        from: sizingRow.sizeCount === 0 ? 0 : 1
+        to: sizingRow.sizeCount
       }
     }
   }

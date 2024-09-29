@@ -8,7 +8,6 @@
 class ClothesModel : public QSqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(int filterTypeId READ filterTypeId WRITE setFilterTypeId NOTIFY filterTypeIdChanged);
 
 public:
     enum Roles{
@@ -24,18 +23,12 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
 
-    int filterTypeId() const;
-    void setFilterTypeId(int typeId);
-
-signals:
-    void filterTypeIdChanged();
+    Q_INVOKABLE void filterType(int typeId);
 
 public slots:
     bool reassignClothes(const int &oldTypeId, const int &newTypeId);
 
-private:
-    int m_filterTypeId = -1;
-
+signals:
 };
 
 #endif // CLOTHESMODEL_H

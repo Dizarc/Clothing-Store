@@ -4,6 +4,8 @@ import QtQuick.Controls
 import "../../../ClothingStore"
 import "../../Custom"
 
+import com.company.ClothesModel
+
 Rectangle {
   id: clothesTypesDelegate
 
@@ -16,7 +18,11 @@ Rectangle {
   width: clothesTypesView.cellWidth - 5
   height: clothesTypesView.cellHeight - 5
 
-  color: typeMouseArea.pressed ? Qt.lighter(Style.inputBoxColor, 1.2) : Style.inputBoxColor
+  color: typeMouseArea.pressed ? Qt.lighter(
+                                   Style.inputBoxColor,
+                                   1.2) : typeMouseArea.containsMouse ? Qt.lighter(
+                                                                          Style.inputBoxColor,
+                                                                          1.1) : Style.inputBoxColor
 
   border.color: Style.borderColor
   border.width: 2
@@ -34,18 +40,16 @@ Rectangle {
                    clothesTypesView.currentIndex = index
                    clothesTypesColumn.clothesTypesTextState = ""
 
-                   backButton.enabled = true
-
-                   storageView.push(clothesComponent, {
-                                      "clothesTypeId": typeId
-                                    })
-                  } else if (mouse.button === Qt.RightButton)
-                    contextMenu.popup()
-                }
+                   ClothesModel.filterType(typeId)
+                   storageView.push(clothesComponent)
+                 } else if (mouse.button === Qt.RightButton)
+                 contextMenu.popup()
+               }
   }
 
   Column {
     id: delegateColumn
+
     anchors.fill: parent
     spacing: 10
 
@@ -53,6 +57,7 @@ Rectangle {
       id: textView
 
       text: typeName
+
       height: implicitHeight
       width: parent.width - 6
 
@@ -72,7 +77,9 @@ Rectangle {
       visible: typeImageSource !== ""
 
       width: clothesTypesDelegate.width - 6
-      height: Math.min((clothesTypesDelegate.height - textView.height - delegateColumn.spacing), clothesTypesDelegate.height - 6)
+      height: Math.min(
+                (clothesTypesDelegate.height - textView.height - delegateColumn.spacing),
+                clothesTypesDelegate.height - 6)
 
       fillMode: Image.PreserveAspectFit
     }
@@ -109,33 +116,33 @@ Rectangle {
     }
 
     delegate: MenuItem {
-            id: menuItem
+      id: menuItem
 
-            implicitWidth: 100
-            implicitHeight: 30
+      implicitWidth: 100
+      implicitHeight: 30
 
-            contentItem: Text {
-                text: menuItem.text
-                font: menuItem.font
-                color: Style.textColor
-                horizontalAlignment: Text.AlignLeft
-                verticalAlignment: Text.AlignVCenter
-                elide: Text.ElideRight
-            }
+      contentItem: Text {
+        text: menuItem.text
+        font: menuItem.font
+        color: Style.textColor
+        horizontalAlignment: Text.AlignLeft
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
+      }
 
-            background: Rectangle {
-                implicitWidth: 100
-                implicitHeight: 40
-                color: menuItem.highlighted ? Style.inputBoxColor : Style.backgroundColor
-            }
-        }
+      background: Rectangle {
+        implicitWidth: 100
+        implicitHeight: 40
+        color: menuItem.highlighted ? Style.inputBoxColor : Style.backgroundColor
+      }
+    }
 
-        background: Rectangle {
-            implicitWidth: 100
-            implicitHeight: 40
-            color: Style.backgroundColor
-            border.color: Style.borderColor
-            radius: 2
-        }
+    background: Rectangle {
+      implicitWidth: 100
+      implicitHeight: 40
+      color: Style.backgroundColor
+      border.color: Style.borderColor
+      radius: 2
+    }
   }
 }

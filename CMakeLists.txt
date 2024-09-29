@@ -58,6 +58,7 @@ qt_add_qml_module(appClothingStore
               Custom/CustomButton.qml
               Custom/CustomInputBox.qml
               Custom/ThemeSwitch.qml
+              Custom/CustomSpinBox.qml
 
     RESOURCES images/icon.ico
               images/logo.png
@@ -66,7 +67,7 @@ qt_add_qml_module(appClothingStore
               images/searchImage.png
               images/themeIcon.png
 
-              Custom/qmldir
+              Custom/qmldir 
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

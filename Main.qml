@@ -10,11 +10,9 @@ import com.company.DatabaseController
 
 /*
   TODO:
-    1. Change cursor shape when hovering over the clothing combo box
-    2. add a number input box to specify how many of the particular size for that clothing to add/remove(defaults to x1)
-    3. Make it so when buttons(add,remove) are clicked the item(s) are added or removed
-    4. Make it so the item description text box is editable by admins(with saving which will ask for confirmation)
-    5. Make the cells for each clothing item bigger and add the name of the item below the image box
+    1. add right click menu that changes everything about a clothing to Clothes.qml
+    2. Add functionality to all the buttons in clothingItem
+    3. Make the cells for each clothing item bigger and add the name of the item below the image box
 */
 Window {
   id: root

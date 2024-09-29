@@ -8,93 +8,67 @@ import "../StorageTab/ClothesTypes"
 import "../StorageTab/Clothes"
 import "../StorageTab/ClothingItem"
 
-Item {
+Column {
   id: storageItem
 
   anchors.fill: parent
+  spacing: 5
 
-  GridLayout {
-    id: storageGrid
+  CustomButton {
+    text: qsTr("< Back")
+    buttonColor: Style.generalButtonColor
 
-    anchors.fill: parent
-    columns: 2
-    rows: 3
+    onClicked: {
+      if (storageView.currentItem !== storageView.initialItem)
+        storageView.pop()
+    }
+  }
 
-    columnSpacing: 10
-    rowSpacing: 10
+  StackView {
+    id: storageView
 
-    CustomButton {
-      id: backButton
+    initialItem: clothesTypesComponent
 
-      enabled: false
+    width: parent.width
+    height: parent.height
 
-      text: qsTr("BACK")
-      buttonColor: Style.generalButtonColor
+    Layout.row: 2
+    Layout.column: 0
+    Layout.fillHeight: true
+    Layout.fillWidth: true
+    Layout.topMargin: 10
 
-      onClicked: {
-        if(storageView.currentItem !== storageView.initialItem)
-          storageView.pop() 
+    pushEnter: Transition {
+      YAnimator {
+        from: (storageView.mirrored ? -1 : 1) * storageView.height
+        to: 0
+        duration: 300
+        easing.type: Easing.OutCubic
       }
     }
 
-    StackView {
-      id: storageView
-
-      initialItem: clothesTypesComponent
-
-      width: parent.width
-      height: parent.height
-
-      Layout.row: 2
-      Layout.column: 0
-      Layout.fillHeight: true
-      Layout.fillWidth: true
-      Layout.topMargin: 20
-
-      pushEnter: Transition {
-        YAnimator {
-          from: (storageView.mirrored ? -1 : 1) * storageView.height
-          to: 0
-          duration: 300
-          easing.type: Easing.OutCubic
-        }
-      }
-
-      popExit: Transition {
-        YAnimator {
-          from: 0
-          to: (storageView.mirrored ? -1 : 1) * storageView.height
-          duration: 300
-          easing.type: Easing.OutCubic
-        }
-
-        onRunningChanged:{
-          if(running === false)
-            if(storageView.currentItem === clothesTypesComponent)
-              clothes.clothesTypeId = -1;
-        }
+    popExit: Transition {
+      YAnimator {
+        from: 0
+        to: (storageView.mirrored ? -1 : 1) * storageView.height
+        duration: 300
+        easing.type: Easing.OutCubic
       }
     }
+  }
 
-    Component{
-      id: clothesTypesComponent
-      ClothesTypes{
-      }
-    }
+  Component {
+    id: clothesTypesComponent
+    ClothesTypes { }
+  }
 
-    Component{
-      id: clothesComponent
-      Clothes{
-        id: clothes
-      }
-    }
+  Component {
+    id: clothesComponent
+    Clothes { }
+  }
 
-    Component{
-      id: clothingComponent
-
-      ClothingItem{
-        id: clothingItem
-      }
-    }
+  Component {
+    id: clothingComponent
+    ClothingItem { }
   }
 }

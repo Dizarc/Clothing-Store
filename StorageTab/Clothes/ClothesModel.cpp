@@ -3,7 +3,6 @@
 ClothesModel::ClothesModel(QObject *parent, QSqlDatabase db) : QSqlTableModel(parent, db)
 {
     setTable("Clothes");
-    select();
 }
 
 QVariant ClothesModel::data(const QModelIndex &index, int role) const
@@ -54,23 +53,10 @@ QHash<int, QByteArray> ClothesModel::roleNames() const
     return roles;
 }
 
-int ClothesModel::filterTypeId() const
+void ClothesModel::filterType(int typeId)
 {
-    return m_filterTypeId;
-}
-
-void ClothesModel::setFilterTypeId(int typeId)
-{
-    if(m_filterTypeId != typeId){
-        m_filterTypeId = typeId;
-        if(m_filterTypeId == -1)
-            setFilter("1 = 0");
-        else
-            setFilter("typeId = " + QString::number(typeId));
-
-        select();
-        emit filterTypeIdChanged();
-    }
+    setFilter("typeId = " + QString::number(typeId));
+    select();
 }
 
 bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId)

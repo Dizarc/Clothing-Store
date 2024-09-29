@@ -19,7 +19,7 @@ Window {
   width: 800
 
   onActiveChanged: {
-    if (!clothesTypeAddWindow.active && !imageChoicefileDialog.visible)
+    if (!clothesTypeAddWindow.active && !imageChoiceFileDialog.visible)
       clothesTypeAddWindow.close();
   }
 
@@ -86,7 +86,7 @@ Window {
         cursorShape: Qt.PointingHandCursor
         hoverEnabled: true
 
-        onClicked: imageChoicefileDialog.open()
+        onClicked: imageChoiceFileDialog.open()
 
         onEntered: {
           hoverText.opacity = 1.0
@@ -131,7 +131,7 @@ Window {
   }
 
   FileDialog{
-    id: imageChoicefileDialog
+    id: imageChoiceFileDialog
     title: qsTr("Select an Image")
 
     nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp)"]
