@@ -52,6 +52,7 @@ Item {
       id: addEmployeeButton
 
       enabled: isAdminLogged
+      opacity: isAdminLogged ? 1 : 0.5
 
       Layout.row: 1
       Layout.column: 0

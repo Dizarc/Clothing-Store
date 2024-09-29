@@ -199,6 +199,7 @@ Item {
       id: saveButton
 
       enabled: isAdminLogged
+      opacity: isAdminLogged ? 1 : 0.5
 
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
@@ -217,6 +218,7 @@ Item {
       id: passwordButton
 
       enabled: isAdminLogged
+      opacity: isAdminLogged ? 1 : 0.5
 
       text: qsTr("Change Password")
       buttonColor: Style.acceptButtonColor
@@ -238,6 +240,7 @@ Item {
       id: deleteButton
 
       enabled: isAdminLogged
+      opacity: isAdminLogged ? 1 : 0.5
 
       text: qsTr("delete")
       buttonColor: Style.denyButtonColor
