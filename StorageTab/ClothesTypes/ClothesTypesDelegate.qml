@@ -15,8 +15,8 @@ Rectangle {
 
   required property int index
 
-  width: clothesTypesView.cellWidth - 5
-  height: clothesTypesView.cellHeight - 5
+  width: clothesTypesView.cellWidth - 4
+  height: clothesTypesView.cellHeight - 4
 
   color: typeMouseArea.pressed ? Qt.lighter(
                                    Style.inputBoxColor,

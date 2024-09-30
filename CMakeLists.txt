@@ -16,6 +16,7 @@ qt_add_executable(appClothingStore
     EmployeesTab/Employees.h EmployeesTab/Employees.cpp
 
     StorageTab/ClothesTypes/ClothesTypesModel.h StorageTab/ClothesTypes/ClothesTypesModel.cpp
+    StorageTab/ClothesTypes/SizesModel.h StorageTab/ClothesTypes/SizesModel.cpp
 
     StorageTab/Clothes/ClothesModel.h StorageTab/Clothes/ClothesModel.cpp
 
@@ -51,6 +52,7 @@ qt_add_qml_module(appClothingStore
               StorageTab/Clothes/ClothesDelegate.qml
 
               StorageTab/ClothingItem/ClothingItem.qml
+              StorageTab/ClothingItem/SizesComboBox.qml
 
               HomeTab/Home.qml
 
@@ -67,7 +69,7 @@ qt_add_qml_module(appClothingStore
               images/searchImage.png
               images/themeIcon.png
 
-              Custom/qmldir 
+              Custom/qmldir
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

@@ -13,6 +13,9 @@ import com.company.DatabaseController
     1. add right click menu that changes everything about a clothing to Clothes.qml
     2. Add functionality to all the buttons in clothingItem
     3. Make the cells for each clothing item bigger and add the name of the item below the image box
+    4. For the size combo box inside the clothing item find a way to show only the sizes that are not currently in the item
+    5. Add create a new size functionality in the clothesTypes view
+    6. add change category functionality to a clothing item
 */
 Window {
   id: root

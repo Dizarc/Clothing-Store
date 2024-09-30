@@ -14,10 +14,8 @@ Rectangle {
   required property string clothingImageSource
   required property string typeId
 
-  required property int index
-
-  width: clothesGridView.cellHeight - 5
-  height: clothesGridView.cellHeight - 5
+  width: clothesGridView.cellWidth - 4
+  height: clothesGridView.cellHeight - 4
 
   color: clothesMouseArea.pressed ? Qt.lighter(
                                    Style.inputBoxColor,
@@ -37,7 +35,6 @@ Rectangle {
     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
     onClicked: {
-      clothesGridView.currentIndex = index
       clothesColumn.clothesTextState = ""
 
       ClothesSizesModel.filterSizes(clothingId);

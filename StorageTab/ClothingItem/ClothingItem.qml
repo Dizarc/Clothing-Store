@@ -57,7 +57,7 @@ Item {
       ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
       width: parent.width / 1.5
-      height: parent.height / 2
+      height: parent.height / 3
 
       TextArea {
         id: clothingTextArea
@@ -76,108 +76,70 @@ Item {
       }
     }
 
-    Row {
-      id: sizingRow
+    Text {
+      text: qsTr("Sizes:")
+      font.pointSize: 12
+      color: Style.textColor
+    }
+
+    GridView {
+      id: control
 
       property int sizeCount: 0
 
-      spacing: 5
+      width: parent.width
+      height: 80
+      cellWidth: 65
+      cellHeight: 60
 
-      Text {
-        text: qsTr("Size:")
-        font.pointSize: 12
-        color: Style.textColor
-      }
+      currentIndex: -1
 
-      ComboBox {
-        id: control
+      flickableDirection: Flickable.VerticalFlick
+      boundsBehavior: Flickable.StopAtBounds
 
-        width: 125
-        height: 25
+      model: ClothesSizesModel
 
-        currentIndex: -1
+      delegate: ItemDelegate {
+        id: controlDelegate
 
-        font.pointSize: 12
+        required property string clothingId
+        required property string sizeId
+        required property string count
 
-        model: ClothesSizesModel
+        required property int index
 
-        delegate: ItemDelegate {
-          id: controlDelegate
+        width: control.cellWidth - 4
+        height: control.cellHeight - 4
 
-          required property string clothingId
-          required property string sizeId
-          required property string count
+        focus: true
 
-          required property int index
+        highlighted: control.currentIndex === index
 
-          width: control.width
-          height: control.height
-
-          contentItem: Text {
-            text: sizeId
-            color: Style.textColor
-            font: control.font
-            verticalAlignment: Text.AlignVCenter
-          }
-
-          background: Rectangle {
-            color: controlDelegate.pressed ? Qt.lighter(
-                                               Style.generalButtonColor,
-                                               1.2) : controlDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
-            border.color: Style.borderColor
-            radius: 2
-          }
-
-          highlighted: control.highlightedIndex === index
-
-          onClicked: {
-            control.displayText = sizeId
-            sizeInfoText.text = qsTr(
-                  "Available: " + "<b>" + controlDelegate.count + "</b>")
-            sizingRow.sizeCount = controlDelegate.count
-          }
-        }
-
-        contentItem: Text {
-          leftPadding: 2
-          rightPadding: control.indicator.width + control.spacing
-
-          text: control.displayText
-          font: control.font
-
-          color: Style.textColor
-          verticalAlignment: Text.AlignVCenter
+        onClicked: {
+          control.currentIndex = index
+          control.sizeCount = count
         }
 
         background: Rectangle {
-          color: control.pressed ? Qt.lighter(
-                                     Style.inputBoxColor,
-                                     1.2) : control.hovered ? Qt.lighter(
-                                                                Style.inputBoxColor,
-                                                                1.1) : Style.inputBoxColor
+          color: controlDelegate.highlighted ? Qt.darker(
+                                             Style.generalButtonColor,
+                                             1.2) : controlDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
           border.color: Style.borderColor
-          radius: 2
+          radius: 1
         }
 
-        popup: Popup {
-          y: control.height - 1
-          width: control.width
-          implicitHeight: contentItem.implicitHeight
-          padding: 1
-
-          contentItem: ListView {
-            clip: true
-            implicitHeight: contentHeight
-            model: control.popup.visible ? control.delegateModel : null
-            currentIndex: control.highlightedIndex
-
-            ScrollIndicator.vertical: ScrollIndicator {}
+        contentItem: Column {
+          Text {
+            text: sizeId
+            color: Style.textColor
+            font.pointSize: 10
+            anchors.horizontalCenter: parent.horizontalCenter
           }
-
-          MouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            acceptedButtons: Qt.NoButton
+          Text {
+            text: "count: " + "<b>" + count + "</b>"
+            color: Style.textColor
+            font.pointSize: 10
+            anchors.horizontalCenter: parent.horizontalCenter
           }
         }
 
@@ -187,13 +149,26 @@ Item {
           acceptedButtons: Qt.NoButton
         }
       }
+    }
 
-      Text {
+    Row{
+      spacing: 3
+
+      CustomButton {
         id: sizeInfoText
 
-        text: qsTr("No size selected")
+        text: qsTr("Add new size")
+        buttonColor: Style.generalButtonColor
+      }
+
+      Text{
+        text: qsTr("select new size: ")
         font.pointSize: 12
         color: Style.textColor
+      }
+
+      SizesComboBox{
+
       }
     }
 
@@ -243,8 +218,8 @@ Item {
       CustomSpinBox {
         id: removeSpinBox
 
-        from: sizingRow.sizeCount === 0 ? 0 : 1
-        to: sizingRow.sizeCount
+        from: control.sizeCount === 0 ? 0 : 1
+        to: control.sizeCount
       }
     }
   }

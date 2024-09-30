@@ -23,12 +23,10 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
 
-    Q_INVOKABLE void filterType(int typeId);
-
 public slots:
     bool reassignClothes(const int &oldTypeId, const int &newTypeId);
 
-signals:
+    void filterType(int typeId);
 };
 
 #endif // CLOTHESMODEL_H

@@ -51,3 +51,5 @@ void ClothesSizesModel::filterSizes(int clothingId)
     setFilter("clothingId = " + QString::number(clothingId));
     select();
 }
+
+

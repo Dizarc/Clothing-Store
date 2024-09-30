@@ -19,9 +19,8 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
 
-    Q_INVOKABLE void filterSizes(int clothingId);
-
-signals:
+public slots:
+    void filterSizes(int clothingId);
 };
 
 #endif // CLOTHESSIZESMODEL_H

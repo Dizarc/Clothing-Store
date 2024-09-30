@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QSqlTableModel>
-#include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QFile>
 #include <QUrl>
