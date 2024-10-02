@@ -1,7 +1,7 @@
 import QtQuick 6.6
 import QtQuick.Layouts
 import QtQuick.Controls
-
+import QtQuick.Dialogs
 import "../../Custom"
 import "../"
 

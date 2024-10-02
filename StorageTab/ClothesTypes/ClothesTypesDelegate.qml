@@ -9,7 +9,7 @@ import com.company.ClothesModel
 Rectangle {
   id: clothesTypesDelegate
 
-  required property string typeId
+  required property int typeId
   required property string typeName
   required property string typeImageSource
 
@@ -133,7 +133,13 @@ Rectangle {
       background: Rectangle {
         implicitWidth: 100
         implicitHeight: 40
-        color: menuItem.highlighted ? Style.inputBoxColor : Style.backgroundColor
+        color: menuItem.hovered ? Qt.lighter(Style.generalButtonColor, 1.1) : Style.generalButtonColor
+      }
+
+      MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        acceptedButtons: Qt.NoButton
       }
     }
 

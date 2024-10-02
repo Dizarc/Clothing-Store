@@ -53,7 +53,7 @@ ColumnLayout {
     delegate: ClothesTypesDelegate { }
   }
 
-  ClothesTypesEditingDialog{
+  CustomEditingDialog{
     id: deleteClothesTypesDialog
 
     title: qsTr("Are you sure you want to delete this type?"
@@ -69,7 +69,7 @@ ColumnLayout {
     }
   }
 
-  ClothesTypesEditingDialog {
+  CustomEditingDialog {
     id: renameClothesTypesDialog
 
     title: qsTr("Rename type:")
@@ -85,7 +85,7 @@ ColumnLayout {
 
     Column{
       anchors.fill: parent
-      spacing: 10
+      spacing: 5
 
       Text {
         text: qsTr("Enter type name:")
@@ -100,7 +100,7 @@ ColumnLayout {
     }
   }
 
-  ClothesTypesEditingDialog {
+  CustomEditingDialog {
     id: changeImageClothesTypesDialog
 
     title: qsTr("Change image for this type:")
@@ -116,7 +116,7 @@ ColumnLayout {
 
     Column{
       anchors.fill: parent
-      spacing: 10
+      spacing: 5
 
       Text{
         anchors.horizontalCenter: parent.horizontalCenter

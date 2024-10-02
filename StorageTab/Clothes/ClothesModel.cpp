@@ -53,12 +53,6 @@ QHash<int, QByteArray> ClothesModel::roleNames() const
     return roles;
 }
 
-void ClothesModel::filterType(int typeId)
-{
-    setFilter("typeId = " + QString::number(typeId));
-    select();
-}
-
 bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId)
 {
     QSqlTableModel model;
@@ -71,6 +65,79 @@ bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId)
         record.setValue("typeId", newTypeId);
         model.setRecord(i, record);
     }
+
+    select();
+
+    return submitAll();
+}
+
+void ClothesModel::filterType(int typeId)
+{
+    setFilter("typeId = " + QString::number(typeId));
+    select();
+}
+
+bool ClothesModel::renameClothing(const int &id, const QString name)
+{
+    QSqlTableModel model;
+
+    model.setTable("Clothes");
+    model.setFilter("clothingId = "+ QString::number(id));
+    model.select();
+
+    QSqlRecord record = model.record(0);
+
+    record.setValue("clothingName", name);
+
+    model.setRecord(0, record);
+
+    select();
+
+    return submitAll();
+}
+
+bool ClothesModel::changeClothingDescription(const int &id, const QString description)
+{
+    QSqlTableModel model;
+
+    model.setTable("Clothes");
+    model.setFilter("clothingId = "+ QString::number(id));
+    model.select();
+
+    QSqlRecord record = model.record(0);
+
+    record.setValue("clothingDescription", description);
+
+    model.setRecord(0, record);
+
+    select();
+
+    return submitAll();
+}
+
+bool ClothesModel::changeClothingImage(const int &id, const QString &ClothingImageSource)
+{
+    QString localFilePath = QUrl(ClothingImageSource).toLocalFile();
+    QFile image(localFilePath);
+
+    QString newImage = "";
+    if(image.exists())
+        newImage = DatabaseController::documentsDirPath + "/storage_images/types_images/" + QFileInfo(localFilePath).fileName();
+
+    if(!newImage.isEmpty())
+        image.copy(newImage);
+
+    QSqlTableModel model;
+
+    model.setTable("Clothes");
+    model.setFilter("clothingId = "+ QString::number(id));
+    model.select();
+
+    QSqlRecord record = model.record(0);
+
+    record.setValue("clothingImageSource", newImage);
+
+    model.setRecord(0, record);
 
     select();
 

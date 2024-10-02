@@ -10,6 +10,7 @@ import "../"
 import "../../Custom"
 
 import com.company.ClothesSizesModel
+import com.company.ClothesModel
 
 Item {
   id: clothingItem
@@ -23,16 +24,54 @@ Item {
     id: clothesOutputText
   }
 
+  Text {
+    id: hoverText
+
+    anchors {
+      top: clothesOutputText.bottom
+      topMargin: 10
+      horizontalCenter: imageView.horizontalCenter
+    }
+
+    color: Style.textColor
+    text: qsTr("pick a new image")
+    font.pointSize: 14
+    opacity: 0.0
+  }
+
   Image {
     id: imageView
 
     source: clothingImageSource !== "" ? "file:/" + clothingImageSource : ""
     visible: clothingImageSource !== ""
 
-    anchors.top: clothesOutputText.bottom
+    anchors.top: hoverText.bottom
+    anchors.topMargin: 5
+
     width: parent.width / 2
 
     fillMode: Image.PreserveAspectFit
+
+    MouseArea {
+      anchors.fill: parent
+
+      enabled: isAdminLogged
+
+      cursorShape: Qt.PointingHandCursor
+      hoverEnabled: true
+
+      onClicked: imageChoiceFileDialog.open()
+
+      onEntered: {
+        hoverText.opacity = 1.0
+        imageView.opacity = 0.7
+      }
+
+      onExited: {
+        hoverText.opacity = 0.0
+        imageView.opacity = 1.0
+      }
+    }
   }
 
   Column {
@@ -42,13 +81,44 @@ Item {
     anchors.left: imageView.right
     anchors.top: parent.top
 
-    spacing: 10
+    spacing: 5
 
-    Text {
-      text: clothingName
-      font.pointSize: 18
-      color: Style.textColor
+    Row{
+      spacing: 5
+
+      CustomInputBox {
+        id: nameInput
+        text: clothingName
+        font.pointSize: 15
+        font.bold: true
+
+        focus: true
+
+        onTextChanged: {
+          if(saveNameInputButton.visible !== true && text !== clothingName )
+            saveNameInputButton.visible = true
+        }
+      }
+
+      CustomButton{
+        id: saveNameInputButton
+        text: qsTr("Save name")
+
+        width: 75
+        buttonColor: Style.acceptButtonColor
+        visible: false
+
+        onClicked: {
+          if(ClothesModel.renameClothing(clothingId, nameInput.text))
+            clothesOutputText.state = "successRename"
+          else
+            clothesOutputText.state = "failedRename"
+
+          visible = false
+        }
+      }
     }
+
 
     ScrollView {
       id: scrollView
@@ -62,7 +132,7 @@ Item {
       TextArea {
         id: clothingTextArea
 
-        readOnly: true
+        readOnly: !isAdminLogged
         wrapMode: Text.WordWrap
         text: clothingDescription
         font.pointSize: 12
@@ -73,6 +143,28 @@ Item {
           border.color: Style.borderColor
           radius: 3
         }
+
+        onTextChanged: {
+          if(saveDescriptionInputButton.visible !== true && text !== clothingDescription )
+            saveDescriptionInputButton.visible = true
+        }
+      }
+    }
+
+    CustomButton{
+      id: saveDescriptionInputButton
+      text: qsTr("Save Description")
+
+      buttonColor: Style.acceptButtonColor
+      visible: false
+
+      onClicked: {
+        if(ClothesModel.changeClothingDescription(clothingId, clothingTextArea.text))
+          clothesOutputText.state = "successDescriptionChange"
+        else
+          clothesOutputText.state = "failedDescriptionChange"
+
+        visible = false
       }
     }
 
@@ -83,9 +175,10 @@ Item {
     }
 
     GridView {
-      id: control
+      id: sizesView
 
       property int sizeCount: 0
+      property string sizeSelected: ""
 
       width: parent.width
       height: 80
@@ -100,30 +193,30 @@ Item {
       model: ClothesSizesModel
 
       delegate: ItemDelegate {
-        id: controlDelegate
+        id: sizesViewDelegate
 
-        required property string clothingId
         required property string sizeId
-        required property string count
+        required property int count
 
         required property int index
 
-        width: control.cellWidth - 4
-        height: control.cellHeight - 4
+        width: sizesView.cellWidth - 4
+        height: sizesView.cellHeight - 4
 
         focus: true
 
-        highlighted: control.currentIndex === index
+        highlighted: sizesView.currentIndex === index
 
         onClicked: {
-          control.currentIndex = index
-          control.sizeCount = count
+          sizesView.currentIndex = index
+          sizesView.sizeCount = count
+          sizesView.sizeSelected = sizeId
         }
 
         background: Rectangle {
-          color: controlDelegate.highlighted ? Qt.darker(
-                                             Style.generalButtonColor,
-                                             1.2) : controlDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
+          color: sizesViewDelegate.highlighted ? Qt.darker(
+                                                   Style.generalButtonColor,
+                                                   1.2) : sizesViewDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
           border.color: Style.borderColor
           radius: 1
         }
@@ -151,7 +244,7 @@ Item {
       }
     }
 
-    Row{
+    Row {
       spacing: 3
 
       CustomButton {
@@ -159,16 +252,25 @@ Item {
 
         text: qsTr("Add new size")
         buttonColor: Style.generalButtonColor
+
+        onClicked: {
+          newSizeText.visible = true
+          sizesCb.visible = true
+        }
       }
 
-      Text{
+      Text {
+        id: newSizeText
+
+        visible: false
         text: qsTr("select new size: ")
         font.pointSize: 12
         color: Style.textColor
       }
 
-      SizesComboBox{
-
+      SizesComboBox {
+        id: sizesCb
+        visible: false
       }
     }
 
@@ -180,10 +282,15 @@ Item {
 
         buttonColor: Style.acceptButtonColor
 
-        enabled: control.currentIndex !== -1
-        opacity: control.currentIndex === -1 ? 0.5 : 1
+        enabled: sizesView.currentIndex !== -1
+        opacity: sizesView.currentIndex === -1 ? 0.5 : 1
 
-        //onClicked:
+        onClicked: {
+          if(ClothesSizesModel.changeCount(clothingId, sizesView.sizeId, addSpinBox.value))
+            clothesOutputText.state = "successChangeCount"
+          else
+            clothesOutputText.state = "failedChangeCount"
+        }
       }
 
       Text {
@@ -192,7 +299,9 @@ Item {
         color: Style.textColor
       }
 
-      CustomSpinBox {}
+      CustomSpinBox {
+        id: addSpinBox
+      }
     }
 
     Row {
@@ -203,10 +312,15 @@ Item {
 
         buttonColor: Style.denyButtonColor
 
-        enabled: control.currentIndex !== -1
-        opacity: control.currentIndex === -1 ? 0.5 : 1
+        enabled: sizesView.currentIndex !== -1
+        opacity: sizesView.currentIndex === -1 ? 0.5 : 1
 
-        //onClicked:
+        onClicked: {
+          if(ClothesSizesModel.changeCount(clothingId, sizesView.sizeId, addSpinBox.value *(-1)))
+            clothesOutputText.state = "successChangeCount"
+          else
+            clothesOutputText.state = "failedChangeCount"
+        }
       }
 
       Text {
@@ -218,9 +332,25 @@ Item {
       CustomSpinBox {
         id: removeSpinBox
 
-        from: control.sizeCount === 0 ? 0 : 1
-        to: control.sizeCount
+        from: sizesView.sizeCount === 0 ? 0 : 1
+        to: sizesView.sizeCount
       }
+    }
+  }
+
+  FileDialog {
+    id: imageChoiceFileDialog
+    title: qsTr("Select an Image")
+
+    nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp)"]
+    currentFolder: StandardPaths.standardLocations(
+                     StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
+    onAccepted: {
+      imageView.source = selectedFile
+      if (ClothesModel.changeClothingImage(clothingId, imageView.source))
+        clothesOutputText.state = "successImageChange"
+      else
+        clothesOutputText.state = "failedImageChange"
     }
   }
 }

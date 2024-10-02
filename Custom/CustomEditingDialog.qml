@@ -1,10 +1,10 @@
 import QtQuick 6.6
 import QtQuick.Controls
 
-import "../../Custom"
+import "../Custom"
 
 Dialog {
-  id: clothesTypesEditingDialog
+  id: customEditingDialog
 
   property int id: -1
 
@@ -26,5 +26,5 @@ Dialog {
     border.color: Style.borderColor
   }
 
-  onRejected: clothesTypesEditingDialog.close()
+  onRejected: customEditingDialog.close()
 }

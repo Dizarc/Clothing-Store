@@ -58,7 +58,7 @@ Text {
     State {
       name: "failedImageChange"
       PropertyChanges {
-        clothesTypesOutputText {
+        clothesInfoText {
           text: qsTr("Failed to change image!")
           color: Style.denyButtonColor
         }
@@ -67,9 +67,45 @@ Text {
     State {
       name: "successCreated"
       PropertyChanges {
-        clothesTypesOutputText {
+        clothesInfoText {
           text: qsTr("Created new item!")
           color: Style.acceptButtonColor
+        }
+      }
+    },
+    State {
+      name: "successDescriptionChange"
+      PropertyChanges {
+        clothesInfoText {
+          text: qsTr("Changed description!")
+          color: Style.acceptButtonColor
+        }
+      }
+    },
+    State {
+      name: "failedDescriptionChange"
+      PropertyChanges {
+        clothesInfoText {
+          text: qsTr("Failed to change description!")
+          color: Style.denyButtonColor
+        }
+      }
+    },
+    State {
+      name: "successChangeCount"
+      PropertyChanges {
+        clothesInfoText {
+          text: qsTr("changed count of a size!")
+          color: Style.acceptButtonColor
+        }
+      }
+    },
+    State {
+      name: "failedChangeCount"
+      PropertyChanges {
+        clothesInfoText {
+          text: qsTr("failed to change count of a size!")
+          color: Style.denyButtonColor
         }
       }
     }

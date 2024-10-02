@@ -46,12 +46,12 @@ qt_add_qml_module(appClothingStore
               StorageTab/ClothesTypes/ClothesTypesDelegate.qml
               StorageTab/ClothesTypes/ClothesTypesAdd.qml
               StorageTab/ClothesTypes/ClothesTypes.qml
-              StorageTab/ClothesTypes/ClothesTypesEditingDialog.qml
 
               StorageTab/Clothes/Clothes.qml
               StorageTab/Clothes/ClothesDelegate.qml
 
               StorageTab/ClothingItem/ClothingItem.qml
+
               StorageTab/ClothingItem/SizesComboBox.qml
 
               HomeTab/Home.qml
@@ -61,6 +61,7 @@ qt_add_qml_module(appClothingStore
               Custom/CustomInputBox.qml
               Custom/ThemeSwitch.qml
               Custom/CustomSpinBox.qml
+              Custom/CustomEditingDialog.qml
 
     RESOURCES images/icon.ico
               images/logo.png

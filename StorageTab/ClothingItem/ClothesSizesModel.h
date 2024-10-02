@@ -2,6 +2,8 @@
 #define CLOTHESSIZESMODEL_H
 
 #include <QSqlRelationalTableModel>
+#include <QSqlRecord>
+#include <QSqlField>
 #include <QObject>
 
 class ClothesSizesModel : public QSqlRelationalTableModel
@@ -21,6 +23,8 @@ public:
 
 public slots:
     void filterSizes(int clothingId);
+
+    bool changeCount(const int &clothingId, const int &sizeId, const int &value);
 };
 
 #endif // CLOTHESSIZESMODEL_H

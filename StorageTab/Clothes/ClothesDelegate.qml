@@ -1,4 +1,5 @@
 import QtQuick 6.6
+import QtQuick.Controls
 
 import "../../../ClothingStore"
 import "../../Custom"
@@ -8,20 +9,18 @@ import com.company.ClothesSizesModel
 Rectangle {
   id: clothesDelegate
 
-  required property string clothingId
+  required property int clothingId
   required property string clothingName
   required property string clothingDescription
   required property string clothingImageSource
-  required property string typeId
+  required property int typeId
 
   width: clothesGridView.cellWidth - 4
   height: clothesGridView.cellHeight - 4
 
   color: clothesMouseArea.pressed ? Qt.lighter(
-                                   Style.inputBoxColor,
-                                   1.2) : clothesMouseArea.containsMouse ? Qt.lighter(
-                                                                          Style.inputBoxColor,
-                                                                          1.1) : Style.inputBoxColor
+                                      Style.inputBoxColor,
+                                      1.2) : clothesMouseArea.containsMouse ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
 
   border.color: Style.borderColor
   border.width: 2
@@ -35,16 +34,16 @@ Rectangle {
     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
     onClicked: {
-      clothesColumn.clothesTextState = ""
+                   clothesColumn.clothesTextState = ""
 
-      ClothesSizesModel.filterSizes(clothingId);
-      storageView.push(clothingComponent, {
-                         "clothingId": clothingId,
-                         "clothingName": clothingName,
-                         "clothingDescription": clothingDescription,
-                         "clothingImageSource": clothingImageSource
-                       })
-    }
+                   ClothesSizesModel.filterSizes(clothingId)
+                   storageView.push(clothingComponent, {
+                                      "clothingId": clothingId,
+                                      "clothingName": clothingName,
+                                      "clothingDescription": clothingDescription,
+                                      "clothingImageSource": clothingImageSource
+                                    })
+               }
   }
 
   Column {

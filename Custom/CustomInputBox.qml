@@ -5,6 +5,7 @@ Rectangle {
 
   property alias echo: myTextInput.echoMode
   property alias text: myTextInput.text
+  property alias font: myTextInput.font
 
   implicitWidth: 300
   implicitHeight: 25
@@ -21,6 +22,7 @@ Rectangle {
 
     clip: true
     leftPadding: 5
+    rightPadding: 5
 
     activeFocusOnTab: true
 
