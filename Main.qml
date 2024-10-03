@@ -14,7 +14,6 @@ import com.company.DatabaseController
     2. For the size combo box inside the clothing item find a way to show only the sizes that are not currently in the item
     3. Add create a new size functionality in the clothesTypes view
     4. add change category functionality to a clothing item
-    5. BUG: when clicking remove/add of count of a size for a particular clothing item the items are not removed/added
 */
 Window {
   id: root

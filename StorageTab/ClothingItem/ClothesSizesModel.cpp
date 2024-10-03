@@ -52,16 +52,17 @@ void ClothesSizesModel::filterSizes(int clothingId)
     select();
 }
 
-bool ClothesSizesModel::changeCount(const int &clothingId, const int &sizeId, const int &value)
+bool ClothesSizesModel::changeCount(const int &id, const QString &sId, const int &value)
 {
-    QSqlTableModel model;
+    QString query = "SELECT * FROM ClothesSizes "
+                    "WHERE clothingId = " + QString::number(id) + " AND ClothesSizes.sizeId = (SELECT sizeId FROM Sizes WHERE sizeName = '" + sId + "')";
+
+    QSqlRelationalTableModel model;
     model.setTable("ClothesSizes");
-    model.setFilter("clothingId = " + QString::number(clothingId) + " AND sizeId = " + QString::number(sizeId));
-    model.select();
+    model.setQuery(query);
 
     QSqlRecord record = model.record(0);
     int count = record.field("count").value().toInt();
-
     record.setValue("count", count + value);
 
     model.setRecord(0, record);

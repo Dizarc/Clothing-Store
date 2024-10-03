@@ -286,9 +286,10 @@ Item {
         opacity: sizesView.currentIndex === -1 ? 0.5 : 1
 
         onClicked: {
-          if(ClothesSizesModel.changeCount(clothingId, sizesView.sizeId, addSpinBox.value))
+          if(ClothesSizesModel.changeCount( clothingId, sizesView.sizeSelected, addSpinBox.value)){
             clothesOutputText.state = "successChangeCount"
-          else
+            sizesView.sizeCount += addSpinBox.value
+          }else
             clothesOutputText.state = "failedChangeCount"
         }
       }
@@ -316,9 +317,11 @@ Item {
         opacity: sizesView.currentIndex === -1 ? 0.5 : 1
 
         onClicked: {
-          if(ClothesSizesModel.changeCount(clothingId, sizesView.sizeId, addSpinBox.value *(-1)))
+          if(ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected, (-1)*removeSpinBox.value)){
             clothesOutputText.state = "successChangeCount"
-          else
+            sizesView.sizeCount += (-1)*removeSpinBox.value
+            //removeSpinBox.value = 0
+          }else
             clothesOutputText.state = "failedChangeCount"
         }
       }
