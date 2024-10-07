@@ -12,13 +12,17 @@ import "../../Custom"
 import com.company.ClothesSizesModel
 import com.company.ClothesModel
 
+import com.company.SizesModel
+
 Item {
   id: clothingItem
 
-  property string clothingId
+  property int clothingId
   property string clothingName
   property string clothingDescription
   property string clothingImageSource
+
+  property alias textState: clothesOutputText.state
 
   StorageTabInfoText {
     id: clothesOutputText
@@ -102,6 +106,7 @@ Item {
 
       CustomButton{
         id: saveNameInputButton
+
         text: qsTr("Save name")
 
         width: 75
@@ -110,15 +115,14 @@ Item {
 
         onClicked: {
           if(ClothesModel.renameClothing(clothingId, nameInput.text))
-            clothesOutputText.state = "successRename"
+            clothingItem.textState = "successRename"
           else
-            clothesOutputText.state = "failedRename"
+            clothingItem.textState = "failedRename"
 
           visible = false
         }
       }
     }
-
 
     ScrollView {
       id: scrollView
@@ -160,9 +164,9 @@ Item {
 
       onClicked: {
         if(ClothesModel.changeClothingDescription(clothingId, clothingTextArea.text))
-          clothesOutputText.state = "successDescriptionChange"
+          clothingItem.textState = "successDescriptionChange"
         else
-          clothesOutputText.state = "failedDescriptionChange"
+          clothingItem.textState = "failedDescriptionChange"
 
         visible = false
       }
@@ -216,9 +220,8 @@ Item {
         background: Rectangle {
           color: sizesViewDelegate.highlighted ? Qt.darker(
                                                    Style.generalButtonColor,
-                                                   1.2) : sizesViewDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
+                                                   1.4) : sizesViewDelegate.hovered ? Qt.lighter(Style.generalButtonColor, 1.2) : Style.generalButtonColor
           border.color: Style.borderColor
-          radius: 1
         }
 
         contentItem: Column {
@@ -243,36 +246,18 @@ Item {
         }
       }
     }
-
-    Row {
-      spacing: 3
-
       CustomButton {
-        id: sizeInfoText
-
         text: qsTr("Add new size")
+
         buttonColor: Style.generalButtonColor
 
         onClicked: {
-          newSizeText.visible = true
-          sizesCb.visible = true
+            SizesModel.filterSizes(clothingItem.clothingId);
+            var component = Qt.createComponent("AddSize.qml")
+            var window = component.createObject(clothingItem, {cId: clothingItem.clothingId})
+            window.show()
         }
       }
-
-      Text {
-        id: newSizeText
-
-        visible: false
-        text: qsTr("select new size: ")
-        font.pointSize: 12
-        color: Style.textColor
-      }
-
-      SizesComboBox {
-        id: sizesCb
-        visible: false
-      }
-    }
 
     Row {
       spacing: 5
@@ -287,10 +272,10 @@ Item {
 
         onClicked: {
           if(ClothesSizesModel.changeCount( clothingId, sizesView.sizeSelected, addSpinBox.value)){
-            clothesOutputText.state = "successChangeCount"
+            clothingItem.textState = "successChangeCount"
             sizesView.sizeCount += addSpinBox.value
           }else
-            clothesOutputText.state = "failedChangeCount"
+            clothingItem.textState = "failedChangeCount"
         }
       }
 
@@ -318,11 +303,10 @@ Item {
 
         onClicked: {
           if(ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected, (-1)*removeSpinBox.value)){
-            clothesOutputText.state = "successChangeCount"
+            clothingItem.textState = "successChangeCount"
             sizesView.sizeCount += (-1)*removeSpinBox.value
-            //removeSpinBox.value = 0
           }else
-            clothesOutputText.state = "failedChangeCount"
+            clothingItem.textState = "failedChangeCount"
         }
       }
 
@@ -351,9 +335,9 @@ Item {
     onAccepted: {
       imageView.source = selectedFile
       if (ClothesModel.changeClothingImage(clothingId, imageView.source))
-        clothesOutputText.state = "successImageChange"
+        clothingItem.textState = "successImageChange"
       else
-        clothesOutputText.state = "failedImageChange"
+        clothingItem.textState = "failedImageChange"
     }
   }
 }

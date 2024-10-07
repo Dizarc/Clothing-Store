@@ -109,24 +109,14 @@ Window {
       buttonColor: Style.acceptButtonColor
       onClicked: {
         if(ClothesTypesModel.addNewType(typeNameInput.text, typeImage.source)){
-          clothesTypesTextState.state = "successCreated" //DOESNT WORK
+          clothesTypesColumn.textState = "successCreated"
           clothesTypeAddWindow.close()
         }
-        else
-          failedSaveText.visible = true
+        else{
+          clothesTypesColumn.textState = "failedCreated"
+          clothesTypeAddWindow.close()
+        }
       }
-    }
-
-    Text {
-      id: failedSaveText
-
-      anchors.horizontalCenter: parent.horizontalCenter
-
-      visible: false
-
-      text: qsTr("Failed to save Type!")
-      color: Style.denyButtonColor
-      font.bold: true
     }
   }
 
@@ -138,5 +128,4 @@ Window {
     currentFolder: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
     onAccepted: typeImage.source = selectedFile
   }
-
 }

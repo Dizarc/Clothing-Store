@@ -6,6 +6,7 @@
 
 #include "Init/DatabaseController.h"
 #include "EmployeesTab/Employees.h"
+#include "StorageTab/SizesModel.h"
 #include "StorageTab/ClothesTypes/ClothesTypesModel.h"
 #include "StorageTab/Clothes/ClothesModel.h"
 #include "StorageTab/ClothingItem/ClothesSizesModel.h"
@@ -24,6 +25,10 @@ int main(int argc, char *argv[])
     Employees *emp = new Employees(&app);
     qmlRegisterSingletonInstance("com.company.Employees", 1, 0, "Emp", emp);
     engine.rootContext()->setContextProperty("emp", emp);
+
+    SizesModel *sizesModel = new SizesModel(&app);
+    qmlRegisterSingletonInstance("com.company.SizesModel", 1, 0, "SizesModel", sizesModel);
+    engine.rootContext()->setContextProperty("sizesModel", sizesModel);
 
     ClothesTypesModel *clothesTypesModel = new ClothesTypesModel(&app);
     qmlRegisterSingletonInstance("com.company.ClothesTypesModel", 1, 0, "ClothesTypesModel", clothesTypesModel);

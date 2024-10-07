@@ -14,7 +14,7 @@ ColumnLayout {
 
   spacing: 5
 
-  property alias clothesTypesTextState: clothesTypesOutputText.state
+  property alias textState: clothesTypesOutputText.state
 
   StorageTabInfoText{
     id: clothesTypesOutputText
@@ -61,9 +61,9 @@ ColumnLayout {
 
     onAccepted: {
       if(ClothesTypesModel.deleteType(id))
-       clothesTypesTextState = "successDelete"
+       clothesTypesColumn.textState = "successDelete"
       else
-       clothesTypesTextState = "failedDelete"
+       clothesTypesColumn.textState = "failedDelete"
 
       deleteClothesTypesDialog.close()
     }
@@ -76,9 +76,9 @@ ColumnLayout {
 
     onAccepted: {
       if(ClothesTypesModel.renameType(id, typeNameInput.text))
-       clothesTypesTextState = "successRename"
+       clothesTypesColumn.textState = "successRename"
       else
-       clothesTypesTextState = "failedRename"
+       clothesTypesColumn.textState = "failedRename"
 
       renameClothesTypesDialog.close()
     }
@@ -107,9 +107,9 @@ ColumnLayout {
 
     onAccepted: {
       if(ClothesTypesModel.changeTypeImage(id, changeTypeImage.source))
-       clothesTypesTextState = "successImageChange"
+       clothesTypesColumn.textState = "successImageChange"
       else
-       clothesTypesTextState = "failedImageChange"
+       clothesTypesColumn.textState = "failedImageChange"
 
       changeImageClothesTypesDialog.close()
     }

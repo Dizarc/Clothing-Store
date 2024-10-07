@@ -46,18 +46,20 @@ QHash<int, QByteArray> ClothesSizesModel::roleNames() const
     return roles;
 }
 
+//selects all sizes on a particular clothing item
 void ClothesSizesModel::filterSizes(int clothingId)
 {
     setFilter("clothingId = " + QString::number(clothingId));
     select();
 }
 
-bool ClothesSizesModel::changeCount(const int &id, const QString &sId, const int &value)
+//changes the count for a particular size in a clothing item
+bool ClothesSizesModel::changeCount(const int &id, const QString &sName, const int &value)
 {
     QString query = "SELECT * FROM ClothesSizes "
-                    "WHERE clothingId = " + QString::number(id) + " AND ClothesSizes.sizeId = (SELECT sizeId FROM Sizes WHERE sizeName = '" + sId + "')";
+                    "WHERE clothingId = " + QString::number(id) + " AND ClothesSizes.sizeId = (SELECT sizeId FROM Sizes WHERE sizeName = '" + sName + "')";
 
-    QSqlRelationalTableModel model;
+    QSqlTableModel model;
     model.setTable("ClothesSizes");
     model.setQuery(query);
 
@@ -70,6 +72,36 @@ bool ClothesSizesModel::changeCount(const int &id, const QString &sId, const int
     select();
 
     return submitAll();
+}
+
+//adds new size for the particular clothing item
+bool ClothesSizesModel::addSize(const int &id, const int &sId)
+{
+    QSqlTableModel model;
+
+    model.setTable("ClothesSizes");
+    model.setFilter("clothingId = " + QString::number(id) + " AND sizeId = " + QString::number(sId));
+    model.select();
+
+    if(model.rowCount() != 0)
+        return false;
+
+    model.setFilter("clothingId = " + QString::number(id));
+    model.select();
+
+    model.insertRow(rowCount() + 1);
+    QSqlRecord record = model.record(rowCount());
+
+    record.setValue("clothingId", id);
+    record.setValue("sizeId", sId);
+    record.setValue("count", 1);
+
+    if(model.insertRecord(rowCount(), record)){
+        select();
+        return submitAll();
+    }
+
+    return false;
 }
 
 

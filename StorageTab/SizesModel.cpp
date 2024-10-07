@@ -1,4 +1,4 @@
-#include "SizesModel.h"
+#include "StorageTab/SizesModel.h"
 
 SizesModel::SizesModel(QObject *parent, QSqlDatabase db) : QSqlTableModel(parent, db)
 {
@@ -44,8 +44,12 @@ QHash<int, QByteArray> SizesModel::roleNames() const
     return roles;
 }
 
-// void SizesModel::filterNonSizes(int clothingId)
-// {
-//     setFilter("sizeId = " + QString::number(clothingId));
-//     select();
-// }
+void SizesModel::filterSizes(int cId)
+{
+    QString query = "SELECT * FROM Sizes"
+                    "WHERE NOT EXISTS "
+                    "(SELECT * FROM ClothesSizes WHERE clothingId = " + QString::number(cId) + ")";
+
+    setQuery(query);
+    select();
+}

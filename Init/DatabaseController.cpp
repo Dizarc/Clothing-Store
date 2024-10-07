@@ -113,8 +113,8 @@ void DatabaseController::createDatabase()
         qWarning()<< "Problem while creating Sizes table...";
 
     QString clothesSizesTable = "CREATE TABLE ClothesSizes("
-                                " clothingId INTEGER,"
-                                " sizeId INTEGER,"
+                                " clothingId INTEGER NOT NULL,"
+                                " sizeId INTEGER NOT NULL,"
                                 " count INTEGER,"
                                 " PRIMARY KEY (clothingId, sizeId),"
                                 " FOREIGN KEY (clothingId) REFERENCES Clothes(clothingId),"

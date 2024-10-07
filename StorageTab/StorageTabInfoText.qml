@@ -74,6 +74,15 @@ Text {
       }
     },
     State {
+      name: "failedCreated"
+      PropertyChanges {
+        clothesInfoText {
+          text: qsTr("failed to create new item!")
+          color: Style.denyButtonColor
+        }
+      }
+    },
+    State {
       name: "successDescriptionChange"
       PropertyChanges {
         clothesInfoText {

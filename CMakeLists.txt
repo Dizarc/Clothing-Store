@@ -15,8 +15,9 @@ qt_add_executable(appClothingStore
 
     EmployeesTab/Employees.h EmployeesTab/Employees.cpp
 
+    StorageTab/SizesModel.h StorageTab/SizesModel.cpp
+
     StorageTab/ClothesTypes/ClothesTypesModel.h StorageTab/ClothesTypes/ClothesTypesModel.cpp
-    StorageTab/ClothesTypes/SizesModel.h StorageTab/ClothesTypes/SizesModel.cpp
 
     StorageTab/Clothes/ClothesModel.h StorageTab/Clothes/ClothesModel.cpp
 
@@ -51,6 +52,7 @@ qt_add_qml_module(appClothingStore
               StorageTab/Clothes/ClothesDelegate.qml
 
               StorageTab/ClothingItem/ClothingItem.qml
+              StorageTab/ClothingItem/AddSize.qml
 
               StorageTab/ClothingItem/SizesComboBox.qml
 

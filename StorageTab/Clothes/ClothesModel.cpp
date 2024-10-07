@@ -53,6 +53,7 @@ QHash<int, QByteArray> ClothesModel::roleNames() const
     return roles;
 }
 
+//changes the type of a clothing item
 bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId)
 {
     QSqlTableModel model;
@@ -71,6 +72,7 @@ bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId)
     return submitAll();
 }
 
+//selects all clothing items that belong to a particular type
 void ClothesModel::filterType(int typeId)
 {
     setFilter("typeId = " + QString::number(typeId));
@@ -82,7 +84,7 @@ bool ClothesModel::renameClothing(const int &id, const QString name)
     QSqlTableModel model;
 
     model.setTable("Clothes");
-    model.setFilter("clothingId = "+ QString::number(id));
+    model.setFilter("clothingId = " + QString::number(id));
     model.select();
 
     QSqlRecord record = model.record(0);
@@ -101,7 +103,7 @@ bool ClothesModel::changeClothingDescription(const int &id, const QString descri
     QSqlTableModel model;
 
     model.setTable("Clothes");
-    model.setFilter("clothingId = "+ QString::number(id));
+    model.setFilter("clothingId = " + QString::number(id));
     model.select();
 
     QSqlRecord record = model.record(0);
@@ -130,7 +132,7 @@ bool ClothesModel::changeClothingImage(const int &id, const QString &ClothingIma
     QSqlTableModel model;
 
     model.setTable("Clothes");
-    model.setFilter("clothingId = "+ QString::number(id));
+    model.setFilter("clothingId = " + QString::number(id));
     model.select();
 
     QSqlRecord record = model.record(0);
