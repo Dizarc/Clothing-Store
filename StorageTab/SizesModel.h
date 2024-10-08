@@ -18,7 +18,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    void filterSizes(int cId);
+    void filterAvailableSizes(int cId);
 };
 
 #endif // SIZESMODEL_H

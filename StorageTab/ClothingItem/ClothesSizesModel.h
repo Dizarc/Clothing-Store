@@ -23,9 +23,10 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    void filterSizes(int clothingId);
+    void filterClothesSizes(int id);
 
     bool changeCount(const int &id, const QString &sName, const int &value);
+    bool removeClothingSize(const int &id, const int &index);
     bool addSize(const int &id, const int &sId);
 };
 

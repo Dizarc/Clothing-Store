@@ -252,7 +252,6 @@ Item {
         buttonColor: Style.generalButtonColor
 
         onClicked: {
-            SizesModel.filterSizes(clothingItem.clothingId);
             var component = Qt.createComponent("AddSize.qml")
             var window = component.createObject(clothingItem, {cId: clothingItem.clothingId})
             window.show()
@@ -302,9 +301,19 @@ Item {
         opacity: sizesView.currentIndex === -1 ? 0.5 : 1
 
         onClicked: {
-          if(ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected, (-1)*removeSpinBox.value)){
-            clothingItem.textState = "successChangeCount"
+
+          if(ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected, (-1)*removeSpinBox.value)){           
             sizesView.sizeCount += (-1)*removeSpinBox.value
+
+            if(sizesView.sizeCount === 0){
+              if(ClothesSizesModel.removeClothingSize(clothingId, sizesView.currentIndex))
+                clothingItem.textState = "successChangeCount"
+              else
+                clothingItem.textState = "failedChangeCount"
+
+            }else
+              clothingItem.textState = "successChangeCount"
+
           }else
             clothingItem.textState = "failedChangeCount"
         }

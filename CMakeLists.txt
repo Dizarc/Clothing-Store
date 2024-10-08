@@ -54,8 +54,6 @@ qt_add_qml_module(appClothingStore
               StorageTab/ClothingItem/ClothingItem.qml
               StorageTab/ClothingItem/AddSize.qml
 
-              StorageTab/ClothingItem/SizesComboBox.qml
-
               HomeTab/Home.qml
 
               Custom/Style.qml

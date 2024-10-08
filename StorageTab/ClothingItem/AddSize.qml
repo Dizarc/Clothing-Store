@@ -23,6 +23,7 @@ Window {
   onActiveChanged: {
     if (!addSizeWindow.active)
       addSizeWindow.close();
+    SizesModel.filterAvailableSizes(clothingItem.clothingId);
   }
 
   TableView{

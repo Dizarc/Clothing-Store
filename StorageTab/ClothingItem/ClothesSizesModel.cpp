@@ -47,9 +47,9 @@ QHash<int, QByteArray> ClothesSizesModel::roleNames() const
 }
 
 //selects all sizes on a particular clothing item
-void ClothesSizesModel::filterSizes(int clothingId)
+void ClothesSizesModel::filterClothesSizes(int id)
 {
-    setFilter("clothingId = " + QString::number(clothingId));
+    setFilter("clothingId = " + QString::number(id));
     select();
 }
 
@@ -65,12 +65,26 @@ bool ClothesSizesModel::changeCount(const int &id, const QString &sName, const i
 
     QSqlRecord record = model.record(0);
     int count = record.field("count").value().toInt();
+
     record.setValue("count", count + value);
 
     model.setRecord(0, record);
 
     select();
 
+    return submitAll();
+}
+
+bool ClothesSizesModel::removeClothingSize(const int &cId, const int &index)
+{
+    QSqlTableModel model;
+
+    model.setTable("ClothesSizes");
+    model.setFilter("clothingId = " + QString::number(cId));
+    model.select();
+    model.removeRow(index);
+
+    select();
     return submitAll();
 }
 

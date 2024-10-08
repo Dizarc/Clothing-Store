@@ -36,7 +36,8 @@ Rectangle {
     onClicked: {
                    clothesColumn.clothesTextState = ""
 
-                   ClothesSizesModel.filterSizes(clothingId)
+                   ClothesSizesModel.filterClothesSizes(clothingId)
+
                    storageView.push(clothingComponent, {
                                       "clothingId": clothingId,
                                       "clothingName": clothingName,

@@ -44,12 +44,10 @@ QHash<int, QByteArray> SizesModel::roleNames() const
     return roles;
 }
 
-void SizesModel::filterSizes(int cId)
+void SizesModel::filterAvailableSizes(int cId)
 {
-    QString query = "SELECT * FROM Sizes"
-                    "WHERE NOT EXISTS "
-                    "(SELECT * FROM ClothesSizes WHERE clothingId = " + QString::number(cId) + ")";
-
-    setQuery(query);
+    setFilter("NOT EXISTS "
+              "(SELECT * FROM ClothesSizes WHERE clothingId = " + QString::number(cId) +
+                                       " AND Sizes.sizeId = ClothesSizes.sizeId)");
     select();
 }
