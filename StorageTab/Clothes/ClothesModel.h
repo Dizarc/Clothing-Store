@@ -28,7 +28,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    bool reassignClothes(const int &oldTypeId, const int &newTypeId);
+    bool reassignClothes(const int &oldTypeId, const int &newTypeId, const int &clothingId = -1);
 
     void filterType(int typeId);
 

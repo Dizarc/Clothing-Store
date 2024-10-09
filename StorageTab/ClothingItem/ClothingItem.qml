@@ -11,8 +11,8 @@ import "../../Custom"
 
 import com.company.ClothesSizesModel
 import com.company.ClothesModel
-
 import com.company.SizesModel
+import com.company.ClothesTypesModel
 
 Item {
   id: clothingItem
@@ -21,6 +21,7 @@ Item {
   property string clothingName
   property string clothingDescription
   property string clothingImageSource
+  property int type
 
   property alias textState: clothesOutputText.state
 
@@ -92,6 +93,7 @@ Item {
 
       CustomInputBox {
         id: nameInput
+
         text: clothingName
         font.pointSize: 15
         font.bold: true
@@ -169,6 +171,113 @@ Item {
           clothingItem.textState = "failedDescriptionChange"
 
         visible = false
+      }
+    }
+
+    Row{
+      spacing: 5
+
+      Text{
+        text: qsTr("Type:")
+        font.pointSize: 12
+        color: Style.textColor
+      }
+
+      ComboBox {
+        id: typesComboBox
+
+        width: 125
+        height: 25
+
+        font.pointSize: 12
+
+        currentIndex: -1
+
+        model: ClothesTypesModel
+
+        delegate: ItemDelegate {
+          id: cbDelegate
+
+          required property int typeId
+          required property string typeName
+
+          required property int index
+
+          width: typesComboBox.width
+          height: typesComboBox.height
+
+          contentItem: Text {
+            text: typeName
+            color: Style.textColor
+            font: typesComboBox.font
+            verticalAlignment: Text.AlignVCenter
+          }
+
+          background: Rectangle {
+            color: cbDelegate.pressed ? Qt.lighter(
+                                               Style.generalButtonColor,
+                                               1.2) : cbDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
+            border.color: Style.borderColor
+            radius: 2
+          }
+
+          highlighted: typesComboBox.highlightedIndex === index
+
+          onClicked: {
+            typesComboBox.displayText = typeName
+
+            if(ClothesModel.reassignClothes(type, typeId, clothingId))
+              clothingItem.textState = "successTypeChange"
+            else
+              clothingItem.textState = "failedTypeChange"
+          }
+        }
+
+        contentItem: Text {
+          leftPadding: 2
+          rightPadding: typesComboBox.indicator.width + typesComboBox.spacing
+          text: typesComboBox.displayText
+          font: typesComboBox.font
+          color: Style.textColor
+          verticalAlignment: Text.AlignVCenter
+        }
+
+        background: Rectangle {
+          color: typesComboBox.pressed ? Qt.lighter(
+                                     Style.inputBoxColor,
+                                     1.2) : typesComboBox.hovered ? Qt.lighter(
+                                                                Style.inputBoxColor,
+                                                                1.1) : Style.inputBoxColor
+          border.color: Style.borderColor
+          radius: 2
+        }
+
+        popup: Popup {
+          y: typesComboBox.height - 1
+          width: typesComboBox.width
+          implicitHeight: contentItem.implicitHeight
+          padding: 1
+
+          contentItem: ListView {
+            clip: true
+            implicitHeight: contentHeight
+            model: typesComboBox.popup.visible ? typesComboBox.delegateModel : null
+            currentIndex: typesComboBox.highlightedIndex
+            ScrollIndicator.vertical: ScrollIndicator {}
+          }
+
+          MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            acceptedButtons: Qt.NoButton
+          }
+        }
+
+        MouseArea {
+          anchors.fill: parent
+          cursorShape: Qt.PointingHandCursor
+          acceptedButtons: Qt.NoButton
+        }
       }
     }
 

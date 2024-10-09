@@ -11,11 +11,9 @@ import com.company.DatabaseController
 /*
   TODO:
     1. Make the cells for each clothing item bigger and add the name of the item below the image box
-    2. For the size combo box inside the clothing item find a way to show only the sizes that are not currently in the item
     3. add change category functionality to a clothing item
     4. Make all selected stuff be darker not lighter
     5. add scrollwheel to employee tab
-    6. BUG: filterSizes for SizesModel does not work.
 */
 Window {
   id: root

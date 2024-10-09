@@ -42,7 +42,8 @@ Rectangle {
                                       "clothingId": clothingId,
                                       "clothingName": clothingName,
                                       "clothingDescription": clothingDescription,
-                                      "clothingImageSource": clothingImageSource
+                                      "clothingImageSource": clothingImageSource,
+                                      "type": typeId
                                     })
                }
   }

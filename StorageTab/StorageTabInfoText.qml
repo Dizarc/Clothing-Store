@@ -101,6 +101,24 @@ Text {
       }
     },
     State {
+      name: "successTypeChange"
+      PropertyChanges {
+        clothesInfoText {
+          text: qsTr("changed type!")
+          color: Style.acceptButtonColor
+        }
+      }
+    },
+    State {
+      name: "failedTypeChange"
+      PropertyChanges {
+        clothesInfoText {
+          text: qsTr("failed to change type!")
+          color: Style.denyButtonColor
+        }
+      }
+    },
+    State {
       name: "successChangeCount"
       PropertyChanges {
         clothesInfoText {

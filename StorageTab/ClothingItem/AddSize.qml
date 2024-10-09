@@ -17,80 +17,89 @@ Window {
 
   color: Style.backgroundColor
 
-  height: 400
+  height: 300
   width: 200
 
   onActiveChanged: {
     if (!addSizeWindow.active)
-      addSizeWindow.close();
-    SizesModel.filterAvailableSizes(clothingItem.clothingId);
+      addSizeWindow.close()
+    SizesModel.filterAvailableSizes(clothingItem.clothingId)
   }
 
-  TableView{
-    id: sizeTableView
+  ScrollView {
+    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+    ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
     anchors.fill: parent
 
-    flickableDirection: Flickable.VerticalFlick
-    boundsBehavior: Flickable.StopAtBounds
+    TableView {
+      id: sizeTableView
 
-    selectionModel: ItemSelectionModel{
-      id: sizeSelectionModel
-    }
+      flickableDirection: Flickable.VerticalFlick
+      boundsBehavior: Flickable.StopAtBounds
 
-    model: SizesModel
-
-    delegate: ItemDelegate{
-      id: sizesDelegateItem
-
-      required property int sizeId
-      required property string sizeName
-
-      required property bool selected
-      required property int index
-
-      implicitWidth: sizeTableView.width
-      implicitHeight: 30
-
-      onClicked: {
-        sizeSelectionModel.select(sizeTableView.index(sizesDelegateItem.index, 0), ItemSelectionModel.SelectCurrent)
-        if(ClothesSizesModel.addSize(cId, sizesDelegateItem.sizeId)){
-          clothingItem.textState = "successCreated"
-          addSizeWindow.close();
-        }
-        else{
-          clothingItem.textState = "failedCreated"
-          addSizeWindow.close();
-        }
+      selectionModel: ItemSelectionModel {
+        id: sizeSelectionModel
       }
 
-      background: Rectangle{
-        color: selected ? Qt.lighter(Style.generalButtonColor, 1.3) : sizesDelegateItem.hovered ? Qt.lighter(Style.generalButtonColor, 1.2) : Style.generalButtonColor
-        border.color: Style.borderColor
-        radius: 1
-      }
+      model: SizesModel
 
-      contentItem: Row{
-        spacing: 5
-        Text{
-          text: sizeId
-          color: Style.textColor
-          font.pointSize: 12
-          anchors.verticalCenter: parent.verticalCenter
+      delegate: ItemDelegate {
+        id: sizesDelegateItem
+
+        required property int sizeId
+        required property string sizeName
+
+        required property bool selected
+        required property int index
+
+        implicitWidth: sizeTableView.width
+        implicitHeight: 30
+
+        onClicked: {
+          sizeSelectionModel.select(sizeTableView.index(
+                                      sizesDelegateItem.index, 0),
+                                    ItemSelectionModel.SelectCurrent)
+          if (ClothesSizesModel.addSize(cId, sizesDelegateItem.sizeId)) {
+            clothingItem.textState = "successCreated"
+            addSizeWindow.close()
+          } else {
+            clothingItem.textState = "failedCreated"
+            addSizeWindow.close()
+          }
         }
-        Text{
-          text: sizeName
-          color: Style.textColor
-          font.pointSize: 12
-          anchors.verticalCenter: parent.verticalCenter
+
+        background: Rectangle {
+          color: selected ? Qt.lighter(
+                              Style.generalButtonColor,
+                              1.3) : sizesDelegateItem.hovered ? Qt.lighter(
+                                                                   Style.generalButtonColor,
+                                                                   1.2) : Style.generalButtonColor
+          border.color: Style.borderColor
+          radius: 1
         }
-      }
 
-      MouseArea {
-        anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
-        acceptedButtons: Qt.NoButton
+        contentItem: Row {
+          spacing: 5
+          Text {
+            text: sizeId
+            color: Style.textColor
+            font.pointSize: 12
+            anchors.verticalCenter: parent.verticalCenter
+          }
+          Text {
+            text: sizeName
+            color: Style.textColor
+            font.pointSize: 12
+            anchors.verticalCenter: parent.verticalCenter
+          }
+        }
 
+        MouseArea {
+          anchors.fill: parent
+          cursorShape: Qt.PointingHandCursor
+          acceptedButtons: Qt.NoButton
+        }
       }
     }
   }

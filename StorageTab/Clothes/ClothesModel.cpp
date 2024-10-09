@@ -54,11 +54,16 @@ QHash<int, QByteArray> ClothesModel::roleNames() const
 }
 
 //changes the type of a clothing item
-bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId)
+bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId, const int &clothingId)
 {
     QSqlTableModel model;
     model.setTable("Clothes");
-    model.setFilter("typeId = " + QString::number(oldTypeId));
+
+    if(clothingId == -1)
+        model.setFilter("typeId = " + QString::number(oldTypeId));
+    else
+        model.setFilter("typeId = " + QString::number(oldTypeId) + " AND clothingId = " + QString::number(clothingId));
+
     model.select();
 
     for(int i = 0; i < model.rowCount(); ++i){
