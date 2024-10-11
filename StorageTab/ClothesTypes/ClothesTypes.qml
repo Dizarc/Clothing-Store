@@ -26,7 +26,7 @@ ColumnLayout {
     enabled: isAdminLogged
     opacity: isAdminLogged ? 1 : 0.5
 
-    text: qsTr("Add a new type")
+    text: qsTr("New type")
     buttonColor: Style.generalButtonColor
 
     onClicked: {

@@ -10,8 +10,9 @@ import com.company.DatabaseController
 
 /*
   TODO:
-    1. Make the cells for each clothing item bigger and add the name of the item below the image box
-    3. add change category functionality to a clothing item
+    1. Implement the remove size functionality which will remove the size and all corresponding items that belong to it
+    2. Fix the sizes tableView inside SizeAdd.qml(shows two columns of the same data)
+    3. Make the cells for each clothing item bigger and add the name of the item below the image box
     4. Make all selected stuff be darker not lighter
     5. add scrollwheel to employee tab
 */

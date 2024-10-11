@@ -2,11 +2,14 @@ import QtQuick 6.6
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import "../Custom"
 import "../../ClothingStore"
 
 import "../StorageTab/ClothesTypes"
 import "../StorageTab/Clothes"
 import "../StorageTab/ClothingItem"
+
+import com.company.SizesModel
 
 Column {
   id: storageItem
@@ -14,13 +17,31 @@ Column {
   anchors.fill: parent
   spacing: 5
 
-  CustomButton {
-    text: qsTr("< Back")
-    buttonColor: Style.generalButtonColor
+  Row{
+    spacing: 5
 
-    onClicked: {
-      if (storageView.currentItem !== storageView.initialItem)
-        storageView.pop()
+    CustomButton {
+      text: qsTr("< Back")
+      buttonColor: Style.generalButtonColor
+
+      onClicked: {
+        if (storageView.currentItem !== storageView.initialItem)
+          storageView.pop()
+      }
+    }
+
+    CustomButton{
+      text: qsTr("New size")
+
+      buttonColor: Style.generalButtonColor
+
+      onClicked: {
+        SizesModel.filterAvailableSizes();
+
+        var component = Qt.createComponent("SizeAdd.qml")
+        var window = component.createObject()
+        window.show()
+      }
     }
   }
 

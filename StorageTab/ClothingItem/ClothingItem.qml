@@ -361,7 +361,9 @@ Item {
         buttonColor: Style.generalButtonColor
 
         onClicked: {
-            var component = Qt.createComponent("AddSize.qml")
+            SizesModel.filterAvailableSizes(clothingItem.clothingId)
+
+            var component = Qt.createComponent("ClothingSizeAdd.qml")
             var window = component.createObject(clothingItem, {cId: clothingItem.clothingId})
             window.show()
         }
@@ -384,6 +386,8 @@ Item {
             sizesView.sizeCount += addSpinBox.value
           }else
             clothingItem.textState = "failedChangeCount"
+
+          sizesView.currentIndex = -1
         }
       }
 
@@ -425,6 +429,8 @@ Item {
 
           }else
             clothingItem.textState = "failedChangeCount"
+
+          sizesView.currentIndex = -1
         }
       }
 

@@ -31,7 +31,6 @@ QVariant SizesModel::data(const QModelIndex &index, int role) const
     }
 
     return value;
-
 }
 
 QHash<int, QByteArray> SizesModel::roleNames() const
@@ -46,8 +45,32 @@ QHash<int, QByteArray> SizesModel::roleNames() const
 
 void SizesModel::filterAvailableSizes(int cId)
 {
-    setFilter("NOT EXISTS "
-              "(SELECT * FROM ClothesSizes WHERE clothingId = " + QString::number(cId) +
-                                       " AND Sizes.sizeId = ClothesSizes.sizeId)");
+    if(cId == -1)
+        setFilter("");
+    else
+        setFilter("NOT EXISTS "
+                  "(SELECT * FROM ClothesSizes WHERE clothingId = " + QString::number(cId) +
+                  " AND Sizes.sizeId = ClothesSizes.sizeId)");
+
     select();
+}
+
+bool SizesModel::addSize(const QString &sizeName)
+{
+    insertRow(rowCount() + 1);
+    QSqlRecord record = this->record(rowCount());
+
+    record.setValue("sizeName", sizeName);
+
+    if(insertRecord(rowCount(), record)){
+        select();
+        return submitAll();
+    }
+
+    return false;
+}
+
+bool SizesModel::removeSize(const int &id)
+{
+
 }

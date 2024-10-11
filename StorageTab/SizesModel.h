@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSqlTableModel>
+#include <QSqlRecord>
 
 class SizesModel : public QSqlTableModel
 {
@@ -18,7 +19,9 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    void filterAvailableSizes(int cId);
+    void filterAvailableSizes(int cId = -1);
+    bool addSize(const QString &sizeName);
+    bool removeSize(const int &id);
 };
 
 #endif // SIZESMODEL_H
