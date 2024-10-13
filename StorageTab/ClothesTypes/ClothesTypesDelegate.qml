@@ -41,7 +41,7 @@ Rectangle {
                    clothesTypesColumn.textState = ""
 
                    ClothesModel.filterType(typeId)
-                   storageView.push(clothesComponent)
+                   storageView.push(clothesComponent, {"type": typeId })
                  } else if (mouse.button === Qt.RightButton)
                  contextMenu.popup()
                }

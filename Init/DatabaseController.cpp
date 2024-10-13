@@ -97,7 +97,7 @@ void DatabaseController::createDatabase()
     QString clothesTable = "CREATE TABLE Clothes("
                            " clothingId INTEGER PRIMARY KEY AUTOINCREMENT,"
                            " clothingName TEXT NOT NULL,"
-                           " clothingDescription TEXT NOT NULL,"
+                           " clothingDescription TEXT,"
                            " clothingImageSource TEXT NOT NULL,"
                            " typeId INTEGER,"
                            " FOREIGN KEY (typeId) REFERENCES ClothesTypes(typeId));";
@@ -107,7 +107,7 @@ void DatabaseController::createDatabase()
 
     QString sizesTable = "CREATE TABLE Sizes("
                          " sizeId INTEGER PRIMARY KEY AUTOINCREMENT,"
-                         " sizeName TEXT NOT NULL);";
+                         " sizeName TEXT NOT NULL UNIQUE);";
 
     if(!query.exec(sizesTable))
         qWarning()<< "Problem while creating Sizes table...";

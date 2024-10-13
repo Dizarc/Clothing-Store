@@ -70,7 +70,30 @@ bool SizesModel::addSize(const QString &sizeName)
     return false;
 }
 
-bool SizesModel::removeSize(const int &id)
+bool SizesModel::removeSize(const int &sId)
 {
+    QSqlTableModel clothesSizesmodel;
 
+    QString filter = "sizeId = " + QString::number(sId);
+
+    clothesSizesmodel.setTable("ClothesSizes");
+    clothesSizesmodel.setFilter(filter);
+    clothesSizesmodel.select();
+
+    if(clothesSizesmodel.rowCount() == 0 || clothesSizesmodel.removeRows(0, clothesSizesmodel.rowCount())){
+        clothesSizesmodel.select();
+        clothesSizesmodel.submitAll();
+
+        QSqlTableModel sizesModel;
+
+        sizesModel.setTable("Sizes");
+        sizesModel.setFilter(filter);
+        sizesModel.select();
+
+        if(sizesModel.removeRow(0)){
+            select();
+            return submitAll();
+        }
+    }
+    return false;
 }

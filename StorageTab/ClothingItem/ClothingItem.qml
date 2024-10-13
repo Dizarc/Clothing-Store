@@ -44,38 +44,41 @@ Item {
     opacity: 0.0
   }
 
-  Image {
+  MouseArea {
     id: imageView
 
-    source: clothingImageSource !== "" ? "file:/" + clothingImageSource : ""
-    visible: clothingImageSource !== ""
+    property alias source: itemImage.source
+
+    width: parent.width / 2
+    height: parent.height - hoverText.height - clothesOutputText.height
 
     anchors.top: hoverText.bottom
     anchors.topMargin: 5
 
-    width: parent.width / 2
+    enabled: isAdminLogged
 
-    fillMode: Image.PreserveAspectFit
+    cursorShape: Qt.PointingHandCursor
+    hoverEnabled: true
 
-    MouseArea {
-      anchors.fill: parent
+    onClicked: imageChoiceFileDialog.open()
 
-      enabled: isAdminLogged
+    onEntered: {
+      hoverText.opacity = 1.0
+      imageView.opacity = 0.7
+    }
 
-      cursorShape: Qt.PointingHandCursor
-      hoverEnabled: true
+    onExited: {
+      hoverText.opacity = 0.0
+      imageView.opacity = 1.0
+    }
 
-      onClicked: imageChoiceFileDialog.open()
+    Image {
+      id: itemImage
 
-      onEntered: {
-        hoverText.opacity = 1.0
-        imageView.opacity = 0.7
-      }
-
-      onExited: {
-        hoverText.opacity = 0.0
-        imageView.opacity = 1.0
-      }
+      source: clothingImageSource !== "" ? "file:/" + clothingImageSource : ""
+      visible: clothingImageSource !== ""
+      width: parent.width
+      fillMode: Image.PreserveAspectFit
     }
   }
 
@@ -88,7 +91,7 @@ Item {
 
     spacing: 5
 
-    Row{
+    Row {
       spacing: 5
 
       CustomInputBox {
@@ -101,12 +104,12 @@ Item {
         focus: true
 
         onTextChanged: {
-          if(saveNameInputButton.visible !== true && text !== clothingName )
+          if (saveNameInputButton.visible !== true && text !== clothingName)
             saveNameInputButton.visible = true
         }
       }
 
-      CustomButton{
+      CustomButton {
         id: saveNameInputButton
 
         text: qsTr("Save name")
@@ -116,7 +119,7 @@ Item {
         visible: false
 
         onClicked: {
-          if(ClothesModel.renameClothing(clothingId, nameInput.text))
+          if (ClothesModel.renameClothing(clothingId, nameInput.text))
             clothingItem.textState = "successRename"
           else
             clothingItem.textState = "failedRename"
@@ -151,13 +154,14 @@ Item {
         }
 
         onTextChanged: {
-          if(saveDescriptionInputButton.visible !== true && text !== clothingDescription )
+          if (saveDescriptionInputButton.visible !== true
+              && text !== clothingDescription)
             saveDescriptionInputButton.visible = true
         }
       }
     }
 
-    CustomButton{
+    CustomButton {
       id: saveDescriptionInputButton
       text: qsTr("Save Description")
 
@@ -165,7 +169,8 @@ Item {
       visible: false
 
       onClicked: {
-        if(ClothesModel.changeClothingDescription(clothingId, clothingTextArea.text))
+        if (ClothesModel.changeClothingDescription(clothingId,
+                                                   clothingTextArea.text))
           clothingItem.textState = "successDescriptionChange"
         else
           clothingItem.textState = "failedDescriptionChange"
@@ -174,10 +179,10 @@ Item {
       }
     }
 
-    Row{
+    Row {
       spacing: 5
 
-      Text{
+      Text {
         text: qsTr("Type:")
         font.pointSize: 12
         color: Style.textColor
@@ -215,8 +220,10 @@ Item {
 
           background: Rectangle {
             color: cbDelegate.pressed ? Qt.lighter(
-                                               Style.generalButtonColor,
-                                               1.2) : cbDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
+                                          Style.generalButtonColor,
+                                          1.2) : cbDelegate.hovered ? Qt.lighter(
+                                                                        Style.inputBoxColor,
+                                                                        1.1) : Style.inputBoxColor
             border.color: Style.borderColor
             radius: 2
           }
@@ -226,7 +233,7 @@ Item {
           onClicked: {
             typesComboBox.displayText = typeName
 
-            if(ClothesModel.reassignClothes(type, typeId, clothingId))
+            if (ClothesModel.reassignClothes(type, typeId, clothingId))
               clothingItem.textState = "successTypeChange"
             else
               clothingItem.textState = "failedTypeChange"
@@ -244,10 +251,10 @@ Item {
 
         background: Rectangle {
           color: typesComboBox.pressed ? Qt.lighter(
-                                     Style.inputBoxColor,
-                                     1.2) : typesComboBox.hovered ? Qt.lighter(
-                                                                Style.inputBoxColor,
-                                                                1.1) : Style.inputBoxColor
+                                           Style.inputBoxColor,
+                                           1.2) : typesComboBox.hovered ? Qt.lighter(
+                                                                            Style.inputBoxColor,
+                                                                            1.1) : Style.inputBoxColor
           border.color: Style.borderColor
           radius: 2
         }
@@ -355,19 +362,21 @@ Item {
         }
       }
     }
-      CustomButton {
-        text: qsTr("Add new size")
+    CustomButton {
+      text: qsTr("Add new size")
 
-        buttonColor: Style.generalButtonColor
+      buttonColor: Style.generalButtonColor
 
-        onClicked: {
-            SizesModel.filterAvailableSizes(clothingItem.clothingId)
+      onClicked: {
+        SizesModel.filterAvailableSizes(clothingItem.clothingId)
 
-            var component = Qt.createComponent("ClothingSizeAdd.qml")
-            var window = component.createObject(clothingItem, {cId: clothingItem.clothingId})
-            window.show()
-        }
+        var component = Qt.createComponent("ClothingSizeAdd.qml")
+        var window = component.createObject(clothingItem, {
+                                              "cId": clothingItem.clothingId
+                                            })
+        window.show()
       }
+    }
 
     Row {
       spacing: 5
@@ -381,10 +390,11 @@ Item {
         opacity: sizesView.currentIndex === -1 ? 0.5 : 1
 
         onClicked: {
-          if(ClothesSizesModel.changeCount( clothingId, sizesView.sizeSelected, addSpinBox.value)){
+          if (ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected,
+                                            addSpinBox.value)) {
             clothingItem.textState = "successChangeCount"
             sizesView.sizeCount += addSpinBox.value
-          }else
+          } else
             clothingItem.textState = "failedChangeCount"
 
           sizesView.currentIndex = -1
@@ -415,19 +425,19 @@ Item {
 
         onClicked: {
 
-          if(ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected, (-1)*removeSpinBox.value)){           
-            sizesView.sizeCount += (-1)*removeSpinBox.value
+          if (ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected,
+                                            (-1) * removeSpinBox.value)) {
+            sizesView.sizeCount += (-1) * removeSpinBox.value
 
-            if(sizesView.sizeCount === 0){
-              if(ClothesSizesModel.removeClothingSize(clothingId, sizesView.currentIndex))
+            if (sizesView.sizeCount === 0) {
+              if (ClothesSizesModel.removeClothingSize(clothingId,
+                                                       sizesView.currentIndex))
                 clothingItem.textState = "successChangeCount"
               else
                 clothingItem.textState = "failedChangeCount"
-
-            }else
+            } else
               clothingItem.textState = "successChangeCount"
-
-          }else
+          } else
             clothingItem.textState = "failedChangeCount"
 
           sizesView.currentIndex = -1
@@ -445,6 +455,19 @@ Item {
 
         from: sizesView.sizeCount === 0 ? 0 : 1
         to: sizesView.sizeCount
+      }
+    }
+
+    CustomButton {
+      text: qsTr("Delete Item")
+
+      buttonColor: Style.denyButtonColor
+
+      enabled: isAdminLogged
+      opacity: isAdminLogged ? 1 : 0.5
+
+      onClicked: {
+
       }
     }
   }

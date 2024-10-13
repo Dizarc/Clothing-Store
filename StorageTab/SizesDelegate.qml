@@ -14,7 +14,7 @@ Rectangle {
   property alias myMouseArea: mouseArea
 
   implicitHeight: 30
-  implicitWidth: 200
+  implicitWidth: sizeTableView.width
 
   clip: true
 
@@ -33,17 +33,18 @@ Rectangle {
   border.color: Style.borderColor
 
   Row {
+    anchors.centerIn: parent
     spacing: 5
     Text {
       text: sizeId
       color: Style.textColor
-      font.pointSize: 12
+      font.pointSize: 14
       anchors.verticalCenter: parent.verticalCenter
     }
     Text {
       text: sizeName
       color: Style.textColor
-      font.pointSize: 12
+      font.pointSize: 14
       anchors.verticalCenter: parent.verticalCenter
     }
   }

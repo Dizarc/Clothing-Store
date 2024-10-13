@@ -1,5 +1,6 @@
 import QtQuick 6.6
 import QtQuick.Controls.Basic
+import QtQuick.Layouts
 
 import com.company.SizesModel
 import com.company.ClothesSizesModel
@@ -26,7 +27,7 @@ Window {
       addSizeWindow.close()
   }
 
-  Column {
+  ColumnLayout {
     anchors.fill: parent
     spacing: 5
 
@@ -37,12 +38,18 @@ Window {
     }
 
     ScrollView {
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
       ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
       ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
       TableView {
         id: sizeTableView
 
+        width: parent.width
+
+        clip: true
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds
 

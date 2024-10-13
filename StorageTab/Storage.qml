@@ -31,14 +31,14 @@ Column {
     }
 
     CustomButton{
-      text: qsTr("New size")
+      text: qsTr("Sizes")
 
       buttonColor: Style.generalButtonColor
 
       onClicked: {
         SizesModel.filterAvailableSizes();
 
-        var component = Qt.createComponent("SizeAdd.qml")
+        var component = Qt.createComponent("Sizes.qml")
         var window = component.createObject()
         window.show()
       }

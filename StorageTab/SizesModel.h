@@ -5,6 +5,8 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 
+#include "ClothingItem/ClothesSizesModel.h"
+
 class SizesModel : public QSqlTableModel
 {
     Q_OBJECT
@@ -21,7 +23,7 @@ public:
 public slots:
     void filterAvailableSizes(int cId = -1);
     bool addSize(const QString &sizeName);
-    bool removeSize(const int &id);
+    bool removeSize(const int &sId);
 };
 
 #endif // SIZESMODEL_H

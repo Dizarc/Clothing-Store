@@ -84,12 +84,40 @@ void ClothesModel::filterType(int typeId)
     select();
 }
 
-bool ClothesModel::renameClothing(const int &id, const QString name)
+bool ClothesModel::addNewClothing(const QString &itemName, const QString &itemImageSource, const int &tId)
+{
+    QString localFilePath = QUrl(itemImageSource).toLocalFile();
+    QFile image(localFilePath);
+
+    QString newImage = "";
+    if(image.exists())
+        newImage = DatabaseController::documentsDirPath + "/storage_images/item_images/" + QFileInfo(localFilePath).fileName();
+
+    if(!newImage.isEmpty())
+        image.copy(newImage);
+
+    insertRow(rowCount() + 1);
+    QSqlRecord record = this->record(rowCount());
+
+    record.setValue("clothingName", itemName);
+    record.setValue("clothingDescription", "newImage");
+    record.setValue("clothingImageSource", newImage);
+    record.setValue("typeId", tId);
+
+    if(insertRecord(rowCount(), record)){
+        select();
+        return submitAll();
+    }
+
+    return false;
+}
+
+bool ClothesModel::renameClothing(const int &cId, const QString name)
 {
     QSqlTableModel model;
 
     model.setTable("Clothes");
-    model.setFilter("clothingId = " + QString::number(id));
+    model.setFilter("clothingId = " + QString::number(cId));
     model.select();
 
     QSqlRecord record = model.record(0);
@@ -103,12 +131,12 @@ bool ClothesModel::renameClothing(const int &id, const QString name)
     return submitAll();
 }
 
-bool ClothesModel::changeClothingDescription(const int &id, const QString description)
+bool ClothesModel::changeClothingDescription(const int &cId, const QString description)
 {
     QSqlTableModel model;
 
     model.setTable("Clothes");
-    model.setFilter("clothingId = " + QString::number(id));
+    model.setFilter("clothingId = " + QString::number(cId));
     model.select();
 
     QSqlRecord record = model.record(0);
@@ -122,7 +150,7 @@ bool ClothesModel::changeClothingDescription(const int &id, const QString descri
     return submitAll();
 }
 
-bool ClothesModel::changeClothingImage(const int &id, const QString &ClothingImageSource)
+bool ClothesModel::changeClothingImage(const int &cId, const QString &ClothingImageSource)
 {
     QString localFilePath = QUrl(ClothingImageSource).toLocalFile();
     QFile image(localFilePath);
@@ -137,7 +165,7 @@ bool ClothesModel::changeClothingImage(const int &id, const QString &ClothingIma
     QSqlTableModel model;
 
     model.setTable("Clothes");
-    model.setFilter("clothingId = " + QString::number(id));
+    model.setFilter("clothingId = " + QString::number(cId));
     model.select();
 
     QSqlRecord record = model.record(0);
@@ -149,4 +177,9 @@ bool ClothesModel::changeClothingImage(const int &id, const QString &ClothingIma
     select();
 
     return submitAll();
+}
+
+bool ClothesModel::removeClothing(const int &cId)
+{
+
 }

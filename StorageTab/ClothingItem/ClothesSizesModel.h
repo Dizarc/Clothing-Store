@@ -25,9 +25,9 @@ public:
 public slots:
     void filterClothesSizes(int id);
 
-    bool changeCount(const int &id, const QString &sName, const int &value);
-    bool removeClothingSize(const int &id, const int &index);
-    bool addSize(const int &id, const int &sId);
+    bool changeCount(const int &cId, const QString &sName, const int &value);
+    bool removeClothingSize(const int &cId, const int &index);
+    bool addSize(const int &cId, const int &sId);
 };
 
 #endif // CLOTHESSIZESMODEL_H

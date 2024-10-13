@@ -47,17 +47,17 @@ QHash<int, QByteArray> ClothesSizesModel::roleNames() const
 }
 
 //selects all sizes on a particular clothing item
-void ClothesSizesModel::filterClothesSizes(int id)
+void ClothesSizesModel::filterClothesSizes(int cId)
 {
-    setFilter("clothingId = " + QString::number(id));
+    setFilter("clothingId = " + QString::number(cId));
     select();
 }
 
 //changes the count for a particular size in a clothing item
-bool ClothesSizesModel::changeCount(const int &id, const QString &sName, const int &value)
+bool ClothesSizesModel::changeCount(const int &cId, const QString &sName, const int &value)
 {
     QString query = "SELECT * FROM ClothesSizes "
-                    "WHERE clothingId = " + QString::number(id) + " AND ClothesSizes.sizeId = (SELECT sizeId FROM Sizes WHERE sizeName = '" + sName + "')";
+                    "WHERE clothingId = " + QString::number(cId) + " AND ClothesSizes.sizeId = (SELECT sizeId FROM Sizes WHERE sizeName = '" + sName + "')";
 
     QSqlTableModel model;
     model.setTable("ClothesSizes");
@@ -89,24 +89,24 @@ bool ClothesSizesModel::removeClothingSize(const int &cId, const int &index)
 }
 
 //adds new size for the particular clothing item
-bool ClothesSizesModel::addSize(const int &id, const int &sId)
+bool ClothesSizesModel::addSize(const int &cId, const int &sId)
 {
     QSqlTableModel model;
 
     model.setTable("ClothesSizes");
-    model.setFilter("clothingId = " + QString::number(id) + " AND sizeId = " + QString::number(sId));
+    model.setFilter("clothingId = " + QString::number(cId) + " AND sizeId = " + QString::number(sId));
     model.select();
 
     if(model.rowCount() != 0)
         return false;
 
-    model.setFilter("clothingId = " + QString::number(id));
+    model.setFilter("clothingId = " + QString::number(cId));
     model.select();
 
     model.insertRow(rowCount() + 1);
     QSqlRecord record = model.record(rowCount());
 
-    record.setValue("clothingId", id);
+    record.setValue("clothingId", cId);
     record.setValue("sizeId", sId);
     record.setValue("count", 1);
 
@@ -117,5 +117,3 @@ bool ClothesSizesModel::addSize(const int &id, const int &sId)
 
     return false;
 }
-
-

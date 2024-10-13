@@ -4,23 +4,25 @@ import QtCore
 
 import "../../Custom"
 
-import com.company.ClothesTypesModel
+import com.company.ClothesModel
 
 Window {
-  id: clothesTypeAddWindow
+  id: clothesItemAddWindow
 
-  title: "Add a new clothing type"
+  property int tId: -1
+
+  title: "Add a new clothing item"
 
   flags: Qt.Dialog
 
   color: Style.backgroundColor
 
   height: 500
-  width: 600
+  width: 800
 
   onActiveChanged: {
-    if (!clothesTypeAddWindow.active && !imageChoiceFileDialog.visible)
-      clothesTypeAddWindow.close();
+    if (!clothesItemAddWindow.active && !imageChoiceFileDialog.visible)
+      clothesItemAddWindow.close();
   }
 
   Column{
@@ -31,12 +33,12 @@ Window {
     Text{
       anchors.horizontalCenter: parent.horizontalCenter
       color: Style.textColor
-      text: qsTr("Name of type:")
+      text: qsTr("Name of item:")
       font.pointSize: 12
     }
 
     CustomInputBox{
-      id: typeNameInput
+      id: itemNameInput
       anchors.horizontalCenter: parent.horizontalCenter
     }
 
@@ -61,7 +63,7 @@ Window {
       radius: 5
 
       Image{
-        id: typeImage
+        id: itemImage
 
         anchors.fill: parent
 
@@ -101,20 +103,18 @@ Window {
     }
 
     CustomButton {
-      id: saveTypeButton
-
       anchors.horizontalCenter: parent.horizontalCenter
 
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
       onClicked: {
-        if(ClothesTypesModel.addNewType(typeNameInput.text, typeImage.source)){
-          clothesTypesColumn.textState = "successCreated"
-          clothesTypeAddWindow.close()
+        if(ClothesModel.addNewClothing(itemNameInput.text, itemImage.source, clothesItemAddWindow.tId)){
+          clothesColumn.clothesTextState = "successCreated"
+          clothesItemAddWindow.close()
         }
         else{
-          clothesTypesColumn.textState = "failedCreated"
-          clothesTypeAddWindow.close()
+          clothesColumn.clothesTextState = "failedCreated"
+          clothesItemAddWindow.close()
         }
       }
     }
@@ -126,6 +126,6 @@ Window {
 
     nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp)"]
     currentFolder: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
-    onAccepted: typeImage.source = selectedFile
+    onAccepted: itemImage.source = selectedFile
   }
 }
