@@ -23,13 +23,15 @@ Window {
       clothesTypeAddWindow.close();
   }
 
-  Column{
-    anchors.fill: parent
+  InfoDialog {
+    id: typeInfoDialog
+  }
 
+  Column{
+    anchors.horizontalCenter: parent.horizontalCenter
     spacing: 5
 
     Text{
-      anchors.horizontalCenter: parent.horizontalCenter
       color: Style.textColor
       text: qsTr("Name of type:")
       font.pointSize: 12
@@ -37,11 +39,9 @@ Window {
 
     CustomInputBox{
       id: typeNameInput
-      anchors.horizontalCenter: parent.horizontalCenter
     }
 
     Text{
-      anchors.horizontalCenter: parent.horizontalCenter
       color: Style.textColor
       text: qsTr("Pick an image:")
       font.pointSize: 12
@@ -51,8 +51,6 @@ Window {
       id: imageRect
       width: 300
       height: 300
-
-      anchors.horizontalCenter: parent.horizontalCenter
 
       color: Style.inputBoxColor
       border.color: Style.borderColor
@@ -107,15 +105,15 @@ Window {
 
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
+
       onClicked: {
-        if(ClothesTypesModel.addNewType(typeNameInput.text, typeImage.source)){
-          clothesTypesColumn.textState = "successCreated"
-          clothesTypeAddWindow.close()
-        }
-        else{
-          clothesTypesColumn.textState = "failedCreated"
-          clothesTypeAddWindow.close()
-        }
+        if(ClothesTypesModel.addNewType(typeNameInput.text, typeImage.source))
+          typeInfoDialog.dialogText = qsTr("Successfully created new type!")
+        else
+          typeInfoDialog.dialogText = qsTr("Error while creating new type!")
+
+        typeInfoDialog.show()
+        clothesTypeAddWindow.close()
       }
     }
   }

@@ -50,7 +50,7 @@ Rectangle {
   Column {
     id: delegateColumn
 
-    anchors.fill: parent
+    anchors.horizontalCenter: parent.horizontalCenter
     spacing: 10
 
     Text {
@@ -61,7 +61,6 @@ Rectangle {
       height: implicitHeight
       width: parent.width - 6
 
-      anchors.horizontalCenter: parent.horizontalCenter
       horizontalAlignment: Text.AlignHCenter
       wrapMode: Text.Wrap
 
@@ -72,7 +71,6 @@ Rectangle {
     Image {
       id: imageView
 
-      anchors.horizontalCenter: parent.horizontalCenter
       source: typeImageSource !== "" ? "file:/" + typeImageSource : ""
       visible: typeImageSource !== ""
 
@@ -93,7 +91,7 @@ Rectangle {
 
       onTriggered: {
         deleteClothesTypesDialog.id = typeId
-        deleteClothesTypesDialog.open()
+        deleteClothesTypesDialog.show()
       }
     }
 
@@ -102,7 +100,7 @@ Rectangle {
 
       onTriggered: {
         renameClothesTypesDialog.id = typeId
-        renameClothesTypesDialog.open()
+        renameClothesTypesDialog.show()
       }
     }
 
@@ -111,7 +109,7 @@ Rectangle {
 
       onTriggered: {
         changeImageClothesTypesDialog.id = typeId
-        changeImageClothesTypesDialog.open()
+        changeImageClothesTypesDialog.show()
       }
     }
 

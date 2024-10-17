@@ -63,7 +63,8 @@ qt_add_qml_module(appClothingStore
               Custom/CustomInputBox.qml
               Custom/ThemeSwitch.qml
               Custom/CustomSpinBox.qml
-              Custom/CustomEditingDialog.qml
+              Custom/InfoDialog.qml
+              Custom/ConfirmDialog.qml
 
     RESOURCES images/icon.ico
               images/logo.png

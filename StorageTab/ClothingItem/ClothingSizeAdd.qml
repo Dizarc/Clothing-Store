@@ -27,6 +27,10 @@ Window {
       addSizeWindow.close()
   }
 
+  InfoDialog {
+    id: sizeInfoDialog
+  }
+
   ColumnLayout {
     anchors.fill: parent
     spacing: 5
@@ -61,13 +65,13 @@ Window {
           width: sizeTableView.width
 
           myMouseArea.onClicked: {
-            if (ClothesSizesModel.addSize(cId, sizesDel.sizeId)) {
-              clothingItem.textState = "successCreated"
-              addSizeWindow.close()
-            } else {
-              clothingItem.textState = "failedCreated"
-              addSizeWindow.close()
-            }
+            if (ClothesSizesModel.addSize(cId, sizesDel.sizeId))
+              sizeInfoDialog.dialogText = qsTr("Successfully created new size!")
+            else
+              sizeInfoDialog.dialogText = qsTr("Error while creating new size!")
+
+            sizeInfoDialog.show()
+            addSizeWindow.close()
           }
         }
       }

@@ -6,28 +6,10 @@ Text {
   id: clothesInfoText
 
   text: qsTr("")
-  font.pointSize: 11
+  font.pointSize: 15
   font.bold: true
 
   states: [
-    State {
-      name: "successDelete"
-      PropertyChanges {
-        clothesInfoText {
-          text: qsTr("Deleted!")
-          color: Style.acceptButtonColor
-        }
-      }
-    },
-    State {
-      name: "failedDelete"
-      PropertyChanges {
-        clothesInfoText {
-          text: qsTr("Failed to delete!")
-          color: Style.denyButtonColor
-        }
-      }
-    },
     State {
       name: "successRename"
       PropertyChanges {
@@ -60,24 +42,6 @@ Text {
       PropertyChanges {
         clothesInfoText {
           text: qsTr("Failed to change image!")
-          color: Style.denyButtonColor
-        }
-      }
-    },
-    State {
-      name: "successCreated"
-      PropertyChanges {
-        clothesInfoText {
-          text: qsTr("Created new item!")
-          color: Style.acceptButtonColor
-        }
-      }
-    },
-    State {
-      name: "failedCreated"
-      PropertyChanges {
-        clothesInfoText {
-          text: qsTr("failed to create new item!")
           color: Style.denyButtonColor
         }
       }

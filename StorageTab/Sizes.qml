@@ -23,6 +23,10 @@ Window {
       sizeAddWindow.close()
   }
 
+  InfoDialog {
+    id: sizeInfoDialog
+  }
+
   ColumnLayout {
     anchors.fill: parent
     spacing: 5
@@ -46,11 +50,11 @@ Window {
 
       onClicked: {
         if (SizesModel.addSize(sizeNameInputBox.text))
-          infoDialog.dialogText = qsTr("Successfully added size!")
+          sizeInfoDialog.dialogText = qsTr("Successfully added size!")
         else
-          infoDialog.dialogText = qsTr("Error while adding size!")
+          sizeInfoDialog.dialogText = qsTr("Error while adding size!")
 
-        infoDialog.show()
+        sizeInfoDialog.show()
       }
     }
 
@@ -84,121 +88,31 @@ Window {
           enabled: isAdminLogged
           opacity: isAdminLogged ? 1 : 0.5
 
-          myMouseArea.onClicked: {
-            deleteDialog.id = sizesDel.sizeId
-            deleteDialog.show()
-
+          myMouseArea.onClicked: { 
+            deleteSizeDialog.id = sizesDel.sizeId
+            deleteSizeDialog.show()
           }
         }
       }
     }
   }
 
-  Window {
-    id: infoDialog
-
-    property alias dialogText: infoDialogText.text
-
-    title: qsTr("Information")
-    width: 200
-    height: 150
-    color: Style.backgroundColor
-    flags: Qt.Dialog
-    modality: Qt.WindowModal
-
-    Text {
-      id: infoDialogText
-
-      anchors.centerIn: parent
-      text: ""
-
-      color: Style.textColor
-      font.pointSize: 12
-    }
-
-    CustomButton{
-      text: qsTr("Ok")
-      width: 50
-
-      buttonColor: Style.generalButtonColor
-
-      anchors{
-        top: infoDialogText.bottom
-        topMargin: 5
-
-        right: parent.right
-        rightMargin: 5
-      }
-
-      onClicked: {
-          infoDialog.close()
-      }
-    }
-  }
-
-  Window {
-    id: deleteDialog
+  ConfirmDialog {
+    id: deleteSizeDialog
 
     property int id: -1
-    property alias dialogText: deleteDialogText.text
 
-    title: qsTr("Delete information")
-    width: 350
-    height: 150
-    color: Style.backgroundColor
-    flags: Qt.Dialog
-    modality: Qt.WindowModal
+    dialogText: qsTr(
+          "Are you sure you want to delete this size?\nAll clothing items with this size will be removed.")
 
-    Text {
-      id: deleteDialogText
+    onClickedYes: {
+      if (SizesModel.removeSize(deleteSizeDialog.id))
+        sizeInfoDialog.dialogText = qsTr("Successfully deleted size!")
+      else
+        sizeInfoDialog.dialogText = qsTr("Error while deleting size!")
 
-      wrapMode: Text.WordWrap
-      anchors.centerIn: parent
-      text: qsTr("Are you sure you want to delete this size?\nAll clothing items with this size will be removed.")
-
-      color: Style.textColor
-      font.pointSize: 12
-    }
-
-    Row{
-      spacing: 4
-
-      anchors{
-        top: deleteDialogText.bottom
-        topMargin: 5
-
-        right: parent.right
-        rightMargin: 5
-      }
-
-      CustomButton{
-        text: qsTr("Yes")
-        width: 50
-
-        buttonColor: Style.generalButtonColor
-
-        onClicked: {
-          if (SizesModel.removeSize(deleteDialog.id))
-            infoDialog.dialogText = qsTr("Successfully deleted size!")
-           else
-            infoDialog.dialogText = qsTr("Error while deleting size!")
-
-          infoDialog.show()
-
-          deleteDialog.close()
-        }
-
-      }
-
-      CustomButton{
-        text: qsTr("No")
-        width: 50
-
-        buttonColor: Style.generalButtonColor
-
-        onClicked: deleteDialog.close()
-
-      }
+      sizeInfoDialog.show()
+      deleteSizeDialog.close()
     }
   }
 }

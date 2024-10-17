@@ -10,12 +10,11 @@ import com.company.DatabaseController
 
 /*
   TODO:
-    1. Finish the remove clothing functionality inside the clothing item
     2. Make the cells for each clothing item bigger and add the name of the item below the image box
     3. Make all selected stuff be darker not lighter
     4. add scrollwheel to employee tab
     5. (BUG)when employee is first added the employee doesnt show up.
-    5.5 (BUG)on 6 happens again when adding an image to a clothing item that had no image
+    5.5 (BUG)on 5 happens again when adding an image to a clothing item that had no image
     6. Create every folder needed for the application on first launch(where images go etc)
 */
 Window {

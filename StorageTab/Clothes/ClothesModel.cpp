@@ -84,34 +84,6 @@ void ClothesModel::filterType(int typeId)
     select();
 }
 
-bool ClothesModel::addNewClothing(const QString &itemName, const QString &itemImageSource, const int &tId)
-{
-    QString localFilePath = QUrl(itemImageSource).toLocalFile();
-    QFile image(localFilePath);
-
-    QString newImage = "";
-    if(image.exists())
-        newImage = DatabaseController::documentsDirPath + "/storage_images/item_images/" + QFileInfo(localFilePath).fileName();
-
-    if(!newImage.isEmpty())
-        image.copy(newImage);
-
-    insertRow(rowCount() + 1);
-    QSqlRecord record = this->record(rowCount());
-
-    record.setValue("clothingName", itemName);
-    record.setValue("clothingDescription", "newImage");
-    record.setValue("clothingImageSource", newImage);
-    record.setValue("typeId", tId);
-
-    if(insertRecord(rowCount(), record)){
-        select();
-        return submitAll();
-    }
-
-    return false;
-}
-
 bool ClothesModel::renameClothing(const int &cId, const QString name)
 {
     QSqlTableModel model;
@@ -157,7 +129,7 @@ bool ClothesModel::changeClothingImage(const int &cId, const QString &ClothingIm
 
     QString newImage = "";
     if(image.exists())
-        newImage = DatabaseController::documentsDirPath + "/storage_images/types_images/" + QFileInfo(localFilePath).fileName();
+        newImage = DatabaseController::documentsDirPath + "/storage_images/item_images/" + QFileInfo(localFilePath).fileName();
 
     if(!newImage.isEmpty())
         image.copy(newImage);
@@ -179,7 +151,60 @@ bool ClothesModel::changeClothingImage(const int &cId, const QString &ClothingIm
     return submitAll();
 }
 
+bool ClothesModel::addClothing(const QString &itemName, const QString &itemImageSource, const int &tId)
+{
+    QString localFilePath = QUrl(itemImageSource).toLocalFile();
+    QFile image(localFilePath);
+
+    QString newImage = "";
+    if(image.exists())
+        newImage = DatabaseController::documentsDirPath + "/storage_images/item_images/" + QFileInfo(localFilePath).fileName();
+
+    if(!newImage.isEmpty())
+        image.copy(newImage);
+
+    insertRow(rowCount() + 1);
+    QSqlRecord record = this->record(rowCount());
+
+    record.setValue("clothingName", itemName);
+    record.setValue("clothingDescription", "newImage");
+    record.setValue("clothingImageSource", newImage);
+    record.setValue("typeId", tId);
+
+    if(insertRecord(rowCount(), record)){
+        select();
+        return submitAll();
+    }
+
+    return false;
+}
+
 bool ClothesModel::removeClothing(const int &cId)
 {
+    QSqlTableModel clothesSizesModel;
 
+    QString filter = "clothingId = " + QString::number(cId);
+
+    clothesSizesModel.setTable("ClothesSizes");
+    clothesSizesModel.setFilter(filter);
+    clothesSizesModel.select();
+
+    while(clothesSizesModel.rowCount()){
+        clothesSizesModel.removeRow(0);
+        clothesSizesModel.select();
+    }
+
+    clothesSizesModel.submitAll();
+
+    QSqlTableModel clothesModel;
+
+    clothesModel.setTable("Clothes");
+    clothesModel.setFilter(filter);
+    clothesModel.select();
+
+    if(clothesModel.removeRow(0)){
+        select();
+        return submitAll();
+    }
+    return false;
 }

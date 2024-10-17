@@ -76,6 +76,10 @@ Column {
         easing.type: Easing.OutCubic
       }
     }
+
+    InfoDialog {
+      id: infoDialog
+    }
   }
 
   Component {

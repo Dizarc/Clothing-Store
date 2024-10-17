@@ -89,7 +89,7 @@ Item {
     anchors.left: imageView.right
     anchors.top: parent.top
 
-    spacing: 5
+    spacing: 10
 
     Row {
       spacing: 5
@@ -467,6 +467,73 @@ Item {
       opacity: isAdminLogged ? 1 : 0.5
 
       onClicked: {
+        deleteItemDialog.show()
+      }
+    }
+  }
+
+  Window{
+    id: deleteItemDialog
+
+    property int id: -1
+    property alias dialogText: deleteItemDialogText.text
+
+    title: qsTr("Delete Item")
+    width: 350
+    height: 150
+    color: Style.backgroundColor
+    flags: Qt.Dialog
+    modality: Qt.WindowModal
+
+    Text {
+      id: deleteItemDialogText
+
+      wrapMode: Text.WordWrap
+      anchors.centerIn: parent
+      text: qsTr("Are you sure you want to delete this Item?")
+
+      color: Style.textColor
+      font.pointSize: 12
+    }
+
+    Row{
+      spacing: 4
+
+      anchors{
+        top: deleteItemDialogText.bottom
+        topMargin: 5
+
+        right: parent.right
+        rightMargin: 5
+      }
+
+      CustomButton{
+        text: qsTr("Yes")
+        width: 50
+
+        buttonColor: Style.generalButtonColor
+
+        onClicked: {
+          if(ClothesModel.removeClothing(clothingId)){
+            storageView.pop()
+            infoDialog.dialogText = qsTr("Successfully deleted item!")
+          }else{
+            infoDialog.dialogText = qsTr("Error while deleting item!")
+          }
+
+          infoDialog.show()
+
+          deleteItemDialog.close()
+        }
+      }
+
+      CustomButton{
+        text: qsTr("No")
+        width: 50
+
+        buttonColor: Style.generalButtonColor
+
+        onClicked: deleteItemDialog.close()
 
       }
     }

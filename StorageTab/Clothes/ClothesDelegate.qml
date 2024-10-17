@@ -51,7 +51,7 @@ Rectangle {
   Column {
     id: clothesDelegateColumn
 
-    anchors.fill: parent
+    anchors.horizontalCenter: parent.horizontalCenter
     spacing: 10
 
     Text {
@@ -62,7 +62,6 @@ Rectangle {
       height: implicitHeight
       width: parent.width - 6
 
-      anchors.horizontalCenter: parent.horizontalCenter
       horizontalAlignment: Text.AlignHCenter
       wrapMode: Text.Wrap
 
@@ -71,7 +70,6 @@ Rectangle {
     }
 
     Image {
-      anchors.horizontalCenter: parent.horizontalCenter
       source: clothingImageSource !== "" ? "file:/" + clothingImageSource : ""
       visible: clothingImageSource !== ""
 

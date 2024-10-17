@@ -53,38 +53,39 @@ ColumnLayout {
     delegate: ClothesTypesDelegate { }
   }
 
-  CustomEditingDialog{
+  ConfirmDialog {
     id: deleteClothesTypesDialog
 
-    title: qsTr("Are you sure you want to delete this type?"
-                + "\nEvery clothing inside this type will become \"uncategorized\"")
+    property int id: -1
 
-    onAccepted: {
-      if(ClothesTypesModel.deleteType(id))
-       clothesTypesColumn.textState = "successDelete"
+    dialogText: qsTr("Are you sure you want to delete this type?"
+                     + "\nEvery clothing inside this type will become \"uncategorized\"")
+
+    onClickedYes: {
+      if(ClothesTypesModel.deleteType(deleteClothesTypesDialog.id))
+        infoDialog.dialogText = qsTr("Successfully deleted type!")
       else
-       clothesTypesColumn.textState = "failedDelete"
+        infoDialog.dialogText = qsTr("Error while deleting type!")
 
+      infoDialog.show()
       deleteClothesTypesDialog.close()
     }
   }
 
-  CustomEditingDialog {
+  Window {
     id: renameClothesTypesDialog
 
-    title: qsTr("Rename type:")
+    property int id: -1
 
-    onAccepted: {
-      if(ClothesTypesModel.renameType(id, typeNameInput.text))
-       clothesTypesColumn.textState = "successRename"
-      else
-       clothesTypesColumn.textState = "failedRename"
-
-      renameClothesTypesDialog.close()
-    }
+    width: 350
+    height: 100
+    title: qsTr("Rename")
+    color: Style.backgroundColor
+    flags: Qt.Dialog
+    modality: Qt.WindowModal
 
     Column{
-      anchors.fill: parent
+      anchors.horizontalCenter: parent.horizontalCenter
       spacing: 5
 
       Text {
@@ -97,29 +98,53 @@ ColumnLayout {
       CustomInputBox{
         id: typeNameInput
       }
+
+      Row{
+        spacing: 4
+
+        CustomButton{
+          text: qsTr("Change")
+          width: 100
+
+          buttonColor: Style.acceptButtonColor
+
+          onClicked: {
+            if(ClothesTypesModel.renameType(renameClothesTypesDialog.id, typeNameInput.text))
+             clothesTypesColumn.textState = "successRename"
+            else
+             clothesTypesColumn.textState = "failedRename"
+
+            renameClothesTypesDialog.close()
+          }
+        }
+
+        CustomButton{
+          text: qsTr("Cancel")
+          width: 100
+          buttonColor: Style.denyButtonColor
+          onClicked: renameClothesTypesDialog.close()
+        }
+      }
     }
   }
 
-  CustomEditingDialog {
+  Window {
     id: changeImageClothesTypesDialog
 
-    title: qsTr("Change image for this type:")
+    property int id: -1
 
-    onAccepted: {
-      if(ClothesTypesModel.changeTypeImage(id, changeTypeImage.source))
-       clothesTypesColumn.textState = "successImageChange"
-      else
-       clothesTypesColumn.textState = "failedImageChange"
-
-      changeImageClothesTypesDialog.close()
-    }
+    width: 350
+    height: 400
+    title: qsTr("Change Image")
+    color: Style.backgroundColor
+    flags: Qt.Dialog
+    modality: Qt.WindowModal
 
     Column{
-      anchors.fill: parent
+      anchors.horizontalCenter: parent.horizontalCenter
       spacing: 5
 
       Text{
-        anchors.horizontalCenter: parent.horizontalCenter
         color: Style.textColor
         text: qsTr("Pick an image:")
         font.pointSize: 12
@@ -129,8 +154,6 @@ ColumnLayout {
         id: changeImageRect
         width: 300
         height: 300
-
-        anchors.horizontalCenter: parent.horizontalCenter
 
         color: Style.inputBoxColor
         border.color: Style.borderColor
@@ -175,6 +198,33 @@ ColumnLayout {
             changeHoverText.opacity = 0.0
             changeImageRect.opacity = 1.0
           }
+        }
+      }
+
+      Row{
+        spacing: 4
+
+        CustomButton{
+          text: qsTr("Change")
+          width: 100
+
+          buttonColor: Style.acceptButtonColor
+
+          onClicked: {
+            if(ClothesTypesModel.changeTypeImage(changeImageClothesTypesDialog.id, changeTypeImage.source))
+             clothesTypesColumn.textState = "successImageChange"
+            else
+             clothesTypesColumn.textState = "failedImageChange"
+
+            changeImageClothesTypesDialog.close()
+          }
+        }
+
+        CustomButton{
+          text: qsTr("Cancel")
+          width: 100
+          buttonColor: Style.denyButtonColor
+          onClicked: changeImageClothesTypesDialog.close()
         }
       }
     }

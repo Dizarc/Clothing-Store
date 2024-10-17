@@ -18,20 +18,22 @@ Window {
   color: Style.backgroundColor
 
   height: 500
-  width: 800
+  width: 500
 
   onActiveChanged: {
     if (!clothesItemAddWindow.active && !imageChoiceFileDialog.visible)
       clothesItemAddWindow.close();
   }
 
-  Column{
-    anchors.fill: parent
+  InfoDialog {
+    id: itemInfoDialog
+  }
 
+  Column{
+    anchors.horizontalCenter: parent.horizontalCenter
     spacing: 5
 
     Text{
-      anchors.horizontalCenter: parent.horizontalCenter
       color: Style.textColor
       text: qsTr("Name of item:")
       font.pointSize: 12
@@ -39,11 +41,9 @@ Window {
 
     CustomInputBox{
       id: itemNameInput
-      anchors.horizontalCenter: parent.horizontalCenter
     }
 
     Text{
-      anchors.horizontalCenter: parent.horizontalCenter
       color: Style.textColor
       text: qsTr("Pick an image:")
       font.pointSize: 12
@@ -51,10 +51,9 @@ Window {
 
     Rectangle{
       id: imageRect
+
       width: 300
       height: 300
-
-      anchors.horizontalCenter: parent.horizontalCenter
 
       color: Style.inputBoxColor
       border.color: Style.borderColor
@@ -103,19 +102,16 @@ Window {
     }
 
     CustomButton {
-      anchors.horizontalCenter: parent.horizontalCenter
-
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
       onClicked: {
-        if(ClothesModel.addNewClothing(itemNameInput.text, itemImage.source, clothesItemAddWindow.tId)){
-          clothesColumn.clothesTextState = "successCreated"
-          clothesItemAddWindow.close()
-        }
-        else{
-          clothesColumn.clothesTextState = "failedCreated"
-          clothesItemAddWindow.close()
-        }
+        if(ClothesModel.addClothing(itemNameInput.text, itemImage.source, clothesItemAddWindow.tId))
+          itemInfoDialog.dialogText = qsTr("Successfully created new item!")
+        else
+          itemInfoDialog.dialogText = qsTr("Error while creating new item!")
+
+        itemInfoDialog.show()
+        clothesItemAddWindow.close()
       }
     }
   }

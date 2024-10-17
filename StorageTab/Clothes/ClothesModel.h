@@ -32,10 +32,10 @@ public slots:
 
     void filterType(int typeId);
 
-    bool addNewClothing(const QString &itemName, const QString &itemImageSource, const int &tId);
     bool renameClothing(const int &cId, const QString name);
     bool changeClothingDescription(const int &cId, const QString description);
     bool changeClothingImage(const int &cId, const QString &ClothingImageSource);
+    bool addClothing(const QString &itemName, const QString &itemImageSource, const int &tId);
     bool removeClothing(const int &cId);
 };
 

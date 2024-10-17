@@ -1,5 +1,5 @@
 #include "StorageTab/SizesModel.h"
-
+  #include <QSqlError>
 SizesModel::SizesModel(QObject *parent, QSqlDatabase db) : QSqlTableModel(parent, db)
 {
     setTable("Sizes");
@@ -72,28 +72,30 @@ bool SizesModel::addSize(const QString &sizeName)
 
 bool SizesModel::removeSize(const int &sId)
 {
-    QSqlTableModel clothesSizesmodel;
+    QSqlTableModel clothesSizesModel;
 
     QString filter = "sizeId = " + QString::number(sId);
 
-    clothesSizesmodel.setTable("ClothesSizes");
-    clothesSizesmodel.setFilter(filter);
-    clothesSizesmodel.select();
+    clothesSizesModel.setTable("ClothesSizes");
+    clothesSizesModel.setFilter(filter);
+    clothesSizesModel.select();
 
-    if(clothesSizesmodel.rowCount() == 0 || clothesSizesmodel.removeRows(0, clothesSizesmodel.rowCount())){
-        clothesSizesmodel.select();
-        clothesSizesmodel.submitAll();
+    while(clothesSizesModel.rowCount()){
+        clothesSizesModel.removeRow(0);
+        clothesSizesModel.select();
+    }
 
-        QSqlTableModel sizesModel;
+    clothesSizesModel.submitAll();
 
-        sizesModel.setTable("Sizes");
-        sizesModel.setFilter(filter);
-        sizesModel.select();
+    QSqlTableModel sizesModel;
 
-        if(sizesModel.removeRow(0)){
-            select();
-            return submitAll();
-        }
+    sizesModel.setTable("Sizes");
+    sizesModel.setFilter(filter);
+    sizesModel.select();
+
+    if(sizesModel.removeRow(0)){
+        select();
+        return submitAll();
     }
     return false;
 }
