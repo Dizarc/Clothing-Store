@@ -76,7 +76,7 @@ Item {
 
       onClicked: {
         var d = forgotPassDialogComponent.createObject(loginItem);
-        d.open();
+        d.show();
       }
     }
 

@@ -21,7 +21,7 @@ ColumnLayout {
   }
 
   InfoDialog {
-    id: itemInfoDialog
+    id: clothesInfoDialog
   }
 
   CustomButton {
@@ -52,6 +52,14 @@ ColumnLayout {
     clip: true
     flickableDirection: Flickable.VerticalFlick
     boundsBehavior: Flickable.StopAtBounds
+    ScrollIndicator.vertical: ScrollIndicator {
+      id: myScroll
+      contentItem: Rectangle {
+        implicitWidth: 2
+        radius: 5
+        color: myScroll.active ? Style.textColor : "transparent"
+      }
+    }
 
     model: ClothesModel
 

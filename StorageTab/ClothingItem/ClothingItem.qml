@@ -30,7 +30,7 @@ Item {
   }
 
   InfoDialog {
-    id: sizeInfoDialog
+    id: itemInfoDialog
   }
 
   Text {
@@ -193,8 +193,8 @@ Item {
       ComboBox {
         id: typesComboBox
 
-        width: 150
-        height: 25
+        implicitWidth: 150
+        implicitHeight: 25
 
         font.pointSize: 12
 
@@ -211,12 +211,15 @@ Item {
           required property int index
 
           width: typesComboBox.width
-          height: typesComboBox.height
+          implicitHeight: typesComboBox.height
+
+          highlighted: typesComboBox.highlightedIndex === index
 
           contentItem: Text {
             text: typeName
             color: Style.textColor
             font: typesComboBox.font
+            elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
           }
 
@@ -230,16 +233,13 @@ Item {
             radius: 2
           }
 
-          highlighted: typesComboBox.highlightedIndex === index
-
           onClicked: {
             typesComboBox.displayText = typeName
 
-            if (ClothesModel.reassignClothes(type, typeId, clothingId)){
+            if (ClothesModel.reassignClothes(type, typeId, clothingId)) {
               clothingItem.textState = "successTypeChange"
               type = typeId
-            }
-            else
+            } else
               clothingItem.textState = "failedTypeChange"
           }
         }
@@ -247,6 +247,7 @@ Item {
         contentItem: Text {
           leftPadding: 2
           rightPadding: typesComboBox.indicator.width + typesComboBox.spacing
+
           text: typesComboBox.displayText
           font: typesComboBox.font
           color: Style.textColor
@@ -260,13 +261,14 @@ Item {
                                                                             Style.inputBoxColor,
                                                                             1.1) : Style.inputBoxColor
           border.color: Style.borderColor
+          border.width: typesComboBox.visualFocus ? 2 : 1
           radius: 2
         }
 
         popup: Popup {
-          y: typesComboBox.height - 1
+          y: typesComboBox.height - 2
           width: typesComboBox.width
-          implicitHeight: contentItem.implicitHeight
+          implicitHeight: 200
           padding: 1
 
           contentItem: ListView {
@@ -274,7 +276,20 @@ Item {
             implicitHeight: contentHeight
             model: typesComboBox.popup.visible ? typesComboBox.delegateModel : null
             currentIndex: typesComboBox.highlightedIndex
-            ScrollIndicator.vertical: ScrollIndicator {}
+            ScrollIndicator.vertical: ScrollIndicator {
+              id: myScroll
+              contentItem: Rectangle {
+                implicitWidth: 2
+                radius: 5
+                color: myScroll.active ? Style.textColor : "transparent"
+              }
+            }
+          }
+
+          background: Rectangle {
+            color: Style.inputBoxColor
+            border.color: Style.borderColor
+            radius: 2
           }
 
           MouseArea {
@@ -314,6 +329,14 @@ Item {
       clip: true
       flickableDirection: Flickable.VerticalFlick
       boundsBehavior: Flickable.StopAtBounds
+      ScrollIndicator.vertical: ScrollIndicator {
+        id: myScroll2
+        contentItem: Rectangle {
+          implicitWidth: 2
+          radius: 5
+          color: myScroll2.active ? Style.textColor : "transparent"
+        }
+      }
 
       model: ClothesSizesModel
 
@@ -348,8 +371,10 @@ Item {
         contentItem: Column {
           Text {
             text: sizeId
+            width: sizesViewDelegate.width
             color: Style.textColor
             font.pointSize: 10
+            clip: true
             anchors.horizontalCenter: parent.horizontalCenter
           }
           Text {
@@ -477,68 +502,22 @@ Item {
     }
   }
 
-  Window{
+  ConfirmDialog {
     id: deleteItemDialog
 
     property int id: -1
-    property alias dialogText: deleteItemDialogText.text
 
-    title: qsTr("Delete Item")
-    color: Style.backgroundColor
-    flags: Qt.Dialog
-    modality: Qt.WindowModal
+    dialogText: qsTr("Are you sure you want to delete this Item?")
 
-    width: 350
-    height: 150
+    onClickedYes: {
+      if (ClothesModel.removeClothing(clothingId)) {
+        storageView.pop()
+        storageInfoDialog.dialogText = qsTr("Successfully deleted item!")
+      } else
+        storageInfoDialog.dialogText = qsTr("Error while deleting item!")
 
-    Text {
-      id: deleteItemDialogText
-
-      wrapMode: Text.WordWrap
-      anchors.centerIn: parent
-      text: qsTr("Are you sure you want to delete this Item?")
-
-      color: Style.textColor
-      font.pointSize: 12
-    }
-
-    Row{
-      spacing: 4
-
-      anchors{
-        top: deleteItemDialogText.bottom
-        topMargin: 5
-
-        right: parent.right
-        rightMargin: 5
-      }
-
-      CustomButton{
-        text: qsTr("Yes")
-        width: 50
-        buttonColor: Style.generalButtonColor
-
-        onClicked: {
-          if(ClothesModel.removeClothing(clothingId)){
-            storageView.pop()
-            sizeInfoDialog.dialogText = qsTr("Successfully deleted item!")
-          }else{
-            sizeInfoDialog.dialogText = qsTr("Error while deleting item!")
-          }
-
-          sizeInfoDialog.show()
-
-          deleteItemDialog.close()
-        }
-      }
-
-      CustomButton{
-        text: qsTr("No")
-        width: 50
-        buttonColor: Style.generalButtonColor
-
-        onClicked: deleteItemDialog.close()
-      }
+      deleteItemDialog.close()
+      storageInfoDialog.show()
     }
   }
 
@@ -551,11 +530,11 @@ Item {
                      StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
 
     onAccepted: {
-      if (ClothesModel.changeClothingImage(clothingId, selectedFile)){
+      if (ClothesModel.changeClothingImage(clothingId, selectedFile)) {
         clothingItem.textState = "successImageChange"
-        clothingItem.clothingImageSource = selectedFile.toString().replace("file:///", "")
-      }
-      else
+        clothingItem.clothingImageSource = selectedFile.toString().replace(
+              "file:///", "")
+      } else
         clothingItem.textState = "failedImageChange"
     }
   }

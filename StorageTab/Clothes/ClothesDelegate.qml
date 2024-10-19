@@ -74,7 +74,6 @@ Item {
 
       anchors{
         top: imageRect.bottom
-        topMargin: 3
         left: imageRect.left
         leftMargin: 3
       }

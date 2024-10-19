@@ -120,10 +120,8 @@ Item {
                                                     phoneAddInput.text,
                                                     passwordAddInput.text))
             userCreationText.text = qsTr("Error creating account!");
-
-        }else{
+        }else
           userCreationText.text = qsTr("Passwords do not match!");
-        }
       }
     }
 

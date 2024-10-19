@@ -7,35 +7,18 @@ import "../Custom"
 
 import com.company.DatabaseController
 
-Dialog{
+Window{
     id: forgotPassDialogItem
 
     property int visibilityStage: 0
 
-    implicitWidth: 350
-    implicitHeight: 600
+    title: qsTr("Forgot Password")
+    flags: Qt.Dialog
+    modality: Qt.WindowModal
+    color: Style.backgroundColor
 
-    anchors.centerIn: Overlay.overlay
-
-    title: qsTr("Forgot Password");
-
-    modal: true
-
-    footer: DialogButtonBox{
-      delegate: CustomButton{
-        buttonColor: Style.generalButtonColor
-      }
-      standardButtons: Dialog.Cancel
-    }
-
-    background: Rectangle{
-      color: Qt.darker(Style.backgroundColor, 1.5)
-      border.color: Style.borderColor
-    }
-
-    onRejected: {
-      forgotPassDialog.close();
-    }
+    width: 350
+    height: 600
 
     Connections{
       target: DbController

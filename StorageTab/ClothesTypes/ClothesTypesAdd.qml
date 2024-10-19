@@ -102,6 +102,7 @@ Window {
         else
           typeInfoDialog.dialogText = qsTr("Error while creating new type!")
 
+        clothesTypeAddWindow.close()
         typeInfoDialog.show()
       }
     }

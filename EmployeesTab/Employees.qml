@@ -5,31 +5,14 @@ import QtQuick.Layouts
 import com.company.Employees
 
 import "../../ClothingStore"
+import "../Custom"
 
 Item {
   id: employeeItem
 
   anchors.fill: parent
 
-  signal userClicked(int id,int index, string firstname, string lastname, string username, string email, string phone, bool isAdmin)
-
-  onUserClicked: (id, index, firstname, lastname, username, email, phone, isAdmin) => {
-                   editEmployee.idField = id;
-                   editEmployee.employeeIndex = index;
-                   editEmployee.firstnameField = firstname;
-                   editEmployee.lastnameField = lastname;
-                   editEmployee.usernameField = username;
-                   editEmployee.emailField = email;
-                   editEmployee.phoneField = phone;
-                   editEmployee.oldPasswordField = "";
-                   editEmployee.newPasswordField = "";
-                   editEmployee.renewPasswordField = "";
-                   editEmployee.isAdminField = isAdmin;
-
-                   employeeLayout.currentIndex = 1;
-                   editEmployee.textVisibility = "";
-                   addEmployee.textVisibility = "";
-                 }
+  Component.onCompleted: Emp.select()
 
   GridLayout{
     id: employeeGrid
@@ -75,6 +58,14 @@ Item {
 
       flickableDirection: Flickable.VerticalFlick
       boundsBehavior: Flickable.StopAtBounds
+      ScrollIndicator.vertical: ScrollIndicator {
+        id: myScroll
+        contentItem: Rectangle {
+          implicitWidth: 2
+          radius: 5
+          color: myScroll.active ? Style.textColor : "transparent"
+        }
+      }
 
       selectionModel: ItemSelectionModel {
         id: selectionModel
@@ -82,10 +73,7 @@ Item {
 
       model: Emp
 
-      delegate: EmployeesDelegate {
-        color: selected ? Qt.lighter(Style.backgroundColor, 2) : Style.backgroundColor
-        required property bool selected
-      }
+      delegate: EmployeesDelegate { }
     }
 
     StackLayout{

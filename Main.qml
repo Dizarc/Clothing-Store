@@ -7,13 +7,10 @@ import "Init"
 import "Custom"
 
 import com.company.DatabaseController
+import com.company.Employees
 
 /*
-  TODO:
-    3. Make all selected stuff be darker not lighter
-    4. add scrollwheel to employee tab
-    5. (BUG)when employee is first added the employee doesnt show up.
-    6. Create every folder needed for the application on first launch(where images go etc)
+  TODO: create home tab with graphs about total items etc and a store todo list
 */
 Window {
   id: root
@@ -59,6 +56,7 @@ Window {
 
     function onRightLogin() {
       isAdminLogged = DbController.isCurrentlyAdmin;
+      Emp.select()
       pageLoader.source = "MainApplication.qml";
     }
   }

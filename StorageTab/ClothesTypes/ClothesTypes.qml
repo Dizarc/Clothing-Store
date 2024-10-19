@@ -52,6 +52,14 @@ ColumnLayout {
     clip: true
     flickableDirection: Flickable.VerticalFlick
     boundsBehavior: Flickable.StopAtBounds
+    ScrollIndicator.vertical: ScrollIndicator {
+      id: myScroll
+      contentItem: Rectangle {
+        implicitWidth: 2
+        radius: 5
+        color: myScroll.active ? Style.textColor : "transparent"
+      }
+    }
 
     model: ClothesTypesModel
 
@@ -72,8 +80,8 @@ ColumnLayout {
       else
         typeInfoDialog.dialogText = qsTr("Error while deleting type!")
 
-      typeInfoDialog.show()
-      deleteClothesTypesDialog.close()
+        deleteClothesTypesDialog.close()
+        typeInfoDialog.show()
     }
   }
 

@@ -7,8 +7,11 @@ DatabaseController::DatabaseController(QObject *parent)
     : QObject{parent}
 {
     QDir documentsDir(documentsDirPath);
-    if(!documentsDir.exists())
+    if(!documentsDir.exists()){
         documentsDir.mkpath(".");
+        documentsDir.mkpath("./storage_images/types_images");
+        documentsDir.mkpath("./storage_images/item_images");
+    }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setHostName("localhost");
@@ -46,7 +49,7 @@ void DatabaseController::createDatabase()
     if(!query.exec(employeesTable))
         qWarning()<< "Problem while creating employees table...";
 
-    QFile f(documentsDirPath + "/DATA.csv");
+    QFile f(documentsDirPath + "../DATA.csv");
     if(f.open(QIODevice::ReadOnly)){
         QTextStream ts(&f);
 
@@ -80,12 +83,7 @@ void DatabaseController::createDatabase()
 
     if(!query.exec(employeePasswordReset))
         qWarning()<< "Problem while creating EmployeePasswordReset table...";
-    /*
-        clothesTypes table has types inside it example: Pants, Shoes, Shirts
-        Clothes table has each clothing inside it example: Jeans, work boots etc. Each of those has one clothing type.
-        sizes table has each size inside it example: small, medium, large
-        ClothesSizes table makes it so multiple clothes can be attached to multiple sizes and multiple sizes can be attached to multiple clothes.
-    */
+
     QString clothesTypesTable = "CREATE TABLE ClothesTypes("
                                 " typeId INTEGER PRIMARY KEY AUTOINCREMENT,"
                                 " typeName TEXT NOT NULL UNIQUE,"
@@ -146,11 +144,11 @@ void DatabaseController::createDatabase()
         qWarning()<< "Problem while adding to Clothes table...";
 
     QString clothesSizesValues = "INSERT INTO ClothesSizes(clothingId, sizeId, count) VALUES"
-                                 " (1, 2, 3)," //jeans medium
-                                 " (1, 3, 2)," // jeans large
-                                 " (2, 2, 5)," // chino medium
-                                 " (3, 1, 21)," // boots small
-                                 " (4, 1, 1);"; // sneakers small
+                                 " (1, 2, 3),"
+                                 " (1, 3, 2),"
+                                 " (2, 2, 5),"
+                                 " (3, 1, 21),"
+                                 " (4, 1, 1);";
 
     if(!query.exec(clothesSizesValues))
         qWarning()<< "Problem while adding to ClothesSizes table...";
@@ -389,6 +387,8 @@ bool DatabaseController::createAdminUser(const QString firstname, const QString 
     insertQuery.addBindValue(phone);
     insertQuery.addBindValue(QString::fromStdString(bcryptcpp::generateHash(password.toStdString())));
     insertQuery.addBindValue(1);
+
+    setIsCurrentlyAdmin(true);
 
     if(!insertQuery.exec()){
         qWarning()<< "Problem while inserting into Employees table...";

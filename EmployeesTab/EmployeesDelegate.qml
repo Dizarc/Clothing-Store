@@ -2,16 +2,10 @@ import QtQuick 6.6
 import QtQuick.Controls.Basic
 
 import "../../ClothingStore"
+import "../Custom"
 
 Rectangle {
   id: employeesDelegate
-
-  implicitWidth: tableView.width
-  implicitHeight: 30
-
-  anchors.margins: 4
-
-  clip: true
 
   required property int id
   required property string firstname
@@ -23,90 +17,104 @@ Rectangle {
   required property bool isAdmin
 
   required property int index
+  required property bool selected
+
+  implicitWidth: tableView.width
+  implicitHeight: 30
+
+  anchors.margins: 4
+
+  color: selected ? Qt.darker(
+                      Style.backgroundColor,
+                      1.2) : empMouseArea.containsMouse ? Qt.lighter(
+                                                            Style.backgroundColor,
+                                                            1.1) : Style.backgroundColor
+  clip: true
 
   MouseArea {
+    id: empMouseArea
+
     anchors.fill: parent
     cursorShape: Qt.PointingHandCursor
+    hoverEnabled: true
 
     onClicked: {
-      userClicked(id,
-                  index,
-                  firstname,
-                  lastname,
-                  username,
-                  email,
-                  phone,
-                  isAdmin);
+      employeeLayout.currentIndex = 1
+      editEmployee.idField = id
+      editEmployee.employeeIndex = index
+      editEmployee.firstnameField = firstname
+      editEmployee.lastnameField = lastname
+      editEmployee.usernameField = username
+      editEmployee.emailField = email
+      editEmployee.phoneField = phone
+      editEmployee.oldPasswordField = ""
+      editEmployee.newPasswordField = ""
+      editEmployee.renewPasswordField = ""
+      editEmployee.isAdminField = isAdmin
 
-      selectionModel.select(tableView.index(employeesDelegate.index, 0), ItemSelectionModel.SelectCurrent);
+      editEmployee.textVisibility = ""
+      addEmployee.textVisibility = ""
+
+      selectionModel.select(tableView.index(employeesDelegate.index, 0),
+                            ItemSelectionModel.SelectCurrent)
+    }
+  }
+
+  Row {
+    id: empRow
+
+    spacing: 5
+
+    Image {
+      source: "../images/userImage.png"
+
+      sourceSize.width: 125
+      sourceSize.height: 20
     }
 
-    Row {
-      id: empRow
+    Text {
+      text: id
 
-      spacing: 5
+      color: Style.textColor
+      font.pointSize: 12
+      width: 30
+      clip: true
+    }
 
-      Image {
-        source: "../images/userImage.png"
+    Text {
+      text: firstname
 
-        sourceSize.width: 125
-        sourceSize.height: 20
-      }
+      color: Style.textColor
+      font.pointSize: 12
+      width: 150
+      clip: true
+    }
 
-      Text {
-        text: id
+    Text {
+      text: lastname
 
-        color: Style.textColor
+      color: Style.textColor
+      font.pointSize: 12
+      width: 150
+      clip: true
+    }
 
-        font.pointSize: 12
-        width: 30
+    Text {
+      text: email
 
-        clip: true
-      }
+      color: Style.textColor
+      font.pointSize: 12
+      width: 300
+      clip: true
+    }
 
-      Text {
-        text: firstname
+    Text {
+      text: phone
 
-        color: Style.textColor
-
-        font.pointSize: 12
-        width: 150
-
-        clip: true
-      }
-
-      Text{
-        text: lastname
-
-        color: Style.textColor
-
-        font.pointSize: 12
-        width: 150
-
-        clip: true
-      }
-
-      Text {
-        text: email
-
-        color: Style.textColor
-
-        font.pointSize: 12
-        width: 300
-
-        clip: true
-      }
-
-      Text {
-        text: phone
-
-        color: Style.textColor
-
-        font.pointSize: 12
-        width: 100
-
-        clip: true
-      }
+      color: Style.textColor
+      font.pointSize: 12
+      width: 100
+      clip: true
     }
   }
 }

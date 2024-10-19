@@ -94,14 +94,15 @@ Window {
     CustomButton {
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
+
       onClicked: {
         if(ClothesModel.addClothing(itemNameInput.text, itemImage.source, clothesItemAddWindow.tId))
-          itemInfoDialog.dialogText = qsTr("Successfully created new item!")
+          clothesInfoDialog.dialogText = qsTr("Successfully created new item!")
         else
-          itemInfoDialog.dialogText = qsTr("Error while creating new item!")
+          clothesInfoDialog.dialogText = qsTr("Error while creating new item!")
 
-        itemInfoDialog.show()
         clothesItemAddWindow.close()
+        clothesInfoDialog.show()
       }
     }
   }

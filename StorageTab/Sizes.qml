@@ -58,34 +58,35 @@ Window {
       color: Style.textColor
     }
 
-    ScrollView {
+    TableView {
+      id: sizeTableView
+
       Layout.fillWidth: true
       Layout.fillHeight: true
 
-      ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-      ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+      clip: true
+      flickableDirection: Flickable.VerticalFlick
+      boundsBehavior: Flickable.StopAtBounds
+      ScrollIndicator.vertical: ScrollIndicator {
+        id: myScroll
+        contentItem: Rectangle {
+          implicitWidth: 2
+          radius: 5
+          color: myScroll.active ? Style.textColor : "transparent"
+        }
+      }
 
-      TableView {
-        id: sizeTableView
+      model: SizesModel
 
-        width: parent.width
+      delegate: SizesDelegate {
+        id: sizesDel
 
-        clip: true
-        flickableDirection: Flickable.VerticalFlick
-        boundsBehavior: Flickable.StopAtBounds
+        enabled: isAdminLogged
+        opacity: isAdminLogged ? 1 : 0.5
 
-        model: SizesModel
-
-        delegate: SizesDelegate {
-          id: sizesDel
-
-          enabled: isAdminLogged
-          opacity: isAdminLogged ? 1 : 0.5
-
-          myMouseArea.onClicked: { 
-            deleteSizeDialog.id = sizesDel.sizeId
-            deleteSizeDialog.show()
-          }
+        myMouseArea.onClicked: {
+          deleteSizeDialog.id = sizesDel.sizeId
+          deleteSizeDialog.show()
         }
       }
     }
@@ -97,7 +98,7 @@ Window {
     property int id: -1
 
     dialogText: qsTr(
-          "Are you sure you want to delete this size?\nAll clothing items with this size will be removed.")
+                  "Are you sure you want to delete this size?\nAll clothing items with this size will be removed.")
 
     onClickedYes: {
       if (SizesModel.removeSize(deleteSizeDialog.id))

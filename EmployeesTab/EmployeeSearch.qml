@@ -109,12 +109,12 @@ Item {
     ComboBox {
       id: adminStatus
 
-      model: [qsTr("All"), qsTr("Admins"), qsTr("Non admins")]
-
       implicitWidth: 150
       implicitHeight: 25
 
       font.pointSize: 12
+
+      model: [qsTr("All"), qsTr("Admins"), qsTr("Non admins")]
 
       delegate: ItemDelegate {
         id: adminStatusDelegate
@@ -123,7 +123,7 @@ Item {
         required property int index
 
         width: adminStatus.width
-        implicitHeight: 25
+        implicitHeight: adminStatus.height
 
         highlighted: adminStatus.highlightedIndex === index
 
@@ -131,32 +131,44 @@ Item {
           text: adminStatusDelegate.model[adminStatus.textRole]
           color: Style.textColor
           font: adminStatus.font
-
           elide: Text.ElideRight
           verticalAlignment: Text.AlignVCenter
+        }
+
+        background: Rectangle {
+          color: adminStatusDelegate.pressed ? Qt.lighter(
+                                        Style.generalButtonColor,
+                                        1.2) : adminStatusDelegate.hovered ? Qt.lighter(
+                                                                      Style.inputBoxColor,
+                                                                      1.1) : Style.inputBoxColor
+          border.color: Style.borderColor
+          radius: 2
         }
       }
 
       contentItem: Text {
-        leftPadding: 5
+        leftPadding: 2
         rightPadding: adminStatus.indicator.width + adminStatus.spacing
 
         text: adminStatus.displayText
         font: adminStatus.font
         color: Style.textColor
-
         verticalAlignment: Text.AlignVCenter
       }
 
       background: Rectangle {
-        color: Style.inputBoxColor
+        color: adminStatus.pressed ? Qt.lighter(
+                                         Style.inputBoxColor,
+                                         1.2) : adminStatus.hovered ? Qt.lighter(
+                                                                          Style.inputBoxColor,
+                                                                          1.1) : Style.inputBoxColor
         border.color: Style.borderColor
         border.width: adminStatus.visualFocus ? 2 : 1
-        radius: 3
+        radius: 2
       }
 
       popup: Popup {
-        y: adminStatus.height - 1
+        y: adminStatus.height - 2
         width: adminStatus.width
         implicitHeight: contentItem.implicitHeight
         padding: 1
@@ -171,8 +183,20 @@ Item {
         background: Rectangle {
           color: Style.inputBoxColor
           border.color: Style.borderColor
-          radius: 3
+          radius: 2
         }
+
+        MouseArea {
+          anchors.fill: parent
+          cursorShape: Qt.PointingHandCursor
+          acceptedButtons: Qt.NoButton
+        }
+      }
+
+      MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        acceptedButtons: Qt.NoButton
       }
     }
 

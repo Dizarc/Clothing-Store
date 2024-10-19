@@ -26,6 +26,11 @@ Item {
 
   property alias isAdminField: isAdminCheckBox.checked
 
+
+  InfoDialog {
+    id: empInfoDialog
+  }
+
   Image {
     id: editImage
 
@@ -244,71 +249,26 @@ Item {
 
       text: qsTr("delete")
       buttonColor: Style.denyButtonColor
-      onClicked: popup.open()
+      onClicked: deleteEmployeeDialog.show()
     }
   }
 
-  Dialog {
-    id: popup
+  ConfirmDialog{
+    id: deleteEmployeeDialog
 
-    anchors.centerIn: Overlay.overlay
-    title: qsTr(
-             "Are you sure you want to delete the employee: " + usernameField + "?")
+    dialogText: qsTr("Are you sure you want to delete the employee: " + usernameField + "?")
 
-    modal: true
-
-    footer: DialogButtonBox {
-
-      delegate: CustomButton {
-        buttonColor: Style.generalButtonColor
-      }
-
-      standardButtons: Dialog.Yes | Dialog.Cancel
-    }
-
-    background: Rectangle {
-      color: Qt.darker(Style.backgroundColor, 1.5)
-      border.color: Style.borderColor
-    }
-
-    onAccepted: {
+    onClickedYes: {
       if (Emp.deleteEmployee(employeeIndex)){
-        buttonOutputText.state = "successDelete"
-        successPopup.open()
+        empInfoDialog.dialogText = qsTr("Successfully deleted employee!")
         employeeLayout.currentIndex = 0;
       }
       else
-        buttonOutputText.state = "failedDelete"
+        empInfoDialog.dialogText = qsTr("Error while deleting employee!")
 
-      popup.close()
+      deleteEmployeeDialog.close()
+      empInfoDialog.show()
     }
-
-    onRejected: popup.close()
-  }
-
-  Dialog {
-    id: successPopup
-
-    anchors.centerIn: Overlay.overlay
-    title: qsTr("Successfully deleted the employee.")
-
-    modal: true
-
-    footer: DialogButtonBox {
-
-      delegate: CustomButton {
-        buttonColor: Style.generalButtonColor
-      }
-
-      standardButtons: Dialog.Ok
-    }
-
-    background: Rectangle {
-      color: Qt.darker(Style.backgroundColor, 1.5)
-      border.color: Style.borderColor
-    }
-
-    onAccepted: successPopup.close()
   }
 
   Text {
@@ -363,24 +323,6 @@ Item {
         PropertyChanges {
           buttonOutputText {
             text: qsTr("new password does not match!")
-            color: Style.denyButtonColor
-          }
-        }
-      },
-      State {
-        name: "successDelete"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("Employee deleted successfully!")
-            color: Style.acceptButtonColor
-          }
-        }
-      },
-      State {
-        name: "failedDelete"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("Employee was not deleted!")
             color: Style.denyButtonColor
           }
         }

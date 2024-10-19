@@ -31,20 +31,10 @@ Rectangle {
                                                                   1.2) : Style.generalButtonColor
   border.color: Style.borderColor
 
-  Row {
+  Text {
+    text: sizeName
+    color: Style.textColor
+    font.pointSize: 14
     anchors.centerIn: parent
-    spacing: 5
-    Text {
-      text: sizeId
-      color: Style.textColor
-      font.pointSize: 14
-      anchors.verticalCenter: parent.verticalCenter
-    }
-    Text {
-      text: sizeName
-      color: Style.textColor
-      font.pointSize: 14
-      anchors.verticalCenter: parent.verticalCenter
-    }
   }
 }

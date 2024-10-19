@@ -75,6 +75,10 @@ Column {
         easing.type: Easing.OutCubic
       }
     }
+
+    InfoDialog {
+      id: storageInfoDialog
+    }
   }
 
   Component {

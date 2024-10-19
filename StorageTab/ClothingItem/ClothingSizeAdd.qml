@@ -6,13 +6,14 @@ import com.company.SizesModel
 import com.company.ClothesSizesModel
 
 import "../../Custom"
+import "../"
 
 Window {
   id: addSizeWindow
 
   property int cId: -1
 
-  title: "Add a new size to clothing item"
+  title: qsTr("Add a new size to clothing item")
   flags: Qt.Dialog
   color: Style.backgroundColor
   modality: Qt.WindowModal
@@ -20,7 +21,9 @@ Window {
   height: 300
   width: 200
 
-
+  InfoDialog {
+    id: sizeInfoDialog
+  }
 
   ColumnLayout {
     anchors.fill: parent
@@ -32,38 +35,39 @@ Window {
       color: Style.textColor
     }
 
-    ScrollView {
+    TableView {
+      id: sizeTableView
+
       Layout.fillWidth: true
       Layout.fillHeight: true
 
-      ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-      ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+      clip: true
+      flickableDirection: Flickable.VerticalFlick
+      boundsBehavior: Flickable.StopAtBounds
+      ScrollIndicator.vertical: ScrollIndicator {
+        id: myScroll
+        contentItem: Rectangle {
+          implicitWidth: 2
+          radius: 5
+          color: myScroll.active ? Style.textColor : "transparent"
+        }
+      }
 
-      TableView {
-        id: sizeTableView
+      model: SizesModel
 
-        width: parent.width
+      delegate: SizesDelegate {
+        id: sizesDel
 
-        clip: true
-        flickableDirection: Flickable.VerticalFlick
-        boundsBehavior: Flickable.StopAtBounds
+        width: sizeTableView.width
 
-        model: SizesModel
+        myMouseArea.onClicked: {
+          if (ClothesSizesModel.addSize(cId, sizesDel.sizeId))
+            itemInfoDialog.dialogText = qsTr("Successfully created new size!")
+          else
+            itemInfoDialog.dialogText = qsTr("Error while creating new size!")
 
-        delegate: SizesDelegate {
-          id: sizesDel
-
-          width: sizeTableView.width
-
-          myMouseArea.onClicked: {
-            if (ClothesSizesModel.addSize(cId, sizesDel.sizeId))
-              sizeInfoDialog.dialogText = qsTr("Successfully created new size!")
-            else
-              sizeInfoDialog.dialogText = qsTr("Error while creating new size!")
-
-            sizeInfoDialog.show()
-            addSizeWindow.close()
-          }
+          addSizeWindow.close()
+          itemInfoDialog.show()
         }
       }
     }

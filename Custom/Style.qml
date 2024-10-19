@@ -18,6 +18,6 @@ QtObject{
 
   readonly property color generalButtonColor: theme === lightTheme ? "#C0C2C3" : "#3A3E44"
 
-  readonly property color acceptButtonColor: "#399F2E"
-  readonly property color denyButtonColor: "#C3352B"
+  readonly property color acceptButtonColor: theme === lightTheme ? "#40B333" : "#328B28"
+  readonly property color denyButtonColor: theme === lightTheme ? "#D23F35" : "#AE2f26"
 }
