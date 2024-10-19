@@ -1,7 +1,6 @@
 import QtQuick 6.6
 import QtQuick.Controls
 
-import "../../../ClothingStore"
 import "../../Custom"
 
 import com.company.ClothesModel
@@ -51,7 +50,7 @@ Rectangle {
     id: delegateColumn
 
     anchors.horizontalCenter: parent.horizontalCenter
-    spacing: 10
+    spacing: 2
 
     Text {
       id: textView
@@ -85,33 +84,6 @@ Rectangle {
 
   Menu {
     id: contextMenu
-
-    Action {
-      text: qsTr("Delete")
-
-      onTriggered: {
-        deleteClothesTypesDialog.id = typeId
-        deleteClothesTypesDialog.show()
-      }
-    }
-
-    Action {
-      text: qsTr("Rename")
-
-      onTriggered: {
-        renameClothesTypesDialog.id = typeId
-        renameClothesTypesDialog.show()
-      }
-    }
-
-    Action {
-      text: qsTr("Change Image")
-
-      onTriggered: {
-        changeImageClothesTypesDialog.id = typeId
-        changeImageClothesTypesDialog.show()
-      }
-    }
 
     delegate: MenuItem {
       id: menuItem
@@ -147,6 +119,33 @@ Rectangle {
       color: Style.backgroundColor
       border.color: Style.borderColor
       radius: 2
+    }
+
+    Action {
+      text: qsTr("Delete")
+
+      onTriggered: {
+        deleteClothesTypesDialog.id = typeId
+        deleteClothesTypesDialog.show()
+      }
+    }
+
+    Action {
+      text: qsTr("Rename")
+
+      onTriggered: {
+        renameClothesTypesDialog.id = typeId
+        renameClothesTypesDialog.show()
+      }
+    }
+
+    Action {
+      text: qsTr("Change Image")
+
+      onTriggered: {
+        changeImageClothesTypesDialog.id = typeId
+        changeImageClothesTypesDialog.show()
+      }
     }
   }
 }

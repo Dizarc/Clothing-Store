@@ -9,23 +9,13 @@ import com.company.ClothesTypesModel
 Window {
   id: clothesTypeAddWindow
 
-  title: "Add a new clothing type"
-
+  title: qsTr("Add a new clothing type")
   flags: Qt.Dialog
-
   color: Style.backgroundColor
+  modality: Qt.WindowModal
 
   height: 500
   width: 600
-
-  onActiveChanged: {
-    if (!clothesTypeAddWindow.active && !imageChoiceFileDialog.visible)
-      clothesTypeAddWindow.close();
-  }
-
-  InfoDialog {
-    id: typeInfoDialog
-  }
 
   Column{
     anchors.horizontalCenter: parent.horizontalCenter
@@ -113,7 +103,6 @@ Window {
           typeInfoDialog.dialogText = qsTr("Error while creating new type!")
 
         typeInfoDialog.show()
-        clothesTypeAddWindow.close()
       }
     }
   }

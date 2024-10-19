@@ -6,7 +6,6 @@ import com.company.SizesModel
 import com.company.ClothesSizesModel
 
 import "../../Custom"
-import "../"
 
 Window {
   id: addSizeWindow
@@ -14,22 +13,14 @@ Window {
   property int cId: -1
 
   title: "Add a new size to clothing item"
-
   flags: Qt.Dialog
-
   color: Style.backgroundColor
+  modality: Qt.WindowModal
 
   height: 300
   width: 200
 
-  onActiveChanged: {
-    if (!addSizeWindow.active)
-      addSizeWindow.close()
-  }
 
-  InfoDialog {
-    id: sizeInfoDialog
-  }
 
   ColumnLayout {
     anchors.fill: parent

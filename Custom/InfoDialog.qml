@@ -6,15 +6,16 @@ Window {
   property alias dialogText: infoDialogText.text
 
   title: qsTr("Information")
-  width: 250
-  height: 100
   color: Style.backgroundColor
   flags: Qt.Dialog
-  modality: Qt.WindowModal
 
-  onActiveChanged: {
-    if (!infoDialogWindow.active)
+  width: 250
+  height: 100
+
+  onActiveFocusItemChanged: {
+    if (!infoDialogWindow.activeFocusItem){
       infoDialogWindow.close();
+    }
   }
 
   Text {

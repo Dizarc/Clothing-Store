@@ -1,11 +1,10 @@
 #include "StorageTab/SizesModel.h"
-  #include <QSqlError>
+
 SizesModel::SizesModel(QObject *parent, QSqlDatabase db) : QSqlTableModel(parent, db)
 {
     setTable("Sizes");
     select();
 }
-
 
 QVariant SizesModel::data(const QModelIndex &index, int role) const
 {

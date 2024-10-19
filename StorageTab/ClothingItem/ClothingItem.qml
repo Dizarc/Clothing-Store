@@ -29,6 +29,10 @@ Item {
     id: clothesOutputText
   }
 
+  InfoDialog {
+    id: sizeInfoDialog
+  }
+
   Text {
     id: hoverText
 
@@ -46,8 +50,6 @@ Item {
 
   MouseArea {
     id: imageView
-
-    property alias source: itemImage.source
 
     width: parent.width / 2
     height: parent.height - hoverText.height - clothesOutputText.height
@@ -191,7 +193,7 @@ Item {
       ComboBox {
         id: typesComboBox
 
-        width: 125
+        width: 150
         height: 25
 
         font.pointSize: 12
@@ -233,8 +235,10 @@ Item {
           onClicked: {
             typesComboBox.displayText = typeName
 
-            if (ClothesModel.reassignClothes(type, typeId, clothingId))
+            if (ClothesModel.reassignClothes(type, typeId, clothingId)){
               clothingItem.textState = "successTypeChange"
+              type = typeId
+            }
             else
               clothingItem.textState = "failedTypeChange"
           }
@@ -307,6 +311,7 @@ Item {
 
       currentIndex: -1
 
+      clip: true
       flickableDirection: Flickable.VerticalFlick
       boundsBehavior: Flickable.StopAtBounds
 
@@ -479,11 +484,12 @@ Item {
     property alias dialogText: deleteItemDialogText.text
 
     title: qsTr("Delete Item")
-    width: 350
-    height: 150
     color: Style.backgroundColor
     flags: Qt.Dialog
     modality: Qt.WindowModal
+
+    width: 350
+    height: 150
 
     Text {
       id: deleteItemDialogText
@@ -510,18 +516,17 @@ Item {
       CustomButton{
         text: qsTr("Yes")
         width: 50
-
         buttonColor: Style.generalButtonColor
 
         onClicked: {
           if(ClothesModel.removeClothing(clothingId)){
             storageView.pop()
-            infoDialog.dialogText = qsTr("Successfully deleted item!")
+            sizeInfoDialog.dialogText = qsTr("Successfully deleted item!")
           }else{
-            infoDialog.dialogText = qsTr("Error while deleting item!")
+            sizeInfoDialog.dialogText = qsTr("Error while deleting item!")
           }
 
-          infoDialog.show()
+          sizeInfoDialog.show()
 
           deleteItemDialog.close()
         }
@@ -530,26 +535,26 @@ Item {
       CustomButton{
         text: qsTr("No")
         width: 50
-
         buttonColor: Style.generalButtonColor
 
         onClicked: deleteItemDialog.close()
-
       }
     }
   }
 
   FileDialog {
     id: imageChoiceFileDialog
-    title: qsTr("Select an Image")
 
+    title: qsTr("Select an Image")
     nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp)"]
     currentFolder: StandardPaths.standardLocations(
                      StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
+
     onAccepted: {
-      imageView.source = selectedFile
-      if (ClothesModel.changeClothingImage(clothingId, imageView.source))
+      if (ClothesModel.changeClothingImage(clothingId, selectedFile)){
         clothingItem.textState = "successImageChange"
+        clothingItem.clothingImageSource = selectedFile.toString().replace("file:///", "")
+      }
       else
         clothingItem.textState = "failedImageChange"
     }

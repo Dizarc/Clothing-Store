@@ -2,6 +2,7 @@ import QtQuick 6.6
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Dialogs
+
 import "../../Custom"
 import "../"
 
@@ -11,13 +12,16 @@ ColumnLayout {
   id: clothesColumn
 
   property int type
+  property alias clothesTextState: clothesOutputText.state
 
   spacing: 5
 
-  property alias clothesTextState: clothesOutputText.state
-
   StorageTabInfoText{
     id: clothesOutputText
+  }
+
+  InfoDialog {
+    id: itemInfoDialog
   }
 
   CustomButton {
@@ -42,9 +46,10 @@ ColumnLayout {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    cellWidth: 150
-    cellHeight: 200
+    cellWidth: 200
+    cellHeight: 300
 
+    clip: true
     flickableDirection: Flickable.VerticalFlick
     boundsBehavior: Flickable.StopAtBounds
 

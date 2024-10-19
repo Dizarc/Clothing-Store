@@ -11,23 +11,13 @@ Window {
 
   property int tId: -1
 
-  title: "Add a new clothing item"
-
+  title: qsTr("Add a new clothing item")
   flags: Qt.Dialog
-
+  modality: Qt.WindowModal
   color: Style.backgroundColor
 
-  height: 500
   width: 500
-
-  onActiveChanged: {
-    if (!clothesItemAddWindow.active && !imageChoiceFileDialog.visible)
-      clothesItemAddWindow.close();
-  }
-
-  InfoDialog {
-    id: itemInfoDialog
-  }
+  height: 500
 
   Column{
     anchors.horizontalCenter: parent.horizontalCenter

@@ -10,18 +10,12 @@ Window {
   id: sizeAddWindow
 
   title: qsTr("Sizes")
-
   flags: Qt.Dialog
-
   color: Style.backgroundColor
+  modality: Qt.WindowModal
 
   height: 500
   width: 400
-
-  onActiveChanged: {
-    if (!sizeAddWindow.active)
-      sizeAddWindow.close()
-  }
 
   InfoDialog {
     id: sizeInfoDialog

@@ -1,12 +1,11 @@
 import QtQuick 6.6
 import QtQuick.Controls
 
-import "../../../ClothingStore"
 import "../../Custom"
 
 import com.company.ClothesSizesModel
 
-Rectangle {
+Item {
   id: clothesDelegate
 
   required property int clothingId
@@ -15,15 +14,8 @@ Rectangle {
   required property string clothingImageSource
   required property int typeId
 
-  width: clothesGridView.cellWidth - 4
-  height: clothesGridView.cellHeight - 4
-
-  color: clothesMouseArea.pressed ? Qt.lighter(
-                                      Style.inputBoxColor,
-                                      1.2) : clothesMouseArea.containsMouse ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
-
-  border.color: Style.borderColor
-  border.width: 2
+  width: clothesGridView.cellWidth - 8
+  height: clothesGridView.cellHeight - 8
 
   MouseArea {
     id: clothesMouseArea
@@ -34,51 +26,58 @@ Rectangle {
     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
     onClicked: {
-                   clothesColumn.clothesTextState = ""
+      clothesColumn.clothesTextState = ""
 
-                   ClothesSizesModel.filterClothesSizes(clothingId)
+      ClothesSizesModel.filterClothesSizes(clothingId)
 
-                   storageView.push(clothingComponent, {
-                                      "clothingId": clothingId,
-                                      "clothingName": clothingName,
-                                      "clothingDescription": clothingDescription,
-                                      "clothingImageSource": clothingImageSource,
-                                      "type": typeId
-                                    })
-               }
-  }
-
-  Column {
-    id: clothesDelegateColumn
-
-    anchors.horizontalCenter: parent.horizontalCenter
-    spacing: 10
-
-    Text {
-      id: clothesTextView
-
-      text: clothingName
-
-      height: implicitHeight
-      width: parent.width - 6
-
-      horizontalAlignment: Text.AlignHCenter
-      wrapMode: Text.Wrap
-
-      font.pointSize: 12
-      color: Style.textColor
+      storageView.push(clothingComponent, {
+                         "clothingId": clothingId,
+                         "clothingName": clothingName,
+                         "clothingDescription": clothingDescription,
+                         "clothingImageSource": clothingImageSource,
+                         "type": typeId
+                       })
     }
 
-    Image {
-      source: clothingImageSource !== "" ? "file:/" + clothingImageSource : ""
-      visible: clothingImageSource !== ""
+    Rectangle {
+      id: imageRect
 
-      width: clothesDelegate.width - 6
-      height: Math.min(
-                (clothesDelegate.height - clothesTextView.height - clothesDelegateColumn.spacing),
-                clothesDelegate.height - 6)
+      anchors.horizontalCenter: parent.horizontalCenter
+      width: parent.width
+      height: parent.height - nameText.height
 
-      fillMode: Image.PreserveAspectFit
+      color: clothesMouseArea.pressed ? Qt.lighter(
+                                          Style.inputBoxColor,
+                                          1.2) : clothesMouseArea.containsMouse ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
+      border.color: Style.borderColor
+      border.width: 2
+
+      Image {
+        source: clothingImageSource !== "" ? "file:/" + clothingImageSource : ""
+        visible: clothingImageSource !== ""
+        fillMode: Image.PreserveAspectFit
+
+        width: parent.width - 6
+        anchors.centerIn: parent
+      }
+    }
+
+    Text {
+      id: nameText
+      text: clothingName
+      wrapMode: Text.Wrap
+      font.pointSize: 12
+      color: Style.textColor
+
+      height: 40
+      width: parent.width - 6
+
+      anchors{
+        top: imageRect.bottom
+        topMargin: 3
+        left: imageRect.left
+        leftMargin: 3
+      }
     }
   }
 }

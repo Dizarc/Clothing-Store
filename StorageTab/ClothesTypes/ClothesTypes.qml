@@ -20,6 +20,10 @@ ColumnLayout {
     id: clothesTypesOutputText
   }
 
+  InfoDialog {
+    id: typeInfoDialog
+  }
+
   CustomButton {
     id: addTypesButton
 
@@ -45,6 +49,7 @@ ColumnLayout {
     cellWidth: 150
     cellHeight: 200
 
+    clip: true
     flickableDirection: Flickable.VerticalFlick
     boundsBehavior: Flickable.StopAtBounds
 
@@ -63,11 +68,11 @@ ColumnLayout {
 
     onClickedYes: {
       if(ClothesTypesModel.deleteType(deleteClothesTypesDialog.id))
-        infoDialog.dialogText = qsTr("Successfully deleted type!")
+        typeInfoDialog.dialogText = qsTr("Successfully deleted type!")
       else
-        infoDialog.dialogText = qsTr("Error while deleting type!")
+        typeInfoDialog.dialogText = qsTr("Error while deleting type!")
 
-      infoDialog.show()
+      typeInfoDialog.show()
       deleteClothesTypesDialog.close()
     }
   }
@@ -77,12 +82,13 @@ ColumnLayout {
 
     property int id: -1
 
-    width: 350
-    height: 100
     title: qsTr("Rename")
     color: Style.backgroundColor
     flags: Qt.Dialog
     modality: Qt.WindowModal
+
+    width: 350
+    height: 100
 
     Column{
       anchors.horizontalCenter: parent.horizontalCenter

@@ -1,6 +1,5 @@
 import QtQuick 6.6
 
-import "./ClothingItem"
 import "../Custom"
 
 Rectangle {

@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "../Custom"
-import "../../ClothingStore"
 
 import "../StorageTab/ClothesTypes"
 import "../StorageTab/Clothes"
@@ -75,10 +74,6 @@ Column {
         duration: 300
         easing.type: Easing.OutCubic
       }
-    }
-
-    InfoDialog {
-      id: infoDialog
     }
   }
 

@@ -8,11 +8,12 @@ Window {
   property alias dialogText: confirmDialogText.text
 
   title: qsTr("Confirm")
-  width: 450
-  height: 150
   color: Style.backgroundColor
   flags: Qt.Dialog
   modality: Qt.WindowModal
+
+  width: 450
+  height: 150
 
   Text {
     id: confirmDialogText
