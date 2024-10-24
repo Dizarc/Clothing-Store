@@ -10,12 +10,14 @@
 #include "StorageTab/ClothesTypes/ClothesTypesModel.h"
 #include "StorageTab/Clothes/ClothesModel.h"
 #include "StorageTab/ClothingItem/ClothesSizesModel.h"
+#include "HomeTab/TodoListModel.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     app.setWindowIcon(QIcon(":/ClothingStore/images/icon.ico"));
+
     QQmlApplicationEngine engine;
 
     DatabaseController *db = new DatabaseController(&app);
@@ -41,6 +43,10 @@ int main(int argc, char *argv[])
     ClothesSizesModel *clothesSizesModel = new ClothesSizesModel(&app);
     qmlRegisterSingletonInstance("com.company.ClothesSizesModel", 1, 0, "ClothesSizesModel", clothesSizesModel);
     engine.rootContext()->setContextProperty("clothesSizesModel", clothesSizesModel);
+
+    TodoListModel *todoListModel = new TodoListModel(&app);
+    qmlRegisterSingletonInstance("com.company.TodoListModel", 1, 0, "TodoListModel", todoListModel);
+    engine.rootContext()->setContextProperty("todoListModel", todoListModel);
 
     const QUrl url(u"qrc:/ClothingStore/Main.qml"_qs);
 

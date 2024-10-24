@@ -11,6 +11,7 @@ import com.company.Employees
 
 /*
   TODO: create home tab with graphs about total items etc and a store todo list
+  TODO: home tab: add todo list for the store with the name of whoever posted it and make it as a checklist
 */
 Window {
   id: root

@@ -49,7 +49,7 @@ void DatabaseController::createDatabase()
     if(!query.exec(employeesTable))
         qWarning()<< "Problem while creating employees table...";
 
-    QFile f(documentsDirPath + "../DATA.csv");
+    QFile f(documentsDirPath + "/DATA.csv");
     if(f.open(QIODevice::ReadOnly)){
         QTextStream ts(&f);
 
@@ -79,7 +79,7 @@ void DatabaseController::createDatabase()
                                     " id INTEGER,"
                                     " token TEXT NOT NULL,"
                                     " tokenExpiry TEXT NOT NULL,"
-                                    "FOREIGN KEY (id) REFERENCES Employees(id));";
+                                    " FOREIGN KEY (id) REFERENCES Employees(id));";
 
     if(!query.exec(employeePasswordReset))
         qWarning()<< "Problem while creating EmployeePasswordReset table...";
@@ -121,9 +121,27 @@ void DatabaseController::createDatabase()
     if(!query.exec(clothesSizesTable))
         qWarning()<< "Problem while creating ClothesSizes table...";
 
+    QString todoListTable = "CREATE TABLE TodoList("
+                            " todoId INTEGER NOT NULL,"
+                            " empId INTEGER NOT NULL,"
+                            " todoDescription TEXT NOT NULL,"
+                            " done INTEGER,"
+                            " PRIMARY KEY (todoId),"
+                            " FOREIGN KEY (empId) REFERENCES Employees(id));";
+
+    if(!query.exec(todoListTable))
+        qWarning()<< "Problem while creating todoList table...";
+
+    QString todoListValues = "INSERT INTO TodoList(empId, todoDescription, done) VALUES"
+                          " (\"1\", \"Durable and strong jeans!\", 0),"
+                          " (\"2\", \"1231231\", 1);";
+
+    if(!query.exec(todoListValues))
+        qWarning()<< "Problem while adding to ClothesTypes table...";
+
     QString typesValues = "INSERT INTO ClothesTypes(typeName, typeImageSource) VALUES"
                           " (\"Pants\", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\"),"
-                          " (\"Shoes\", \"" + documentsDirPath + "/storage_images/types_images/shoesImage.png" + "\");";
+                                                                                               " (\"Shoes\", \"" + documentsDirPath + "/storage_images/types_images/shoesImage.png" + "\");";
 
     if(!query.exec(typesValues))
         qWarning()<< "Problem while adding to ClothesTypes table...";
@@ -136,9 +154,9 @@ void DatabaseController::createDatabase()
 
     QString clothesValues = "INSERT INTO Clothes(clothingName, clothingDescription, clothingImageSource, typeId) VALUES"
                             " (\"Jeans\", \"Durable and strong jeans! \", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
-                            " (\"Chino Pants\", \"Durable and strong chinos!\" , \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
-                            " (\"Boots\", \"Durable and strong boots!\" , \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 2),"
-                            " (\"Sneakers\", \"Durable and strong sneakers!\", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\" , 2);";
+                                                                                                 " (\"Chino Pants\", \"Durable and strong chinos!\" , \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
+                                                                                                 " (\"Boots\", \"Durable and strong boots!\" , \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 2),"
+                                                                                                 " (\"Sneakers\", \"Durable and strong sneakers!\", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\" , 2);";
 
     if(!query.exec(clothesValues))
         qWarning()<< "Problem while adding to Clothes table...";
