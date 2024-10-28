@@ -13,14 +13,13 @@ Rectangle {
   required property int index
   //required property bool selected
 
-  width: 500
-  height: 400
-
+  width: 550
+  height: 300
+  opacity: PathView.iconOpacity
   focus: true
   clip: true
 
   color: done === 0 ? Style.backgroundColor : Qt.darker(Style.acceptButtonColor, 1.3)
-  opacity: todoPathView.currentIndex === index ? 1 : 0.5
 
   Column{
     anchors.fill: parent
@@ -43,13 +42,13 @@ Rectangle {
     }
   }
 
-  MouseArea{
-    id: todoListMouseArea
+  // MouseArea{
+  //   id: todoListMouseArea
 
-    anchors.fill: parent
-    cursorShape: Qt.PointingHandCursor
-    onClicked:{
-      todoPathView.currentIndex = index
-    }
-  }
+  //   anchors.fill: parent
+  //   cursorShape: Qt.PointingHandCursor
+  //   onClicked:{
+  //     todoPathView.currentIndex = index
+  //   }
+  // }
 }

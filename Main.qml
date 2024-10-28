@@ -12,6 +12,8 @@ import com.company.Employees
 /*
   TODO: create home tab with graphs about total items etc and a store todo list
   TODO: home tab: add todo list for the store with the name of whoever posted it and make it as a checklist
+  BUG: todo list scroll bar does not show
+  TODO: make todo list items not snap to the other side of the screen
 */
 Window {
   id: root

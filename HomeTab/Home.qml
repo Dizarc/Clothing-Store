@@ -11,44 +11,58 @@ Item {
 
   anchors.fill: parent
 
-  ColumnLayout {
+  ScrollView {
     width: parent.width / 3
     height: parent.height
 
-      ListView {
-        id: todoPathView
+    //problem with showing scrollbar!
+    contentHeight: availableHeight
+    contentWidth: availableWidth
 
-        Layout.fillWidth: true
-        Layout.fillHeight: true
+    ScrollBar.vertical: ScrollBar {
+      id: myScroll
 
-        currentIndex: 0
-        focus: true
-        clip: true
-
-        flickableDirection: Flickable.VerticalFlick
-        boundsBehavior: Flickable.StopAtBounds
-        ScrollIndicator.vertical: ScrollIndicator {
-          id: myScroll
-          contentItem: Rectangle {
-            implicitWidth: 2
-            radius: 5
-            color: myScroll.active ? Style.textColor : "transparent"
-          }
-        }
-
-        model: TodoListModel
-
-        delegate: TodoListDelegate {}
+      interactive: true
+      active:true
+      contentItem: Rectangle {
+        implicitWidth: 2
+        radius: 5
+        color: myScroll.active ? Style.textColor : "transparent"
       }
+    }
 
-    CustomButton {
-      text: qsTr("Add to-do")
-      Layout.alignment: Qt.AlignRight
-      buttonColor: Style.generalButtonColor
+    PathView {
+      id: todoPathView
+      focus: true
+      anchors.fill: parent
 
-      onClicked: {
-        console.log("HEY")
+      //currentIndex: 0
+      //focus: true
+      clip: true
+      model: TodoListModel
+
+      delegate: TodoListDelegate {}
+
+      path: Path {
+        startX: 280
+        startY: 0
+
+        PathAttribute {name: "iconOpacity"; value: 0.5}
+        PathLine {x: 280; y: 500}
+        PathAttribute {name: "iconOpacity"; value: 1.0}
+        PathLine {x: 280; y: 950}
+        PathAttribute {name: "iconOpacity"; value: 0.5}
       }
     }
   }
+
+  // CustomButton {
+  //   text: qsTr("Add to-do")
+  //   Layout.alignment: Qt.AlignRight
+  //   buttonColor: Style.generalButtonColor
+
+  //   onClicked: {
+  //     console.log("HEY")
+  //   }
+  // }
 }

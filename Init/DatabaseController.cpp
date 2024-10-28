@@ -134,7 +134,8 @@ void DatabaseController::createDatabase()
 
     QString todoListValues = "INSERT INTO TodoList(empId, todoDescription, done) VALUES"
                           " (\"1\", \"Durable and strong jeans!\", 0),"
-                          " (\"2\", \"1231231\", 1);";
+                          " (\"2\", \"1231231\", 1),"
+                             "(\"2\", \"123122231\", 1);";
 
     if(!query.exec(todoListValues))
         qWarning()<< "Problem while adding to ClothesTypes table...";
