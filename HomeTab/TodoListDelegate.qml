@@ -11,13 +11,11 @@ Rectangle {
   required property int done
 
   required property int index
-  //required property bool selected
 
-  width: 550
-  height: 300
+  width: 630
+  height: 350
   opacity: PathView.iconOpacity
   focus: true
-  clip: true
 
   color: done === 0 ? Style.backgroundColor : Qt.darker(Style.acceptButtonColor, 1.3)
 

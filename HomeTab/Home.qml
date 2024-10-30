@@ -10,59 +10,60 @@ Item {
   id: homeItem
 
   anchors.fill: parent
-
-  ScrollView {
+  ColumnLayout{
     width: parent.width / 3
     height: parent.height
 
-    //problem with showing scrollbar!
-    contentHeight: availableHeight
-    contentWidth: availableWidth
+    CustomButton {
+      text: qsTr("Add to-do")
+      Layout.alignment: Qt.AlignRight
+      buttonColor: Style.generalButtonColor
 
-    ScrollBar.vertical: ScrollBar {
-      id: myScroll
-
-      interactive: true
-      active:true
-      contentItem: Rectangle {
-        implicitWidth: 2
-        radius: 5
-        color: myScroll.active ? Style.textColor : "transparent"
+      onClicked: {
+        console.log("HEY")
       }
     }
+    ScrollView {
+      Layout.fillHeight: true
+      Layout.fillWidth: true
 
-    PathView {
-      id: todoPathView
-      focus: true
-      anchors.fill: parent
 
-      //currentIndex: 0
-      //focus: true
-      clip: true
-      model: TodoListModel
+      //problem with showing scrollbar!
+      contentHeight: availableHeight
+      contentWidth: availableWidth
 
-      delegate: TodoListDelegate {}
+      ScrollBar.vertical: ScrollBar {
+        id: myScroll
 
-      path: Path {
-        startX: 280
-        startY: 0
+        interactive: true
+        active:true
+        contentItem: Rectangle {
+          implicitWidth: 2
+          radius: 5
+          color: myScroll.active ? Style.textColor : "transparent"
+        }
+      }
 
-        PathAttribute {name: "iconOpacity"; value: 0.5}
-        PathLine {x: 280; y: 500}
-        PathAttribute {name: "iconOpacity"; value: 1.0}
-        PathLine {x: 280; y: 950}
-        PathAttribute {name: "iconOpacity"; value: 0.5}
+      PathView {
+        id: todoPathView
+        focus: true
+        anchors.fill: parent
+
+        model: TodoListModel
+
+        delegate: TodoListDelegate {}
+
+        path: Path {
+          startX: 320
+          startY: 0
+
+          PathAttribute {name: "iconOpacity"; value: 0.5}
+          PathLine {x: 320; y: 350}
+          PathAttribute {name: "iconOpacity"; value: 1.0}
+          PathLine {x: 320; y: 1070}
+          PathAttribute {name: "iconOpacity"; value: 0.5}
+        }
       }
     }
   }
-
-  // CustomButton {
-  //   text: qsTr("Add to-do")
-  //   Layout.alignment: Qt.AlignRight
-  //   buttonColor: Style.generalButtonColor
-
-  //   onClicked: {
-  //     console.log("HEY")
-  //   }
-  // }
 }
