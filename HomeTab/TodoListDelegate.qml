@@ -20,6 +20,7 @@ Rectangle {
   color: done === 0 ? Style.backgroundColor : Qt.darker(Style.acceptButtonColor, 1.3)
 
   Column{
+    anchors.leftMargin: 5
     anchors.fill: parent
 
     TextArea {
@@ -33,20 +34,10 @@ Rectangle {
     CustomButton{
       text: "remove"
       width: 100
-
+      buttonColor: Style.generalButtonColor
       onClicked:{
         console.log("123")
       }
     }
   }
-
-  // MouseArea{
-  //   id: todoListMouseArea
-
-  //   anchors.fill: parent
-  //   cursorShape: Qt.PointingHandCursor
-  //   onClicked:{
-  //     todoPathView.currentIndex = index
-  //   }
-  // }
 }
