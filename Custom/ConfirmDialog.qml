@@ -1,4 +1,4 @@
-import QtQuick 6.6
+import QtQuick 6.8
 
 Window {
   id: confirmDialog
@@ -42,16 +42,14 @@ Window {
 
       text: qsTr("Yes")
       width: 50
-
-      buttonColor: Style.generalButtonColor
-
+      buttonColor: Style.denyButtonColor
       onClicked: confirmDialog.clickedYes()
     }
 
     CustomButton{
       text: qsTr("No")
       width: 50
-      buttonColor: Style.denyButtonColor
+      buttonColor: Style.generalButtonColor
       onClicked: confirmDialog.close()
     }
   }

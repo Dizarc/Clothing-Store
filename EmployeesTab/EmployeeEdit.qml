@@ -1,4 +1,4 @@
-import QtQuick 6.6
+import QtQuick 6.8
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
 import QtQuick.Dialogs
@@ -164,40 +164,8 @@ Item {
       font.pointSize: 12
     }
 
-    CheckBox {
+    CustomCheckBox{
       id: isAdminCheckBox
-
-      text: isAdminCheckBox.checked === true ? qsTr("true") : qsTr("false")
-      font.pointSize: 11
-
-      indicator: Rectangle {
-        implicitWidth: 26
-        implicitHeight: 26
-        x: isAdminCheckBox.leftPadding
-        y: parent.height / 2 - height / 2
-        radius: 3
-        color: Style.backgroundColor
-        border.color: Style.borderColor
-
-        Rectangle {
-          width: 14
-          height: 14
-          x: 6
-          y: 6
-          radius: 2
-          color: isAdminCheckBox.down ? Style.textColor : Qt.lighter(
-                                          Style.textColor, 1.5)
-          visible: isAdminCheckBox.checked
-        }
-      }
-      contentItem: Text {
-        text: isAdminCheckBox.text
-        font: isAdminCheckBox.font
-
-        color: Style.textColor
-        verticalAlignment: Text.AlignVCenter
-        leftPadding: isAdminCheckBox.indicator.width + isAdminCheckBox.spacing
-      }
     }
 
     CustomButton {

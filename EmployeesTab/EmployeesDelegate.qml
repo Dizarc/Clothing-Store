@@ -1,4 +1,4 @@
-import QtQuick 6.6
+import QtQuick 6.8
 import QtQuick.Controls.Basic
 
 import "../../ClothingStore"

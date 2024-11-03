@@ -1,6 +1,5 @@
-import QtQuick 6.6
+import QtQuick 6.8
 import QtQuick.Controls
-import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 import "Init"
@@ -10,10 +9,9 @@ import com.company.DatabaseController
 import com.company.Employees
 
 /*
-  TODO: create home tab with graphs about total items etc and a store todo list
-  TODO: home tab: add todo list for the store with the name of whoever posted it and make it as a checklist
-  BUG: todo list scroll bar does not show
-  TODO: make todo list items not snap to the other side of the screen
+  TODO: Create a "model" for the graphs from sql table todoList
+  TODO: include a revert call in every submitAll for all the models
+  BUG: when app upgraded to qt 6.8 the clothes types right click menu got broken
 */
 Window {
   id: root

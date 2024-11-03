@@ -18,6 +18,7 @@ DatabaseController::DatabaseController(QObject *parent)
     db.setDatabaseName(documentsDirPath + "/clothes");
     db.setUserName("manager");
     db.setPassword("clothingManager");
+
     bool ok = db.open();
 
     if(!ok){
@@ -27,13 +28,17 @@ DatabaseController::DatabaseController(QObject *parent)
         createDatabase();
         qWarning() <<"CREATING";
     }
-
 }
 
 void DatabaseController::createDatabase()
 {
-    QSqlDatabase::database().transaction();
+    createTables();
 
+    insertValues();
+}
+
+void DatabaseController::createTables()
+{
     QSqlQuery query;
 
     QString employeesTable = "CREATE TABLE Employees("
@@ -45,11 +50,76 @@ void DatabaseController::createDatabase()
                              " email TEXT NOT NULL,"
                              " phone VARCHAR(10) NOT NULL,"
                              " isAdmin INTEGER DEFAULT 0);";
-
     if(!query.exec(employeesTable))
         qWarning()<< "Problem while creating employees table...";
 
-    QFile f(documentsDirPath + "/DATA.csv");
+    QString employeePasswordReset = "CREATE TABLE EmployeePasswordReset("
+                                    " id INTEGER,"
+                                    " token TEXT NOT NULL,"
+                                    " tokenExpiry TEXT NOT NULL,"
+                                    " FOREIGN KEY (id) REFERENCES Employees(id));";
+    if(!query.exec(employeePasswordReset))
+        qWarning()<< "Problem while creating EmployeePasswordReset table...";
+
+    QString clothesTypesTable = "CREATE TABLE ClothesTypes("
+                                " typeId INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                " typeName TEXT NOT NULL UNIQUE,"
+                                " typeImageSource TEXT NOT NULL);";
+
+    if(!query.exec(clothesTypesTable))
+        qWarning()<< "Problem while creating ClothesTypes table...";
+
+    QString clothesTable = "CREATE TABLE Clothes("
+                           " clothingId INTEGER PRIMARY KEY AUTOINCREMENT,"
+                           " clothingName TEXT NOT NULL,"
+                           " clothingDescription TEXT,"
+                           " clothingImageSource TEXT NOT NULL,"
+                           " typeId INTEGER,"
+                           " FOREIGN KEY (typeId) REFERENCES ClothesTypes(typeId));";
+    if(!query.exec(clothesTable))
+        qWarning()<< "Problem while creating clothesTable table...";
+
+    QString sizesTable = "CREATE TABLE Sizes("
+                         " sizeId INTEGER PRIMARY KEY AUTOINCREMENT,"
+                         " sizeName TEXT NOT NULL UNIQUE);";
+    if(!query.exec(sizesTable))
+        qWarning()<< "Problem while creating Sizes table...";
+
+    QString clothesSizesTable = "CREATE TABLE ClothesSizes("
+                                " clothingId INTEGER NOT NULL,"
+                                " sizeId INTEGER NOT NULL,"
+                                " count INTEGER,"
+                                " PRIMARY KEY (clothingId, sizeId),"
+                                " FOREIGN KEY (clothingId) REFERENCES Clothes(clothingId),"
+                                " FOREIGN KEY (sizeId) REFERENCES sizes(sizeId));";
+    if(!query.exec(clothesSizesTable))
+        qWarning()<< "Problem while creating ClothesSizes table...";
+
+    QString todoListTable = "CREATE TABLE TodoList("
+                            " todoId INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            " todoDescription TEXT NOT NULL,"
+                            " done INTEGER);";
+    if(!query.exec(todoListTable))
+        qWarning()<< "Problem while creating todoList table...";
+
+    QString changeLogTable ="CREATE TABLE ChangeLog("
+                             " logId INTEGER PRIMARY KEY AUTOINCREMENT,"
+                             " action TEXT NOT NULL,"
+                             " entityId INTEGER NOT NULL,"
+                             " sizeId INTEGER,"
+                             " quantity INTEGER DEFAULT 1,"
+                             " changeTime TEXT NOT NULL,"
+                             " FOREIGN KEY (sizeId) REFERENCES Sizes(sizeId));";
+    if(!query.exec(changeLogTable))
+        qWarning()<< "Problem while creating changeLog table...";
+}
+
+void DatabaseController::insertValues()
+{
+    QSqlQuery query;
+
+    QSqlDatabase::database().transaction();
+    QFile f(DatabaseController::documentsDirPath + "/DATA.csv");
     if(f.open(QIODevice::ReadOnly)){
         QTextStream ts(&f);
 
@@ -75,90 +145,29 @@ void DatabaseController::createDatabase()
     }
     QSqlDatabase::database().commit();
 
-    QString employeePasswordReset = "CREATE TABLE EmployeePasswordReset("
-                                    " id INTEGER,"
-                                    " token TEXT NOT NULL,"
-                                    " tokenExpiry TEXT NOT NULL,"
-                                    " FOREIGN KEY (id) REFERENCES Employees(id));";
-
-    if(!query.exec(employeePasswordReset))
-        qWarning()<< "Problem while creating EmployeePasswordReset table...";
-
-    QString clothesTypesTable = "CREATE TABLE ClothesTypes("
-                                " typeId INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                " typeName TEXT NOT NULL UNIQUE,"
-                                " typeImageSource TEXT NOT NULL);";
-
-    if(!query.exec(clothesTypesTable))
-        qWarning()<< "Problem while creating ClothesTypes table...";
-
-    QString clothesTable = "CREATE TABLE Clothes("
-                           " clothingId INTEGER PRIMARY KEY AUTOINCREMENT,"
-                           " clothingName TEXT NOT NULL,"
-                           " clothingDescription TEXT,"
-                           " clothingImageSource TEXT NOT NULL,"
-                           " typeId INTEGER,"
-                           " FOREIGN KEY (typeId) REFERENCES ClothesTypes(typeId));";
-
-    if(!query.exec(clothesTable))
-        qWarning()<< "Problem while creating clothesTable table...";
-
-    QString sizesTable = "CREATE TABLE Sizes("
-                         " sizeId INTEGER PRIMARY KEY AUTOINCREMENT,"
-                         " sizeName TEXT NOT NULL UNIQUE);";
-
-    if(!query.exec(sizesTable))
-        qWarning()<< "Problem while creating Sizes table...";
-
-    QString clothesSizesTable = "CREATE TABLE ClothesSizes("
-                                " clothingId INTEGER NOT NULL,"
-                                " sizeId INTEGER NOT NULL,"
-                                " count INTEGER,"
-                                " PRIMARY KEY (clothingId, sizeId),"
-                                " FOREIGN KEY (clothingId) REFERENCES Clothes(clothingId),"
-                                " FOREIGN KEY (sizeId) REFERENCES sizes(sizeId));";
-
-    if(!query.exec(clothesSizesTable))
-        qWarning()<< "Problem while creating ClothesSizes table...";
-
-    QString todoListTable = "CREATE TABLE TodoList("
-                            " todoId INTEGER NOT NULL,"
-                            " empId INTEGER NOT NULL,"
-                            " todoDescription TEXT NOT NULL,"
-                            " done INTEGER,"
-                            " PRIMARY KEY (todoId),"
-                            " FOREIGN KEY (empId) REFERENCES Employees(id));";
-
-    if(!query.exec(todoListTable))
-        qWarning()<< "Problem while creating todoList table...";
-
-    QString todoListValues = "INSERT INTO TodoList(empId, todoDescription, done) VALUES"
-                          " (\"1\", \"Durable and strong jeans!\", 0),"
-                          " (\"2\", \"1231231\", 1),"
-                             "(\"2\", \"123122231\", 1);";
-
+    QString todoListValues = "INSERT INTO TodoList(todoDescription, done) VALUES"
+                             " (\"Durable and strong jeans!\", 0),"
+                             " (\"1231231\", 1),"
+                             " (\"123122231\", 1);";
     if(!query.exec(todoListValues))
-        qWarning()<< "Problem while adding to ClothesTypes table...";
+        qWarning()<< "Problem while adding to TodoList table...";
 
     QString typesValues = "INSERT INTO ClothesTypes(typeName, typeImageSource) VALUES"
-                          " (\"Pants\", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\"),"
-                                                                                               " (\"Shoes\", \"" + documentsDirPath + "/storage_images/types_images/shoesImage.png" + "\");";
-
+                          " (\"Pants\", \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\"),"
+                                                                                                                   " (\"Shoes\", \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/shoesImage.png" + "\");";
     if(!query.exec(typesValues))
         qWarning()<< "Problem while adding to ClothesTypes table...";
 
     QString sizesValues = "INSERT INTO Sizes(sizeName) VALUES"
                           " (\"Small\"), (\"Medium\"), (\"Large\");";
-
     if(!query.exec(sizesValues))
         qWarning()<< "Problem while adding to Sizes table...";
 
     QString clothesValues = "INSERT INTO Clothes(clothingName, clothingDescription, clothingImageSource, typeId) VALUES"
-                            " (\"Jeans\", \"Durable and strong jeans! \", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
-                                                                                                 " (\"Chino Pants\", \"Durable and strong chinos!\" , \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
-                                                                                                 " (\"Boots\", \"Durable and strong boots!\" , \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 2),"
-                                                                                                 " (\"Sneakers\", \"Durable and strong sneakers!\", \"" + documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\" , 2);";
-
+                            " (\"Jeans\", \"Durable and strong jeans! \", \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
+                                                                                                                     " (\"Chino Pants\", \"Durable and strong chinos!\" , \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
+                                                                                                                     " (\"Boots\", \"Durable and strong boots!\" , \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 2),"
+                                                                                                                     " (\"Sneakers\", \"Durable and strong sneakers!\", \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\" , 2);";
     if(!query.exec(clothesValues))
         qWarning()<< "Problem while adding to Clothes table...";
 
@@ -168,7 +177,6 @@ void DatabaseController::createDatabase()
                                  " (2, 2, 5),"
                                  " (3, 1, 21),"
                                  " (4, 1, 1);";
-
     if(!query.exec(clothesSizesValues))
         qWarning()<< "Problem while adding to ClothesSizes table...";
 }
@@ -184,11 +192,13 @@ bool DatabaseController::isEmployeeTableEmpty()
     return true;
 }
 
-bool DatabaseController::isCurrentlyAdmin(){
+bool DatabaseController::isCurrentlyAdmin()
+{
     return m_isCurrentlyAdmin;
 }
 
-void DatabaseController::setIsCurrentlyAdmin(bool isAdmin){
+void DatabaseController::setIsCurrentlyAdmin(bool isAdmin)
+{
     if(m_isCurrentlyAdmin != isAdmin){
         m_isCurrentlyAdmin = isAdmin;
         emit isCurrentlyAdminChanged();

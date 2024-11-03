@@ -1,5 +1,5 @@
-import QtQuick 6.6
-import QtQuick.Controls
+import QtQuick 6.8
+import QtQuick.Controls.Basic
 
 Switch {
   id: mySwitch

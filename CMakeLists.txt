@@ -4,7 +4,7 @@ project(ClothingStore VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.6 REQUIRED COMPONENTS Quick Sql)
+find_package(Qt6 6.8 REQUIRED COMPONENTS Quick Sql Graphs)
 
 qt_standard_project_setup()
 
@@ -68,6 +68,7 @@ qt_add_qml_module(appClothingStore
               Custom/CustomSpinBox.qml
               Custom/InfoDialog.qml
               Custom/ConfirmDialog.qml
+              Custom/CustomCheckBox.qml
 
     RESOURCES Custom/qmldir
 
@@ -93,6 +94,7 @@ set_target_properties(appClothingStore PROPERTIES
 target_link_libraries(appClothingStore
     PRIVATE Qt6::Quick
             Qt6::Sql
+            Qt6::Graphs
 
             bcryptcpp
             Qt${QT_VERSION_MAJOR}SmtpMime

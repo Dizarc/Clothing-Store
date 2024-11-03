@@ -1,27 +1,39 @@
-import QtQuick 6.6
+import QtQuick 6.8
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
+import QtGraphs
 
 import "../Custom"
 
 import com.company.TodoListModel
 
-Item {
+RowLayout{
   id: homeItem
 
   anchors.fill: parent
 
+  InfoDialog {
+    id: homeInfoDialog
+  }
+
   ColumnLayout{
-    width: parent.width / 3
-    height: parent.height
+    Layout.fillHeight: true
+    Layout.maximumWidth: parent.width / 2
+    Layout.leftMargin: 5
+    Layout.bottomMargin: 5
 
     CustomButton {
       text: qsTr("Add to-do")
-      Layout.alignment: Qt.AlignRight
+
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-        console.log("HEY")
+        if(TodoListModel.addTodo())
+          homeInfoDialog.dialogText = qsTr("Successfully added todo item!")
+        else
+          homeInfoDialog.dialogText = qsTr("Error while adding todo item!")
+
+        homeInfoDialog.show()
       }
     }
 
@@ -30,29 +42,114 @@ Item {
 
       Layout.fillHeight: true
       Layout.fillWidth: true
+      Layout.leftMargin: 10
+      Layout.rightMargin: 10
 
       clip: true
-
+      pathItemCount: 3
       model: TodoListModel
 
       delegate: TodoListDelegate {}
 
       path: Path {
-        startX: 320
-        startY: 0
-        PathAttribute {name: "iconOpacity"; value: 0.5}
-        PathLine {x: 320; y: 350}
-        PathAttribute {name: "iconOpacity"; value: 1.0}
-        PathLine {x: 320; y: 1070}
-        PathAttribute {name: "iconOpacity"; value: 0.5}
+        startY: 150
+        PathLine { y:  300}
+        PathLine { y: 1080}
       }
 
-      MouseArea{
-        anchors.fill: parent
-        onWheel: {
-          todoPathView.incrementCurrentIndex()
+      WheelHandler {
+        onWheel: (event) => {
+          if(event.angleDelta.y < 0)
+            todoPathView.incrementCurrentIndex()
+          else if(event.angleDelta.y > 0)
+            todoPathView.decrementCurrentIndex()
         }
       }
+    }
+
+    ConfirmDialog {
+      id: deleteTodoDialog
+
+      property int index: -1
+
+      dialogText: qsTr("Are you sure you want to delete this todo item?")
+
+      onClickedYes: {
+        if(TodoListModel.removeTodo(index))
+          homeInfoDialog.dialogText = qsTr("Successfully deleted todo item!")
+        else
+          homeInfoDialog.dialogText = qsTr("Error while deleting todo item!")
+
+          deleteTodoDialog.close()
+          homeInfoDialog.show()
+      }
+    }
+  }
+
+  ColumnLayout{
+    Layout.fillWidth: true
+    Layout.fillHeight: true
+    Layout.rightMargin: 5
+    Layout.bottomMargin: 5
+
+    GraphsView {
+      Layout.fillHeight: true
+      Layout.fillWidth: true
+
+      theme: GraphsTheme {
+        colorScheme: GraphsTheme.ColorScheme.Dark
+        theme: GraphsTheme.Theme.QtGreen
+          }
+      axisX: ValueAxis {
+        min: 0
+        tickInterval: 10
+        max: 5
+      }
+      axisY: ValueAxis {
+          min: 0
+          max: 5
+          tickInterval: 10
+      }
+      LineSeries {
+              name: "Line"
+              XYPoint { x: 0; y: 0 }
+              XYPoint { x: 1.1; y: 2.1 }
+              XYPoint { x: 1.9; y: 3.3 }
+              XYPoint { x: 2.1; y: 2.1 }
+              XYPoint { x: 2.9; y: 4.9 }
+              XYPoint { x: 3.4; y: 3.0 }
+              XYPoint { x: 4.1; y: 3.3 }
+          }
+    }
+
+    GraphsView {
+      Layout.fillHeight: true
+      Layout.fillWidth: true
+
+      theme: GraphsTheme {
+        colorScheme: GraphsTheme.ColorScheme.Dark
+        theme: GraphsTheme.Theme.QtGreen
+          }
+      axisX: ValueAxis {
+        min: 0
+        tickInterval: 10
+        max: 5
+      }
+      axisY: ValueAxis {
+          min: 0
+          max: 5
+          tickInterval: 10
+      }
+      LineSeries {
+              name: "Line"
+              XYPoint { x: 0; y: 0 }
+              XYPoint { x: 1.1; y: 2.1 }
+              XYPoint { x: 1.9; y: 3.3 }
+              XYPoint { x: 2.1; y: 2.1 }
+              XYPoint { x: 2.9; y: 4.9 }
+              XYPoint { x: 3.4; y: 3.0 }
+              XYPoint { x: 4.1; y: 3.3 }
+          }
     }
   }
 }

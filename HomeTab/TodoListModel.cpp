@@ -22,14 +22,11 @@ QVariant TodoListModel::data(const QModelIndex &index, int role) const
     case todoIdRole:
         value = row;
         break;
-    case empIdRole:
+    case todoDescriptionRole:
         value = QSqlTableModel::data(this->index(index.row(), 1));
         break;
-    case todoDescriptionRole:
-        value = QSqlTableModel::data(this->index(index.row(), 2));
-        break;
     case doneRole:
-        value = QSqlTableModel::data(this->index(index.row(), 3));
+        value = QSqlTableModel::data(this->index(index.row(), 2));
         break;
     default:
         break;
@@ -43,9 +40,54 @@ QHash<int, QByteArray> TodoListModel::roleNames() const
     QHash<int, QByteArray> roles;
 
     roles[todoIdRole] = "todoId";
-    roles[empIdRole] = "empId";
     roles[todoDescriptionRole] = "todoDescription";
     roles[doneRole] = "done";
 
     return roles;
+}
+
+bool TodoListModel::removeTodo(const int &index)
+{
+    removeRow(index);
+    select();
+    return submitAll();
+}
+
+bool TodoListModel::addTodo()
+{
+    insertRow(rowCount() + 1);
+    QSqlRecord record = this->record(rowCount());
+
+    record.setValue("todoDescription", "");
+    record.setValue("done", 0);
+
+    if(insertRecord(rowCount(), record)){
+        select();
+        return submitAll();
+    }
+    return false;
+}
+
+bool TodoListModel::changeDescription(const int &index, const QString &description)
+{
+    QModelIndex descriptionIndex = this->index(index, 1);
+    setData(descriptionIndex, description, Qt::EditRole);
+
+    bool submitting = submitAll();
+    if(submitting == false)
+        revert();
+
+    return submitting;
+}
+
+bool TodoListModel::changeDone(const int &index, const int &done)
+{
+    QModelIndex doneIndex = this->index(index, 2);
+    setData(doneIndex, done, Qt::EditRole);
+
+    bool submitting = submitAll();
+    if(submitting == false)
+        revert();
+
+    return submitting;
 }

@@ -34,6 +34,8 @@ public:
 
 private:
     void createDatabase();
+    void createTables();
+    void insertValues();
 
     QString createResetCode(const int &id);
 

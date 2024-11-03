@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSqlTableModel>
+#include <QSqlRecord>
 
 class TodoListModel : public QSqlTableModel
 {
@@ -10,16 +11,19 @@ class TodoListModel : public QSqlTableModel
 public:
     enum Roles{
         todoIdRole = Qt::UserRole + 1,
-        empIdRole,
         todoDescriptionRole,
         doneRole
     };
     explicit TodoListModel(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());
 
-    // QAbstractItemModel interface
-public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
+
+public slots:
+    bool removeTodo(const int &index);
+    bool addTodo();
+    bool changeDescription(const int &index, const QString &description);
+    bool changeDone(const int &index, const int &done);
 };
 
 #endif // TODOLISTMODEL_H
