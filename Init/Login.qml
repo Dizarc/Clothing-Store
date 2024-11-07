@@ -3,6 +3,8 @@ import QtQuick.Layouts
 import QtQuick.Controls.Basic
 import QtQuick.Dialogs
 
+import com.company.DatabaseController
+
 import "../Custom"
 
 Item {
@@ -58,7 +60,7 @@ Item {
       buttonColor: Style.acceptButtonColor
 
       Keys.onReturnPressed: clicked()
-      onClicked: dbController.loginCheck(usernameInput.text, passwordInput.text)
+      onClicked: DbController.loginCheck(usernameInput.text, passwordInput.text)
     }
 
     CustomButton {

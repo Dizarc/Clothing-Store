@@ -22,31 +22,24 @@ int main(int argc, char *argv[])
 
     DatabaseController *db = new DatabaseController(&app);
     qmlRegisterSingletonInstance("com.company.DatabaseController", 1, 0, "DbController", db);
-    engine.rootContext()->setContextProperty("dbController", db);
 
     Employees *emp = new Employees(&app);
     qmlRegisterSingletonInstance("com.company.Employees", 1, 0, "Emp", emp);
-    engine.rootContext()->setContextProperty("emp", emp);
 
     SizesModel *sizesModel = new SizesModel(&app);
     qmlRegisterSingletonInstance("com.company.SizesModel", 1, 0, "SizesModel", sizesModel);
-    engine.rootContext()->setContextProperty("sizesModel", sizesModel);
 
     ClothesTypesModel *clothesTypesModel = new ClothesTypesModel(&app);
     qmlRegisterSingletonInstance("com.company.ClothesTypesModel", 1, 0, "ClothesTypesModel", clothesTypesModel);
-    engine.rootContext()->setContextProperty("clothesTypesModel", clothesTypesModel);
 
     ClothesModel *clothesModel = new ClothesModel(&app);
     qmlRegisterSingletonInstance("com.company.ClothesModel", 1, 0, "ClothesModel", clothesModel);
-    engine.rootContext()->setContextProperty("clothesModel", clothesModel);
 
     ClothesSizesModel *clothesSizesModel = new ClothesSizesModel(&app);
     qmlRegisterSingletonInstance("com.company.ClothesSizesModel", 1, 0, "ClothesSizesModel", clothesSizesModel);
-    engine.rootContext()->setContextProperty("clothesSizesModel", clothesSizesModel);
 
     TodoListModel *todoListModel = new TodoListModel(&app);
     qmlRegisterSingletonInstance("com.company.TodoListModel", 1, 0, "TodoListModel", todoListModel);
-    engine.rootContext()->setContextProperty("todoListModel", todoListModel);
 
     const QUrl url(u"qrc:/ClothingStore/Main.qml"_qs);
 
