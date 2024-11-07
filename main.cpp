@@ -18,8 +18,6 @@ int main(int argc, char *argv[])
 
     app.setWindowIcon(QIcon(":/ClothingStore/images/icon.ico"));
 
-    QQmlApplicationEngine engine;
-
     DatabaseController *db = new DatabaseController(&app);
     qmlRegisterSingletonInstance("com.company.DatabaseController", 1, 0, "DbController", db);
 
@@ -41,13 +39,12 @@ int main(int argc, char *argv[])
     TodoListModel *todoListModel = new TodoListModel(&app);
     qmlRegisterSingletonInstance("com.company.TodoListModel", 1, 0, "TodoListModel", todoListModel);
 
-    const QUrl url(u"qrc:/ClothingStore/Main.qml"_qs);
-
+    QQmlApplicationEngine engine;
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    engine.load(url);
+    engine.loadFromModule("ClothingStore", "Main");
 
     return app.exec();
 }
