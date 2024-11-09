@@ -75,9 +75,9 @@ RowLayout{
       dialogText: qsTr("Are you sure you want to delete this todo item?")
 
       onClickedYes: {
-        if(TodoListModel.removeTodo(index))
+        if(TodoListModel.removeTodo(index)){
           homeInfoDialog.dialogText = qsTr("Successfully deleted todo item!")
-        else
+        }else
           homeInfoDialog.dialogText = qsTr("Error while deleting todo item!")
 
           deleteTodoDialog.close()
@@ -91,6 +91,10 @@ RowLayout{
     Layout.fillHeight: true
     Layout.rightMargin: 5
     Layout.bottomMargin: 5
+
+    // GraphData{
+    //   id: graph1
+    // }
 
     GraphsView {
       Layout.fillHeight: true
@@ -110,8 +114,12 @@ RowLayout{
           max: 5
           tickInterval: 10
       }
+
+      //Component.onCompleted: addSeries(graph1.series)
+
       LineSeries {
               name: "Line"
+
               XYPoint { x: 0; y: 0 }
               XYPoint { x: 1.1; y: 2.1 }
               XYPoint { x: 1.9; y: 3.3 }

@@ -7,6 +7,8 @@
 #include <QSqlQuery>
 #include <QObject>
 
+#include "../../HomeTab/LogData.h"
+
 class ClothesSizesModel : public QSqlRelationalTableModel
 {
     Q_OBJECT

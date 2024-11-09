@@ -104,11 +104,11 @@ void DatabaseController::createTables()
 
     QString changeLogTable ="CREATE TABLE ChangeLog("
                              " logId INTEGER PRIMARY KEY AUTOINCREMENT,"
-                             " action TEXT NOT NULL,"
-                             " entityId INTEGER NOT NULL,"
-                             " sizeId INTEGER,"
-                             " quantity INTEGER DEFAULT 1,"
-                             " changeTime TEXT NOT NULL,"
+                             " clothingId INTEGER NOT NULL,"
+                             " sizeId INTEGER NOT NULL,"
+                             " changeDate TEXT NOT NULL,"
+                             " changeCount INTEGER NOT NULL,"
+                             " FOREIGN KEY (clothingId) REFERENCES Clothes(clothingId),"
                              " FOREIGN KEY (sizeId) REFERENCES Sizes(sizeId));";
     if(!query.exec(changeLogTable))
         qWarning()<< "Problem while creating changeLog table...";

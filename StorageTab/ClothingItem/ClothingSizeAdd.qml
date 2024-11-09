@@ -4,6 +4,7 @@ import QtQuick.Layouts
 
 import com.company.SizesModel
 import com.company.ClothesSizesModel
+import com.company.LogData
 
 import "../../Custom"
 import "../"
@@ -61,9 +62,10 @@ Window {
         width: sizeTableView.width
 
         myMouseArea.onClicked: {
-          if (ClothesSizesModel.addSize(cId, sizesDel.sizeId))
-            itemInfoDialog.dialogText = qsTr("Successfully created new size!")
-          else
+          if (ClothesSizesModel.addSize(cId, sizesDel.sizeId)){
+            LogData.log(cId, sizesDel.sizeName, 1);
+            itemInfoDialog.dialogText = qsTr("Successfully created new size!");
+          }else
             itemInfoDialog.dialogText = qsTr("Error while creating new size!")
 
           addSizeWindow.close()

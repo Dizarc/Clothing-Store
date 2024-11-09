@@ -64,9 +64,9 @@ bool ClothesSizesModel::changeCount(const int &cId, const QString &sName, const 
     model.setQuery(query);
 
     QSqlRecord record = model.record(0);
-    int count = record.field("count").value().toInt();
+    // int count = record.field("count").value().toInt();
 
-    record.setValue("count", count + value);
+    record.setValue("count", value);
 
     model.setRecord(0, record);
 
@@ -85,6 +85,7 @@ bool ClothesSizesModel::removeClothingSize(const int &cId, const int &index)
     model.removeRow(index);
 
     select();
+
     return submitAll();
 }
 

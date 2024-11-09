@@ -10,7 +10,9 @@ import com.company.Employees
 
 /*
   TODO: Create a "model" for the graphs from sql table todoList
-  TODO: include a revert call in every submitAll for all the models
+  TODO: include a revert call in every submitAll for all the models]
+  TODO: For LogData should i have the current list with the whole table or should i make it so that the data is freshly gotten every time a user changes the graph.
+  TODO: find a way for the graph to show the counts of all items and down the line add extra functionality for showing counts only for specific clothing sizes etc.
   BUG: when app upgraded to qt 6.8 the clothes types right click menu got broken
 */
 Window {

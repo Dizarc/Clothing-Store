@@ -13,6 +13,7 @@ import com.company.ClothesSizesModel
 import com.company.ClothesModel
 import com.company.SizesModel
 import com.company.ClothesTypesModel
+import com.company.LogData
 
 Item {
   id: clothingItem
@@ -171,8 +172,7 @@ Item {
       visible: false
 
       onClicked: {
-        if (ClothesModel.changeClothingDescription(clothingId,
-                                                   clothingTextArea.text))
+        if (ClothesModel.changeClothingDescription(clothingId, clothingTextArea.text))
           clothingItem.textState = "successDescriptionChange"
         else
           clothingItem.textState = "failedDescriptionChange"
@@ -317,6 +317,7 @@ Item {
       id: sizesView
 
       property int sizeCount: 0
+      //since we use QSqlRelationalTableModel the sizeId becomes the name of the size
       property string sizeSelected: ""
 
       width: parent.width
@@ -401,9 +402,7 @@ Item {
         SizesModel.filterAvailableSizes(clothingItem.clothingId)
 
         var component = Qt.createComponent("ClothingSizeAdd.qml")
-        var window = component.createObject(clothingItem, {
-                                              "cId": clothingItem.clothingId
-                                            })
+        var window = component.createObject(clothingItem, { "cId": clothingItem.clothingId })
         window.show()
       }
     }
@@ -420,10 +419,12 @@ Item {
         opacity: sizesView.currentIndex === -1 ? 0.5 : 1
 
         onClicked: {
-          if (ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected,
-                                            addSpinBox.value)) {
+          if (ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected, sizesView.sizeCount + addSpinBox.value)) {
             clothingItem.textState = "successChangeCount"
+
             sizesView.sizeCount += addSpinBox.value
+
+            LogData.log(clothingId, sizesView.sizeSelected, sizesView.sizeCount);
           } else
             clothingItem.textState = "failedChangeCount"
 
@@ -455,14 +456,17 @@ Item {
 
         onClicked: {
 
-          if (ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected,
-                                            (-1) * removeSpinBox.value)) {
+          if (ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected, sizesView.sizeCount + (-1) * removeSpinBox.value)) {
             sizesView.sizeCount += (-1) * removeSpinBox.value
 
+            LogData.log(clothingId, sizesView.sizeSelected, sizesView.sizeCount);
+
             if (sizesView.sizeCount === 0) {
-              if (ClothesSizesModel.removeClothingSize(clothingId,
-                                                       sizesView.currentIndex))
+              if (ClothesSizesModel.removeClothingSize(clothingId, sizesView.currentIndex)){
                 clothingItem.textState = "successChangeCount"
+
+                LogData.log(clothingId, sizesView.sizeSelected, 0);
+              }
               else
                 clothingItem.textState = "failedChangeCount"
             } else
