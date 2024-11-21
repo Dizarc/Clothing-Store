@@ -167,7 +167,7 @@ bool ClothesModel::add(const QString &itemName, const QString &itemImageSource, 
     QSqlRecord record = this->record(rowCount());
 
     record.setValue("clothingName", itemName);
-    record.setValue("clothingDescription", "newImage");
+    record.setValue("clothingDescription", "");
     record.setValue("clothingImageSource", newImage);
     record.setValue("typeId", tId);
 
