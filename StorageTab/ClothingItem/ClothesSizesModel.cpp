@@ -75,7 +75,7 @@ bool ClothesSizesModel::changeCount(const int &cId, const QString &sName, const 
     return submitAll();
 }
 
-bool ClothesSizesModel::removeClothingSize(const int &cId, const int &index)
+bool ClothesSizesModel::remove(const int &cId, const int &index)
 {
     QSqlTableModel model;
 
@@ -90,7 +90,7 @@ bool ClothesSizesModel::removeClothingSize(const int &cId, const int &index)
 }
 
 //adds new size for the particular clothing item
-bool ClothesSizesModel::addSize(const int &cId, const int &sId)
+bool ClothesSizesModel::add(const int &cId, const int &sId)
 {
     QSqlTableModel model;
 

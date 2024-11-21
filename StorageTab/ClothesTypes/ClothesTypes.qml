@@ -75,7 +75,7 @@ ColumnLayout {
                      + "\nEvery clothing inside this type will become \"uncategorized\"")
 
     onClickedYes: {
-      if(ClothesTypesModel.deleteType(deleteClothesTypesDialog.id))
+      if(ClothesTypesModel.remove(deleteClothesTypesDialog.id))
         typeInfoDialog.dialogText = qsTr("Successfully deleted type!")
       else
         typeInfoDialog.dialogText = qsTr("Error while deleting type!")
@@ -176,7 +176,7 @@ ColumnLayout {
         radius: 5
 
         Image{
-          id: changeTypeImage
+          id: changeImage
 
           anchors.fill: parent
 
@@ -225,7 +225,7 @@ ColumnLayout {
           buttonColor: Style.acceptButtonColor
 
           onClicked: {
-            if(ClothesTypesModel.changeTypeImage(changeImageClothesTypesDialog.id, changeTypeImage.source))
+            if(ClothesTypesModel.changeImage(changeImageClothesTypesDialog.id, changeImage.source))
              clothesTypesColumn.textState = "successImageChange"
             else
              clothesTypesColumn.textState = "failedImageChange"
@@ -250,7 +250,7 @@ ColumnLayout {
       nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp)"]
       currentFolder: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
 
-      onAccepted: changeTypeImage.source = selectedFile
+      onAccepted: changeImage.source = selectedFile
     }
   }
 

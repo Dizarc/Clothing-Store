@@ -10,7 +10,7 @@ import "../../Custom"
 import "../"
 
 Window {
-  id: addSizeWindow
+  id: addWindow
 
   property int cId: -1
 
@@ -62,13 +62,13 @@ Window {
         width: sizeTableView.width
 
         myMouseArea.onClicked: {
-          if (ClothesSizesModel.addSize(cId, sizesDel.sizeId)){
+          if (ClothesSizesModel.add(cId, sizesDel.sizeId)){
             LogData.log(cId, sizesDel.sizeName, 1);
             itemInfoDialog.dialogText = qsTr("Successfully created new size!");
           }else
             itemInfoDialog.dialogText = qsTr("Error while creating new size!")
 
-          addSizeWindow.close()
+          addWindow.close()
           itemInfoDialog.show()
         }
       }

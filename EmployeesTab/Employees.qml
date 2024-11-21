@@ -32,7 +32,7 @@ Item {
     }
 
     CustomButton{
-      id: addEmployeeButton
+      id: addButton
 
       enabled: isAdminLogged
       opacity: isAdminLogged ? 1 : 0.5
@@ -82,7 +82,7 @@ Item {
       Item {}
       EmployeeEdit { id: editEmployee }
       EmployeeSearch {}
-      EmployeeAdd {id: addEmployee}
+      EmployeeAdd {id: add}
     }
   }
 }

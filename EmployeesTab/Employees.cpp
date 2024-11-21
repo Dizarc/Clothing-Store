@@ -67,11 +67,11 @@ QHash<int, QByteArray> Employees::roleNames() const
 }
 
 /*
-    updateEmployee and changePasswordEmployee use two different ways to change the data in an sql table.
-    updateEmployee uses the index from the delegate
-    changePasswordEmployee uses the id from the row.
+    update and changePassword use two different ways to change the data in an sql table.
+    update uses the index from the delegate
+    changePassword uses the id from the row.
 */
-bool Employees::updateEmployee(const int &index, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const int &isAdmin)
+bool Employees::update(const int &index, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const int &isAdmin)
 {
     QModelIndex firstnameIndex = this->index(index, 1);
     QModelIndex lastnameIndex = this->index(index, 2);
@@ -94,7 +94,7 @@ bool Employees::updateEmployee(const int &index, const QString &firstname, const
     return submitting;
 }
 
-bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword, const QString &newPassword)
+bool Employees::changePassword(const int &id, const QString &oldPassword, const QString &newPassword)
 {
     QSqlTableModel model;
 
@@ -118,14 +118,14 @@ bool Employees::changePasswordEmployee(const int &id, const QString &oldPassword
     return false;
 }
 
-bool Employees::deleteEmployee(const int &index)
+bool Employees::remove(const int &index)
 {
     removeRow(index);
     select();
     return submitAll();
 }
 
-bool Employees::searchEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QVariant &isAdmin)
+bool Employees::search(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QVariant &isAdmin)
 {
     QString filter = "(firstname LIKE CONCAT('" + firstname + "', '%') OR '" + firstname + "' = '')"
                      + " AND "
@@ -145,7 +145,7 @@ bool Employees::searchEmployee(const QString &firstname, const QString &lastname
     return select();
 }
 
-bool Employees::addEmployee(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QString &password, const int &isAdmin)
+bool Employees::add(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QString &password, const int &isAdmin)
 {
     insertRow(rowCount() + 1);
     QSqlRecord record = this->record(rowCount());

@@ -28,7 +28,7 @@ RowLayout{
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-        if(TodoListModel.addTodo())
+        if(TodoListModel.add())
           homeInfoDialog.dialogText = qsTr("Successfully added todo item!")
         else
           homeInfoDialog.dialogText = qsTr("Error while adding todo item!")
@@ -75,7 +75,7 @@ RowLayout{
       dialogText: qsTr("Are you sure you want to delete this todo item?")
 
       onClickedYes: {
-        if(TodoListModel.removeTodo(index)){
+        if(TodoListModel.remove(index)){
           homeInfoDialog.dialogText = qsTr("Successfully deleted todo item!")
         }else
           homeInfoDialog.dialogText = qsTr("Error while deleting todo item!")

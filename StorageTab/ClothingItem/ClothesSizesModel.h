@@ -28,8 +28,8 @@ public slots:
     void filterClothesSizes(int id);
 
     bool changeCount(const int &cId, const QString &sName, const int &value);
-    bool removeClothingSize(const int &cId, const int &index);
-    bool addSize(const int &cId, const int &sId);
+    bool remove(const int &cId, const int &index);
+    bool add(const int &cId, const int &sId);
 };
 
 #endif // CLOTHESSIZESMODEL_H

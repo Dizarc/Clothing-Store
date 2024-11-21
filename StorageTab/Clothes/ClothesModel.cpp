@@ -84,7 +84,7 @@ void ClothesModel::filterType(int typeId)
     select();
 }
 
-bool ClothesModel::renameClothing(const int &cId, const QString name)
+bool ClothesModel::rename(const int &cId, const QString name)
 {
     QSqlTableModel model;
 
@@ -103,7 +103,7 @@ bool ClothesModel::renameClothing(const int &cId, const QString name)
     return submitAll();
 }
 
-bool ClothesModel::changeClothingDescription(const int &cId, const QString description)
+bool ClothesModel::changeDescription(const int &cId, const QString description)
 {
     QSqlTableModel model;
 
@@ -122,7 +122,7 @@ bool ClothesModel::changeClothingDescription(const int &cId, const QString descr
     return submitAll();
 }
 
-bool ClothesModel::changeClothingImage(const int &cId, const QString &ClothingImageSource)
+bool ClothesModel::changeImage(const int &cId, const QString &ClothingImageSource)
 {
     QString localFilePath = QUrl(ClothingImageSource).toLocalFile();
     QFile image(localFilePath);
@@ -151,7 +151,7 @@ bool ClothesModel::changeClothingImage(const int &cId, const QString &ClothingIm
     return submitAll();
 }
 
-bool ClothesModel::addClothing(const QString &itemName, const QString &itemImageSource, const int &tId)
+bool ClothesModel::add(const QString &itemName, const QString &itemImageSource, const int &tId)
 {
     QString localFilePath = QUrl(itemImageSource).toLocalFile();
     QFile image(localFilePath);
@@ -179,7 +179,7 @@ bool ClothesModel::addClothing(const QString &itemName, const QString &itemImage
     return false;
 }
 
-bool ClothesModel::removeClothing(const int &cId)
+bool ClothesModel::remove(const int &cId)
 {
     QSqlTableModel clothesSizesModel;
 

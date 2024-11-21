@@ -211,7 +211,7 @@ Item {
           isAnAdmin = true
         else if (adminStatus.currentIndex === 2)
           isAnAdmin = false
-        Emp.searchEmployee(firstnameSearchInput.text, lastnameSearchInput.text,
+        Emp.search(firstnameSearchInput.text, lastnameSearchInput.text,
                            usernameSearchInput.text, emailSearchInput.text,
                            phoneSearchInput.text, isAnAdmin)
       }
@@ -229,7 +229,7 @@ Item {
         emailSearchInput.text = ""
         phoneSearchInput.text = ""
         adminStatus.currentIndex = 0
-        Emp.searchEmployee('', '', '', '', '', null)
+        Emp.search('', '', '', '', '', null)
       }
     }
   }

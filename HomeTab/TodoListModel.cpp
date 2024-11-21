@@ -46,14 +46,14 @@ QHash<int, QByteArray> TodoListModel::roleNames() const
     return roles;
 }
 
-bool TodoListModel::removeTodo(const int &index)
+bool TodoListModel::remove(const int &index)
 {
     removeRow(index);
     select();
     return submitAll();
 }
 
-bool TodoListModel::addTodo()
+bool TodoListModel::add()
 {
     insertRow(rowCount() + 1);
     QSqlRecord record = this->record(rowCount());

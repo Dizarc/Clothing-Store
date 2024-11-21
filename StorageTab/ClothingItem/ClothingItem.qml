@@ -122,7 +122,7 @@ Item {
         visible: false
 
         onClicked: {
-          if (ClothesModel.renameClothing(clothingId, nameInput.text))
+          if (ClothesModel.rename(clothingId, nameInput.text))
             clothingItem.textState = "successRename"
           else
             clothingItem.textState = "failedRename"
@@ -172,7 +172,7 @@ Item {
       visible: false
 
       onClicked: {
-        if (ClothesModel.changeClothingDescription(clothingId, clothingTextArea.text))
+        if (ClothesModel.changeDescription(clothingId, clothingTextArea.text))
           clothingItem.textState = "successDescriptionChange"
         else
           clothingItem.textState = "failedDescriptionChange"
@@ -399,7 +399,7 @@ Item {
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-        SizesModel.filterAvailableSizes(clothingItem.clothingId)
+        SizesModel.filterAvailable(clothingItem.clothingId)
 
         var component = Qt.createComponent("ClothingSizeAdd.qml")
         var window = component.createObject(clothingItem, { "cId": clothingItem.clothingId })
@@ -462,7 +462,7 @@ Item {
             LogData.log(clothingId, sizesView.sizeSelected, sizesView.sizeCount);
 
             if (sizesView.sizeCount === 0) {
-              if (ClothesSizesModel.removeClothingSize(clothingId, sizesView.currentIndex)){
+              if (ClothesSizesModel.remove(clothingId, sizesView.currentIndex)){
                 clothingItem.textState = "successChangeCount"
 
                 LogData.log(clothingId, sizesView.sizeSelected, 0);
@@ -514,7 +514,7 @@ Item {
     dialogText: qsTr("Are you sure you want to delete this Item?")
 
     onClickedYes: {
-      if (ClothesModel.removeClothing(clothingId)) {
+      if (ClothesModel.remove(clothingId)) {
         storageView.pop()
         storageInfoDialog.dialogText = qsTr("Successfully deleted item!")
       } else
@@ -534,7 +534,7 @@ Item {
                      StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
 
     onAccepted: {
-      if (ClothesModel.changeClothingImage(clothingId, selectedFile)) {
+      if (ClothesModel.changeImage(clothingId, selectedFile)) {
         clothingItem.textState = "successImageChange"
         clothingItem.clothingImageSource = selectedFile.toString().replace(
               "file:///", "")

@@ -47,6 +47,7 @@ public slots:
     void changePassword(const QString &username, const QString &password);
 
     bool createAdminUser(const QString firstname, const QString lastname, const QString username, const QString email, const QString phone, const QString password);
+
 signals:
     void isEmployeeTableEmptyChanged();
     void isCurrentlyAdminChanged();

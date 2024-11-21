@@ -35,7 +35,7 @@ Column {
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-        SizesModel.filterAvailableSizes();
+        SizesModel.filterAvailable();
 
         var component = Qt.createComponent("Sizes.qml")
         var window = component.createObject()

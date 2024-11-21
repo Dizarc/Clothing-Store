@@ -30,7 +30,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;    
 
 public slots:
-    bool updateEmployee(const int &id,
+    bool update(const int &id,
                         const QString &firstname,
                         const QString &lastname,
                         const QString &username,
@@ -38,20 +38,20 @@ public slots:
                         const QString &phone,
                         const int &isAdmin);
 
-    bool changePasswordEmployee(const int &id,
+    bool changePassword(const int &id,
                                 const QString &oldPassword,
                                 const QString &newPassword);
 
-    bool deleteEmployee(const int &index);
+    bool remove(const int &index);
 
-    bool searchEmployee(const QString &firstname,
+    bool search(const QString &firstname,
                         const QString &lastname,
                         const QString &username,
                         const QString &email,
                         const QString &phone,
                         const QVariant &isAdmin);
 
-    bool addEmployee(const QString &firstname,
+    bool add(const QString &firstname,
                      const QString &lastname,
                      const QString &username,
                      const QString &email,

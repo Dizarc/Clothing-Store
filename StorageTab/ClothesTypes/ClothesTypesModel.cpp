@@ -46,7 +46,7 @@ QHash<int, QByteArray> ClothesTypesModel::roleNames() const
     return roles;
 }
 
-bool ClothesTypesModel::addNewType(const QString &typeName, const QString &typeImageSource)
+bool ClothesTypesModel::add(const QString &typeName, const QString &typeImageSource)
 {
     QString localFilePath = QUrl(typeImageSource).toLocalFile();
     QFile image(localFilePath);
@@ -72,12 +72,12 @@ bool ClothesTypesModel::addNewType(const QString &typeName, const QString &typeI
     return false;
 }
 
-bool ClothesTypesModel::deleteType(const int &id)
+bool ClothesTypesModel::remove(const int &id)
 {
     int uncategorizedId = getUncategorizedTypeId();
 
     if(uncategorizedId == -1){
-        if(!addNewType("uncategorized", "")){
+        if(!add("uncategorized", "")){
             qWarning()<< "uncategorized type not created!";
             return false;
         }
@@ -141,7 +141,7 @@ bool ClothesTypesModel::renameType(const int &id, const QString name)
     return submitAll();
 }
 
-bool ClothesTypesModel::changeTypeImage(const int &id, const QString &typeImageSource)
+bool ClothesTypesModel::changeImage(const int &id, const QString &typeImageSource)
 {
     QString localFilePath = QUrl(typeImageSource).toLocalFile();
     QFile image(localFilePath);

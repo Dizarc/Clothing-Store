@@ -53,7 +53,7 @@ Rectangle {
       editEmployee.isAdminField = isAdmin
 
       editEmployee.textVisibility = ""
-      addEmployee.textVisibility = ""
+      add.textVisibility = ""
 
       selectionModel.select(tableView.index(employeesDelegate.index, 0),
                             ItemSelectionModel.SelectCurrent)

@@ -43,7 +43,7 @@ Window {
       buttonColor: Style.acceptButtonColor
 
       onClicked: {
-        if (SizesModel.addSize(sizeNameInputBox.text))
+        if (SizesModel.add(sizeNameInputBox.text))
           sizeInfoDialog.dialogText = qsTr("Successfully added size!")
         else
           sizeInfoDialog.dialogText = qsTr("Error while adding size!")
@@ -101,7 +101,7 @@ Window {
                   "Are you sure you want to delete this size?\nAll clothing items with this size will be removed.")
 
     onClickedYes: {
-      if (SizesModel.removeSize(deleteSizeDialog.id))
+      if (SizesModel.remove(deleteSizeDialog.id))
         sizeInfoDialog.dialogText = qsTr("Successfully deleted size!")
       else
         sizeInfoDialog.dialogText = qsTr("Error while deleting size!")

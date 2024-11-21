@@ -97,7 +97,7 @@ Window {
       buttonColor: Style.acceptButtonColor
 
       onClicked: {
-        if(ClothesTypesModel.addNewType(typeNameInput.text, typeImage.source))
+        if(ClothesTypesModel.add(typeNameInput.text, typeImage.source))
           typeInfoDialog.dialogText = qsTr("Successfully created new type!")
         else
           typeInfoDialog.dialogText = qsTr("Error while creating new type!")

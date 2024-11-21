@@ -96,7 +96,7 @@ Window {
       buttonColor: Style.acceptButtonColor
 
       onClicked: {
-        if(ClothesModel.addClothing(itemNameInput.text, itemImage.source, clothesItemAddWindow.tId))
+        if(ClothesModel.add(itemNameInput.text, itemImage.source, clothesItemAddWindow.tId))
           clothesInfoDialog.dialogText = qsTr("Successfully created new item!")
         else
           clothesInfoDialog.dialogText = qsTr("Error while creating new item!")

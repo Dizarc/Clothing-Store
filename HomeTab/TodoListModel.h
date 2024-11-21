@@ -20,8 +20,8 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    bool removeTodo(const int &index);
-    bool addTodo();
+    bool remove(const int &index);
+    bool add();
     bool changeDescription(const int &index, const QString &description);
     bool changeDone(const int &index, const int &done);
 };

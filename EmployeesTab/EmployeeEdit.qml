@@ -178,7 +178,7 @@ Item {
       buttonColor: Style.acceptButtonColor
 
       onClicked: {
-        if (Emp.updateEmployee(employeeIndex, firstnameField, lastnameField,
+        if (Emp.update(employeeIndex, firstnameField, lastnameField,
                                usernameField, emailField, phoneField,
                                isAdminField))
           buttonOutputText.state = "successSave"
@@ -198,7 +198,7 @@ Item {
 
       onClicked: {
         if(newPasswordEditInput.text === renewPasswordEditInput.text){
-          if (Emp.changePasswordEmployee(idField, oldPasswordField,
+          if (Emp.changePassword(idField, oldPasswordField,
                                          newPasswordField))
             buttonOutputText.state = "successPasswordChange"
           else
@@ -217,24 +217,24 @@ Item {
 
       text: qsTr("delete")
       buttonColor: Style.denyButtonColor
-      onClicked: deleteEmployeeDialog.show()
+      onClicked: deleteDialog.show()
     }
   }
 
   ConfirmDialog{
-    id: deleteEmployeeDialog
+    id: deleteDialog
 
     dialogText: qsTr("Are you sure you want to delete the employee: " + usernameField + "?")
 
     onClickedYes: {
-      if (Emp.deleteEmployee(employeeIndex)){
+      if (Emp.remove(employeeIndex)){
         empInfoDialog.dialogText = qsTr("Successfully deleted employee!")
         employeeLayout.currentIndex = 0;
       }
       else
         empInfoDialog.dialogText = qsTr("Error while deleting employee!")
 
-      deleteEmployeeDialog.close()
+      deleteDialog.close()
       empInfoDialog.show()
     }
   }

@@ -174,7 +174,7 @@ Item {
 
       onClicked: {
         if(passwordAddInput.text === repasswordAddInput.text){
-          if (Emp.addEmployee(firstnameAddInput.text, lastnameAddInput.text,
+          if (Emp.add(firstnameAddInput.text, lastnameAddInput.text,
                               usernameAddInput.text, emailAddInput.text,
                               phoneAddInput.text, passwordAddInput.text,
                               isAdminCheckBox.checked))

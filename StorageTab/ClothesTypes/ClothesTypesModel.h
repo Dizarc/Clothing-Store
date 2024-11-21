@@ -26,10 +26,10 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    bool addNewType(const QString &typeName, const QString &typeImageSource);
-    bool deleteType(const int &id);
+    bool add(const QString &typeName, const QString &typeImageSource);
+    bool remove(const int &id);
     bool renameType(const int &id, const QString name);
-    bool changeTypeImage(const int &id, const QString &typeImageSource);
+    bool changeImage(const int &id, const QString &typeImageSource);
 
 private:
     int getUncategorizedTypeId();

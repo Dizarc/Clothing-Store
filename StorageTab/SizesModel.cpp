@@ -42,7 +42,7 @@ QHash<int, QByteArray> SizesModel::roleNames() const
     return roles;
 }
 
-void SizesModel::filterAvailableSizes(int cId)
+void SizesModel::filterAvailable(int cId)
 {
     if(cId == -1)
         setFilter("");
@@ -54,7 +54,7 @@ void SizesModel::filterAvailableSizes(int cId)
     select();
 }
 
-bool SizesModel::addSize(const QString &sizeName)
+bool SizesModel::add(const QString &sizeName)
 {
     insertRow(rowCount() + 1);
     QSqlRecord record = this->record(rowCount());
@@ -69,7 +69,7 @@ bool SizesModel::addSize(const QString &sizeName)
     return false;
 }
 
-bool SizesModel::removeSize(const int &sId)
+bool SizesModel::remove(const int &sId)
 {
     QSqlTableModel clothesSizesModel;
 

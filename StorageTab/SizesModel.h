@@ -21,9 +21,9 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    void filterAvailableSizes(int cId = -1);
-    bool addSize(const QString &sizeName);
-    bool removeSize(const int &sId);
+    void filterAvailable(int cId = -1);
+    bool add(const QString &sizeName);
+    bool remove(const int &sId);
 };
 
 #endif // SIZESMODEL_H
