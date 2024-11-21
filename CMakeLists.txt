@@ -22,7 +22,7 @@ qt_add_executable(appClothingStore
 
     HomeTab/TodoListModel.h HomeTab/TodoListModel.cpp
 
-    HomeTab/LogData.cpp HomeTab/LogData.h
+    HomeTab/LogData.h HomeTab/LogData.cpp
 )
 
 qt_add_qml_module(appClothingStore
