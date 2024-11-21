@@ -89,6 +89,7 @@ ColumnLayout {
     id: renameClothesTypesDialog
 
     property int id: -1
+    property alias name: typeNameInput.text
 
     title: qsTr("Rename")
     color: Style.backgroundColor

@@ -1,5 +1,5 @@
 import QtQuick 6.8
-import QtQuick.Controls
+import QtQuick.Controls.Basic
 
 import "../../Custom"
 
@@ -22,7 +22,6 @@ Rectangle {
                                    1.2) : typeMouseArea.containsMouse ? Qt.lighter(
                                                                           Style.inputBoxColor,
                                                                           1.1) : Style.inputBoxColor
-
   border.color: Style.borderColor
   border.width: 2
 
@@ -102,8 +101,10 @@ Rectangle {
 
       background: Rectangle {
         implicitWidth: 100
-        implicitHeight: 40
-        color: menuItem.hovered ? Qt.lighter(Style.generalButtonColor, 1.1) : Style.generalButtonColor
+        implicitHeight: 30
+        border.color: Style.borderColor
+        border.width: 1
+        color: menuItem.hovered ? Qt.lighter(Style.generalButtonColor, 1.2) : Style.generalButtonColor
       }
 
       MouseArea {
@@ -115,10 +116,7 @@ Rectangle {
 
     background: Rectangle {
       implicitWidth: 100
-      implicitHeight: 40
-      color: Style.backgroundColor
-      border.color: Style.borderColor
-      radius: 2
+      implicitHeight: 30
     }
 
     Action {
@@ -135,6 +133,7 @@ Rectangle {
 
       onTriggered: {
         renameClothesTypesDialog.id = typeId
+        renameClothesTypesDialog.name = typeName
         renameClothesTypesDialog.show()
       }
     }
