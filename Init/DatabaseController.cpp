@@ -102,13 +102,15 @@ void DatabaseController::createTables()
     if(!query.exec(todoListTable))
         qWarning()<< "Problem while creating todoList table...";
 
-    QString changeLogTable ="CREATE TABLE ChangeLog("
+    QString changeLogTable = "CREATE TABLE ChangeLog("
                              " logId INTEGER PRIMARY KEY AUTOINCREMENT,"
                              " clothingId INTEGER NOT NULL,"
+                             " typeId INTEGER NOT NULL,"
                              " sizeId INTEGER NOT NULL,"
                              " changeDate TEXT NOT NULL,"
                              " changeCount INTEGER NOT NULL,"
                              " FOREIGN KEY (clothingId) REFERENCES Clothes(clothingId),"
+                             " FOREIGN KEY (typeId) REFERENCES ClothesTypes(typeId),"
                              " FOREIGN KEY (sizeId) REFERENCES Sizes(sizeId));";
     if(!query.exec(changeLogTable))
         qWarning()<< "Problem while creating changeLog table...";

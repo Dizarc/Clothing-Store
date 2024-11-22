@@ -63,7 +63,7 @@ Window {
 
         myMouseArea.onClicked: {
           if (ClothesSizesModel.add(cId, sizesDel.sizeId)){
-            LogData.log(cId, sizesDel.sizeName, 1);
+            LogData.log(cId, type, sizesDel.sizeName, 1);
             itemInfoDialog.dialogText = qsTr("Successfully created new size!");
           }else
             itemInfoDialog.dialogText = qsTr("Error while creating new size!")

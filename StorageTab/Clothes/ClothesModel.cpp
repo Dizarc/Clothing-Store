@@ -53,23 +53,37 @@ QHash<int, QByteArray> ClothesModel::roleNames() const
     return roles;
 }
 
-//changes the type of a clothing item
 bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId, const int &clothingId)
 {
-    QSqlTableModel model;
-    model.setTable("Clothes");
+    QSqlTableModel clothesModel;
+    clothesModel.setTable("Clothes");
 
+    //if default value is put into clothingId ( -1) it means that the whole type was deleted
     if(clothingId == -1)
-        model.setFilter("typeId = " + QString::number(oldTypeId));
+        clothesModel.setFilter("typeId = " + QString::number(oldTypeId));
     else
-        model.setFilter("typeId = " + QString::number(oldTypeId) + " AND clothingId = " + QString::number(clothingId));
+        clothesModel.setFilter("typeId = " + QString::number(oldTypeId) + " AND clothingId = " + QString::number(clothingId));
 
-    model.select();
+    clothesModel.select();
 
-    for(int i = 0; i < model.rowCount(); ++i){
-        QSqlRecord record = model.record(i);
-        record.setValue("typeId", newTypeId);
-        model.setRecord(i, record);
+    //change the typeId to the new one in the change log
+    QSqlTableModel logModel;
+    logModel.setTable("ChangeLog");
+    logModel.setFilter("typeId = "+ QString::number(oldTypeId));
+    logModel.select();
+
+    for(int i = 0; i < logModel.rowCount(); ++i){
+        QSqlRecord logRecord = logModel.record(i);
+        logRecord.setValue("typeId", newTypeId);
+        logModel.setRecord(i, logRecord);
+        if(!logModel.submitAll())
+            qWarning() << "Error while changing type in ChangeLog...";
+    }
+
+    for(int i = 0; i < clothesModel.rowCount(); ++i){
+        QSqlRecord clothesRecord = clothesModel.record(i);
+        clothesRecord.setValue("typeId", newTypeId);
+        clothesModel.setRecord(i, clothesRecord);
     }
 
     select();
@@ -77,7 +91,6 @@ bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId, c
     return submitAll();
 }
 
-//selects all clothing items that belong to a particular type
 void ClothesModel::filterType(int typeId)
 {
     setFilter("typeId = " + QString::number(typeId));

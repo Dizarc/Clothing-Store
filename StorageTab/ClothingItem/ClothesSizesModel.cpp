@@ -46,14 +46,12 @@ QHash<int, QByteArray> ClothesSizesModel::roleNames() const
     return roles;
 }
 
-//selects all sizes on a particular clothing item
 void ClothesSizesModel::filterClothesSizes(int cId)
 {
     setFilter("clothingId = " + QString::number(cId));
     select();
 }
 
-//changes the count for a particular size in a clothing item
 bool ClothesSizesModel::changeCount(const int &cId, const QString &sName, const int &value)
 {
     QString query = "SELECT * FROM ClothesSizes "
@@ -64,7 +62,6 @@ bool ClothesSizesModel::changeCount(const int &cId, const QString &sName, const 
     model.setQuery(query);
 
     QSqlRecord record = model.record(0);
-    // int count = record.field("count").value().toInt();
 
     record.setValue("count", value);
 
@@ -89,7 +86,6 @@ bool ClothesSizesModel::remove(const int &cId, const int &index)
     return submitAll();
 }
 
-//adds new size for the particular clothing item
 bool ClothesSizesModel::add(const int &cId, const int &sId)
 {
     QSqlTableModel model;

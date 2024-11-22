@@ -10,6 +10,7 @@
 struct changeLog{
     int logId;
     int clothingId;
+    int typeId;
     int sizeId;
     QString changeDate;
     int changeCount;
@@ -27,7 +28,7 @@ public:
 
     void addDataPoint(qreal x, qreal y);
 public slots:
-    bool log(const int &cId, const QString &sName, const int &value);
+    bool log(const int &cId, const int &tId, const QString &sName, const int &value);
 
 signals:
     void seriesChanged();

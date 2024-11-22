@@ -103,31 +103,31 @@ RowLayout{
       theme: GraphsTheme {
         colorScheme: GraphsTheme.ColorScheme.Dark
         theme: GraphsTheme.Theme.QtGreen
-          }
+      }
       axisX: ValueAxis {
         min: 0
         tickInterval: 10
         max: 5
       }
       axisY: ValueAxis {
-          min: 0
-          max: 5
-          tickInterval: 10
+        min: 0
+        max: 5
+        tickInterval: 10
       }
 
       //Component.onCompleted: addSeries(graph1.series)
 
       LineSeries {
-              name: "Line"
+        name: "Line"
 
-              XYPoint { x: 0; y: 0 }
-              XYPoint { x: 1.1; y: 2.1 }
-              XYPoint { x: 1.9; y: 3.3 }
-              XYPoint { x: 2.1; y: 2.1 }
-              XYPoint { x: 2.9; y: 4.9 }
-              XYPoint { x: 3.4; y: 3.0 }
-              XYPoint { x: 4.1; y: 3.3 }
-          }
+        XYPoint { x: 0; y: 0 }
+        XYPoint { x: 1.1; y: 2.1 }
+        XYPoint { x: 1.9; y: 3.3 }
+        XYPoint { x: 2.1; y: 2.1 }
+        XYPoint { x: 2.9; y: 4.9 }
+        XYPoint { x: 3.4; y: 3.0 }
+        XYPoint { x: 4.1; y: 3.3 }
+      }
     }
 
     GraphsView {
@@ -137,27 +137,30 @@ RowLayout{
       theme: GraphsTheme {
         colorScheme: GraphsTheme.ColorScheme.Dark
         theme: GraphsTheme.Theme.QtGreen
-          }
+      }
+
       axisX: ValueAxis {
         min: 0
         tickInterval: 10
         max: 5
       }
+
       axisY: ValueAxis {
-          min: 0
-          max: 5
-          tickInterval: 10
+        min: 0
+        max: 5
+        tickInterval: 10
       }
+
       LineSeries {
-              name: "Line"
-              XYPoint { x: 0; y: 0 }
-              XYPoint { x: 1.1; y: 2.1 }
-              XYPoint { x: 1.9; y: 3.3 }
-              XYPoint { x: 2.1; y: 2.1 }
-              XYPoint { x: 2.9; y: 4.9 }
-              XYPoint { x: 3.4; y: 3.0 }
-              XYPoint { x: 4.1; y: 3.3 }
-          }
+        name: "Line"
+        XYPoint { x: 0; y: 0 }
+        XYPoint { x: 1.1; y: 2.1 }
+        XYPoint { x: 1.9; y: 3.3 }
+        XYPoint { x: 2.1; y: 2.1 }
+        XYPoint { x: 2.9; y: 4.9 }
+        XYPoint { x: 3.4; y: 3.0 }
+        XYPoint { x: 4.1; y: 3.3 }
+      }
     }
   }
 }

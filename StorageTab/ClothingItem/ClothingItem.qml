@@ -322,7 +322,7 @@ Item {
 
       width: parent.width
       height: 80
-      cellWidth: 65
+      cellWidth: 70
       cellHeight: 60
 
       currentIndex: -1
@@ -369,20 +369,19 @@ Item {
           border.color: Style.borderColor
         }
 
-        contentItem: Column {
+        contentItem: ColumnLayout {
+          Layout.alignment: Qt.AlignHCenter
           Text {
             text: sizeId
             width: sizesViewDelegate.width
             color: Style.textColor
             font.pointSize: 10
             clip: true
-            anchors.horizontalCenter: parent.horizontalCenter
           }
           Text {
             text: "count: " + "<b>" + count + "</b>"
             color: Style.textColor
             font.pointSize: 10
-            anchors.horizontalCenter: parent.horizontalCenter
           }
         }
 
@@ -424,7 +423,7 @@ Item {
 
             sizesView.sizeCount += addSpinBox.value
 
-            LogData.log(clothingId, sizesView.sizeSelected, sizesView.sizeCount);
+            LogData.log(clothingId, type, sizesView.sizeSelected, sizesView.sizeCount);
           } else
             clothingItem.textState = "failedChangeCount"
 
@@ -459,13 +458,13 @@ Item {
           if (ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected, sizesView.sizeCount + (-1) * removeSpinBox.value)) {
             sizesView.sizeCount += (-1) * removeSpinBox.value
 
-            LogData.log(clothingId, sizesView.sizeSelected, sizesView.sizeCount);
+            LogData.log(clothingId, type, sizesView.sizeSelected, sizesView.sizeCount);
 
             if (sizesView.sizeCount === 0) {
               if (ClothesSizesModel.remove(clothingId, sizesView.currentIndex)){
                 clothingItem.textState = "successChangeCount"
 
-                LogData.log(clothingId, sizesView.sizeSelected, 0);
+                LogData.log(clothingId, type, sizesView.sizeSelected, 0);
               }
               else
                 clothingItem.textState = "failedChangeCount"

@@ -14,6 +14,7 @@ void LogData::setData()
 
         logEntry.logId = query.value("logId").toInt();
         logEntry.clothingId = query.value("clothingId").toInt();
+        logEntry.clothingId = query.value("typeId").toInt();
         logEntry.sizeId = query.value("sizeId").toInt();
         logEntry.changeDate = query.value("changeDate").toString();
         logEntry.changeCount = query.value("changeCount").toInt();
@@ -32,7 +33,7 @@ void LogData::addDataPoint(qreal x, qreal y)
     m_series->append(x, y);
 }
 
-bool LogData::log(const int &cId, const QString &sName, const int &value)
+bool LogData::log(const int &cId, const int &tId, const QString &sName, const int &value)
 {
     QSqlQuery query("SELECT sizeId FROM Sizes WHERE sizeName = '" + sName + "'");
     query.exec();
@@ -49,7 +50,7 @@ bool LogData::log(const int &cId, const QString &sName, const int &value)
 
     model.setTable("ChangeLog");
 
-    model.setFilter("clothingId = " + QString::number(cId) + " AND sizeId = " + QString::number(sizeId) +" AND changeDate = '" + QDate::currentDate().toString() + "'");
+    model.setFilter("clothingId = " + QString::number(cId) + " AND typeId = " + QString::number(tId) + " AND sizeId = " + QString::number(sizeId) +" AND changeDate = '" + QDate::currentDate().toString() + "'");
     model.select();
 
     QSqlRecord record;
@@ -59,6 +60,7 @@ bool LogData::log(const int &cId, const QString &sName, const int &value)
         record = model.record(model.rowCount());
 
         record.setValue("clothingId", cId);
+        record.setValue("typeId", tId);
         record.setValue("sizeId", sizeId);
         record.setValue("changeDate", QDate::currentDate().toString());
         record.setValue("changeCount", value);
