@@ -5,6 +5,7 @@ import QtQuick.Controls.Basic
 import com.company.Employees
 
 import "../../ClothingStore"
+import "../Custom"
 
 Item {
   id: employeeSearchItem
@@ -106,13 +107,8 @@ Item {
       font.pointSize: 12
     }
 
-    ComboBox {
+    CustomComboBox {
       id: adminStatus
-
-      implicitWidth: 150
-      implicitHeight: 25
-
-      font.pointSize: 12
 
       model: [qsTr("All"), qsTr("Admins"), qsTr("Non admins")]
 
@@ -144,59 +140,6 @@ Item {
           border.color: Style.borderColor
           radius: 2
         }
-      }
-
-      contentItem: Text {
-        leftPadding: 2
-        rightPadding: adminStatus.indicator.width + adminStatus.spacing
-
-        text: adminStatus.displayText
-        font: adminStatus.font
-        color: Style.textColor
-        verticalAlignment: Text.AlignVCenter
-      }
-
-      background: Rectangle {
-        color: adminStatus.pressed ? Qt.lighter(
-                                         Style.inputBoxColor,
-                                         1.2) : adminStatus.hovered ? Qt.lighter(
-                                                                          Style.inputBoxColor,
-                                                                          1.1) : Style.inputBoxColor
-        border.color: Style.borderColor
-        border.width: adminStatus.visualFocus ? 2 : 1
-        radius: 2
-      }
-
-      popup: Popup {
-        y: adminStatus.height - 2
-        width: adminStatus.width
-        implicitHeight: contentItem.implicitHeight
-        padding: 1
-
-        contentItem: ListView {
-          clip: true
-          implicitHeight: contentHeight
-          model: adminStatus.popup.visible ? adminStatus.delegateModel : null
-          currentIndex: adminStatus.highlightedIndex
-        }
-
-        background: Rectangle {
-          color: Style.inputBoxColor
-          border.color: Style.borderColor
-          radius: 2
-        }
-
-        MouseArea {
-          anchors.fill: parent
-          cursorShape: Qt.PointingHandCursor
-          acceptedButtons: Qt.NoButton
-        }
-      }
-
-      MouseArea {
-        anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
-        acceptedButtons: Qt.NoButton
       }
     }
 

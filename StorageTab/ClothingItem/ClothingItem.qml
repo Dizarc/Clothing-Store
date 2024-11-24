@@ -190,13 +190,8 @@ Item {
         color: Style.textColor
       }
 
-      ComboBox {
+      CustomComboBox {
         id: typesComboBox
-
-        implicitWidth: 150
-        implicitHeight: 25
-
-        font.pointSize: 12
 
         currentIndex: -1
 
@@ -242,67 +237,6 @@ Item {
             } else
               clothingItem.textState = "failedTypeChange"
           }
-        }
-
-        contentItem: Text {
-          leftPadding: 2
-          rightPadding: typesComboBox.indicator.width + typesComboBox.spacing
-
-          text: typesComboBox.displayText
-          font: typesComboBox.font
-          color: Style.textColor
-          verticalAlignment: Text.AlignVCenter
-        }
-
-        background: Rectangle {
-          color: typesComboBox.pressed ? Qt.lighter(
-                                           Style.inputBoxColor,
-                                           1.2) : typesComboBox.hovered ? Qt.lighter(
-                                                                            Style.inputBoxColor,
-                                                                            1.1) : Style.inputBoxColor
-          border.color: Style.borderColor
-          border.width: typesComboBox.visualFocus ? 2 : 1
-          radius: 2
-        }
-
-        popup: Popup {
-          y: typesComboBox.height - 2
-          width: typesComboBox.width
-          implicitHeight: 200
-          padding: 1
-
-          contentItem: ListView {
-            clip: true
-            implicitHeight: contentHeight
-            model: typesComboBox.popup.visible ? typesComboBox.delegateModel : null
-            currentIndex: typesComboBox.highlightedIndex
-            ScrollIndicator.vertical: ScrollIndicator {
-              id: myScroll
-              contentItem: Rectangle {
-                implicitWidth: 2
-                radius: 5
-                color: myScroll.active ? Style.textColor : "transparent"
-              }
-            }
-          }
-
-          background: Rectangle {
-            color: Style.inputBoxColor
-            border.color: Style.borderColor
-            radius: 2
-          }
-
-          MouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            acceptedButtons: Qt.NoButton
-          }
-        }
-
-        MouseArea {
-          anchors.fill: parent
-          cursorShape: Qt.PointingHandCursor
-          acceptedButtons: Qt.NoButton
         }
       }
     }
@@ -392,6 +326,7 @@ Item {
         }
       }
     }
+
     CustomButton {
       text: qsTr("Add new size")
 

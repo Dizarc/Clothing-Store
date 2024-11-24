@@ -69,7 +69,7 @@ bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId, c
     //change the typeId to the new one in the change log
     QSqlTableModel logModel;
     logModel.setTable("ChangeLog");
-    logModel.setFilter("typeId = "+ QString::number(oldTypeId));
+    logModel.setFilter("clothingId = " + QString::number(clothingId) + " AND typeId = "+ QString::number(oldTypeId));
     logModel.select();
 
     for(int i = 0; i < logModel.rowCount(); ++i){
@@ -194,6 +194,19 @@ bool ClothesModel::add(const QString &itemName, const QString &itemImageSource, 
 
 bool ClothesModel::remove(const int &cId)
 {
+    QSqlTableModel logModel;
+
+    logModel.setTable("ChangeLog");
+    logModel.setFilter("clothingId = " + QString::number(cId));
+    logModel.select();
+
+    while(logModel.rowCount()){
+        logModel.removeRow(0);
+        logModel.select();
+    }
+
+    logModel.submitAll();
+
     QSqlTableModel clothesSizesModel;
 
     QString filter = "clothingId = " + QString::number(cId);

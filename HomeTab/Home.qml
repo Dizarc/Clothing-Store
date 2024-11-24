@@ -6,6 +6,10 @@ import QtGraphs
 import "../Custom"
 
 import com.company.TodoListModel
+import com.company.LogData
+import com.company.ClothesTypesModel
+import com.company.ClothesModel
+import com.company.SizesModel
 
 RowLayout{
   id: homeItem
@@ -18,7 +22,7 @@ RowLayout{
 
   ColumnLayout{
     Layout.fillHeight: true
-    Layout.maximumWidth: parent.width / 2
+    Layout.preferredWidth: parent.width / 3
     Layout.leftMargin: 5
     Layout.bottomMargin: 5
 
@@ -87,80 +91,264 @@ RowLayout{
   }
 
   ColumnLayout{
-    Layout.fillWidth: true
+    Layout.preferredWidth: parent.width / 2
     Layout.fillHeight: true
     Layout.rightMargin: 5
     Layout.bottomMargin: 5
 
-    // GraphData{
-    //   id: graph1
-    // }
+    ButtonGroup{
+      id: radioGroup
 
-    GraphsView {
-      Layout.fillHeight: true
-      Layout.fillWidth: true
+      onClicked: {
+        sizesComboBox.currentIndex = -1
+        sizesComboBox.displayText = qsTr("All")
 
-      theme: GraphsTheme {
-        colorScheme: GraphsTheme.ColorScheme.Dark
-        theme: GraphsTheme.Theme.QtGreen
-      }
-      axisX: ValueAxis {
-        min: 0
-        tickInterval: 10
-        max: 5
-      }
-      axisY: ValueAxis {
-        min: 0
-        max: 5
-        tickInterval: 10
-      }
+        typesComboBox.currentIndex = -1
+        typesComboBox.displayText = qsTr("All")
 
-      //Component.onCompleted: addSeries(graph1.series)
+        clothesComboBox.currentIndex = -1
+        clothesComboBox.displayText = qsTr("")
 
-      LineSeries {
-        name: "Line"
-
-        XYPoint { x: 0; y: 0 }
-        XYPoint { x: 1.1; y: 2.1 }
-        XYPoint { x: 1.9; y: 3.3 }
-        XYPoint { x: 2.1; y: 2.1 }
-        XYPoint { x: 2.9; y: 4.9 }
-        XYPoint { x: 3.4; y: 3.0 }
-        XYPoint { x: 4.1; y: 3.3 }
+        graphsView.removeSeries(0)
+        graphsView.addSeries(LogData.generateSeries("all", -1, checkedButton.text))
       }
     }
 
+    RowLayout{
+      Layout.alignment: Qt.AlignVCenter
+      Text {
+        text: qsTr("Filter by date:")
+
+        color: Style.textColor
+        font.pointSize: 12
+      }
+
+      CustomRadioButton {
+        checked: true
+        text: qsTr("day")
+        ButtonGroup.group: radioGroup
+      }
+
+      CustomRadioButton {
+        text: qsTr("month")
+        ButtonGroup.group: radioGroup
+      }
+
+      CustomRadioButton {
+        text: qsTr("year")
+        ButtonGroup.group: radioGroup
+      }
+    }
+
+    GridLayout{
+        rows: 2
+        columns: 2
+        Text {
+          text: qsTr("Filter by size:")
+
+          color: Style.textColor
+          font.pointSize: 12
+        }
+
+        CustomComboBox{
+          id: sizesComboBox
+
+          currentIndex: -1
+          displayText: qsTr("All")
+
+          model: SizesModel
+
+          delegate: ItemDelegate {
+            id: sizeCbDelegate
+
+            required property int sizeId
+            required property string sizeName
+
+            required property int index
+
+            width: sizesComboBox.width
+            implicitHeight: sizesComboBox.height
+
+            highlighted: sizesComboBox.highlightedIndex === index
+
+            contentItem: Text {
+              text: sizeName
+              color: Style.textColor
+              font: sizesComboBox.font
+              elide: Text.ElideRight
+              verticalAlignment: Text.AlignVCenter
+            }
+
+            background: Rectangle {
+              color: sizeCbDelegate.pressed ? Qt.lighter(
+                                            Style.generalButtonColor,
+                                            1.2) : sizeCbDelegate.hovered ? Qt.lighter(
+                                                                          Style.inputBoxColor,
+                                                                          1.1) : Style.inputBoxColor
+              border.color: Style.borderColor
+              radius: 2
+            }
+
+            onClicked: {
+              sizesComboBox.displayText = sizeName
+              sizesComboBox.currentIndex = index
+
+              graphsView.removeSeries(0)
+              graphsView.addSeries(LogData.generateSeries("size", sizeId, radioGroup.checkedButton.text))
+            }
+          }
+        }
+
+        Text {
+          text: qsTr("Filter by type:")
+
+          color: Style.textColor
+          font.pointSize: 12
+        }
+
+        CustomComboBox{
+          id: typesComboBox
+
+          currentIndex: -1
+          displayText: qsTr("All")
+
+          model: ClothesTypesModel
+
+          delegate: ItemDelegate {
+            id: typeCbDelegate
+
+            required property int typeId
+            required property string typeName
+
+            required property int index
+
+            width: typesComboBox.width
+            implicitHeight: typesComboBox.height
+
+            highlighted: typesComboBox.highlightedIndex === index
+
+            contentItem: Text {
+              text: typeName
+              color: Style.textColor
+              font: typesComboBox.font
+              elide: Text.ElideRight
+              verticalAlignment: Text.AlignVCenter
+            }
+
+            background: Rectangle {
+              color: typeCbDelegate.pressed ? Qt.lighter(
+                                            Style.generalButtonColor,
+                                            1.2) : typeCbDelegate.hovered ? Qt.lighter(
+                                                                          Style.inputBoxColor,
+                                                                          1.1) : Style.inputBoxColor
+              border.color: Style.borderColor
+              radius: 2
+            }
+
+            onClicked: {
+              typesComboBox.displayText = typeName
+              typesComboBox.currentIndex = index
+
+              clothesComboBox.displayText = qsTr("All")
+              ClothesModel.filterType(typeId)
+
+              graphsView.removeSeries(0)
+              graphsView.addSeries(LogData.generateSeries("type", typeId, radioGroup.checkedButton.text))
+
+            }
+          }
+        }
+
+        Text {
+          text: qsTr("Filter by clothing:")
+
+          color: Style.textColor
+          font.pointSize: 12
+        }
+
+        CustomComboBox{
+          id: clothesComboBox
+
+          currentIndex: -1
+          enabled: typesComboBox.currentIndex !== -1 ? true : false
+          model: ClothesModel
+
+          delegate: ItemDelegate {
+            id: clothesCbDelegate
+
+            required property int clothingId
+            required property string clothingName
+
+            required property int index
+
+            width: clothesComboBox.width
+            implicitHeight: clothesComboBox.height
+
+            highlighted: clothesComboBox.highlightedIndex === index
+
+            contentItem: Text {
+              text: clothingName
+              color: Style.textColor
+              font: clothesComboBox.font
+              elide: Text.ElideRight
+              verticalAlignment: Text.AlignVCenter
+            }
+
+            background: Rectangle {
+              color: clothesCbDelegate.pressed ? Qt.lighter(
+                                            Style.generalButtonColor,
+                                            1.2) : clothesCbDelegate.hovered ? Qt.lighter(
+                                                                          Style.inputBoxColor,
+                                                                          1.1) : Style.inputBoxColor
+              border.color: Style.borderColor
+              radius: 2
+            }
+
+            onClicked: {
+              clothesComboBox.displayText = clothingName
+              clothesComboBox.currentIndex = index
+
+              graphsView.removeSeries(0)
+              graphsView.addSeries(LogData.generateSeries("item", clothingId, radioGroup.checkedButton.text))
+
+            }
+          }
+        }
+    }
+
     GraphsView {
+      id: graphsView
+
       Layout.fillHeight: true
       Layout.fillWidth: true
 
-      theme: GraphsTheme {
-        colorScheme: GraphsTheme.ColorScheme.Dark
-        theme: GraphsTheme.Theme.QtGreen
+      axisX: DateTimeAxis{
+        min: new Date(2024, 0, 0)
+        max: new Date()
+        labelFormat: "dd/MM/yyyy"
       }
-
-      axisX: ValueAxis {
-        min: 0
-        tickInterval: 10
-        max: 5
-      }
-
       axisY: ValueAxis {
         min: 0
-        max: 5
-        tickInterval: 10
+        max: 500
       }
 
-      LineSeries {
-        name: "Line"
-        XYPoint { x: 0; y: 0 }
-        XYPoint { x: 1.1; y: 2.1 }
-        XYPoint { x: 1.9; y: 3.3 }
-        XYPoint { x: 2.1; y: 2.1 }
-        XYPoint { x: 2.9; y: 4.9 }
-        XYPoint { x: 3.4; y: 3.0 }
-        XYPoint { x: 4.1; y: 3.3 }
+      theme: GraphsTheme {
+        backgroundVisible: false
+
+        seriesColors: Style.textColor
+        grid.mainColor: Style.inputBoxColor
+        plotAreaBackgroundColor: Style.backgroundColor
+
+        axisXLabelFont.pointSize: 10
+        axisX.labelTextColor: Style.textColor
+        axisX.mainColor: Style.textColor
+
+        axisYLabelFont.pointSize: 10
+        axisY.labelTextColor: Style.textColor
+        axisY.mainColor: Style.textColor
       }
+
+      Component.onCompleted: graphsView.addSeries(LogData.generateSeries("all", -1, "day"))
     }
   }
 }

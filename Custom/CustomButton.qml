@@ -22,9 +22,9 @@ Button {
   background: Rectangle {
     color: myButton.pressed ? Qt.lighter(
                                 buttonColor,
-                                1.5) : (myButton.hovered ? Qt.lighter(
+                                1.3) : (myButton.hovered ? Qt.lighter(
                                                              buttonColor,
-                                                             1.2) : buttonColor)
+                                                             1.1) : buttonColor)
     border.width: 1
     border.color: Qt.darker(buttonColor, 1.5)
     radius: 3

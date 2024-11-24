@@ -69,6 +69,8 @@ qt_add_qml_module(appClothingStore
               Custom/InfoDialog.qml
               Custom/ConfirmDialog.qml
               Custom/CustomCheckBox.qml
+              Custom/CustomRadioButton.qml
+              Custom/CustomComboBox.qml
 
     RESOURCES Custom/qmldir
 

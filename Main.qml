@@ -9,11 +9,10 @@ import com.company.DatabaseController
 import com.company.Employees
 
 /*
-  TODO: Create a "model" for the graphs from sql table todoList
   TODO: include a revert call in every submitAll for all the models
-  TODO: How to send the graph info into qml? Should i send it as a series or a list??
-  TODO: find a way for the graph to show the counts of all items and down the line add extra functionality for showing counts only for specific clothing sizes etc.
-  BUG: when app upgraded to qt 6.8 the clothes types right click menu got broken
+  TODO: make every query a prepared one
+  TODO: finish home page with a logo on the bottom of the graph
+  TODO: change application login Image
 */
 Window {
   id: root
