@@ -114,8 +114,8 @@ RowLayout{
         clothesComboBox.currentIndex = -1
         clothesComboBox.displayText = qsTr("")
 
-        graphsView.removeSeries(0)
-        graphsView.addSeries(LogData.generateSeries("all", -1, -1, radioGroup.checkedButton.text))
+        bars.clear()
+        bars.append(LogData.generateSeries("all", -1, -1, radioGroup.checkedButton.text))
       }
     }
 
@@ -201,8 +201,8 @@ RowLayout{
             sizesComboBox.currentIndex = index
             typesComboBox.displayText = qsTr("All")
 
-            graphsView.removeSeries(0)
-            graphsView.addSeries(LogData.generateSeries("all", -1, graphColumn.sizeSelected, radioGroup.checkedButton.text))
+            bars.clear()
+            bars.append(LogData.generateSeries("all", -1, graphColumn.sizeSelected, radioGroup.checkedButton.text))
           }
         }
       }
@@ -260,9 +260,8 @@ RowLayout{
             clothesComboBox.displayText = qsTr("All")
             ClothesModel.filterType(typeId)
 
-            graphsView.removeSeries(0)
-            graphsView.addSeries(LogData.generateSeries("type", typeId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
-
+            bars.clear()
+            bars.append(LogData.generateSeries("type", typeId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
           }
         }
       }
@@ -316,8 +315,8 @@ RowLayout{
             clothesComboBox.displayText = clothingName
             clothesComboBox.currentIndex = index
 
-            graphsView.removeSeries(0)
-            graphsView.addSeries(LogData.generateSeries("item", clothingId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
+            bars.clear()
+            bars.append(LogData.generateSeries("item", clothingId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
           }
         }
       }
@@ -331,34 +330,47 @@ RowLayout{
       Layout.fillHeight: true
       Layout.fillWidth: true
 
-      axisX: DateTimeAxis{
-        min: new Date(2024, 0, 0)
-        max: new Date()
-        labelFormat: "dd/MM/yyyy"
+      axisX: BarCategoryAxis{
+        categories: LogData.categories
+        subGridVisible : false
+        gridVisible: false
       }
+
       axisY: ValueAxis {
         min: 0
-        max: 500
-        tickInterval: 25
+        max: 200
       }
 
       theme: GraphsTheme {
         backgroundVisible: false
 
-        seriesColors: Style.textColor
+        seriesColors: Style.inputBoxColor
+        borderWidth: 2
+        borderColors: Style.borderColor
+
         grid.mainColor: Style.inputBoxColor
         plotAreaBackgroundColor: Style.backgroundColor
 
         axisXLabelFont.pointSize: 10
         axisX.labelTextColor: Style.textColor
-        axisX.mainColor: Style.textColor
+        axisX.mainColor: "transparent"
+        axisX.subColor: "transparent"
 
         axisYLabelFont.pointSize: 10
         axisY.labelTextColor: Style.textColor
         axisY.mainColor: Style.textColor
       }
 
-      Component.onCompleted: graphsView.addSeries(LogData.generateSeries("all", -1, -1, "day"))
+      Component.onCompleted: bars.append(LogData.generateSeries("all", -1, -1, "day"))
+
+      BarSeries{
+        id: bars
+
+        labelsVisible: true
+        labelsPrecision: 0
+        labelsFormat: '<font color="' + Style.textColor+ '" size="4">@value</font>'
+        labelsPosition: BarSeries.LabelsPosition.OutsideEnd
+      }
     }
   }
 }

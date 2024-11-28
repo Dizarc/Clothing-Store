@@ -1,7 +1,5 @@
 #include "LogData.h"
 
-#include <QValueAxis>
-
 LogData::LogData(QObject *parent, QSqlDatabase db) : QObject{parent}
 {
 
@@ -52,11 +50,11 @@ bool LogData::log(const int &cId, const int &tId, const QString &sName, const in
     return model.submitAll();
 }
 
-QLineSeries *LogData::generateSeries(const QString &filter, const int &filterId, const int &sizeId, const QString &dateFilter)
+QBarSet *LogData::generateSeries(const QString &filter, const int &filterId, const int &sizeId, const QString &dateFilter)
 {
-    QLineSeries *series = new QLineSeries();
+    QBarSet* barSet = new QBarSet("Count");
 
-    //format date by day, month, year
+    //SQL date grouping format
     QString dateFormat;
     if(dateFilter == "day")
         dateFormat = "strftime('%Y-%m-%d', changeDate)";
@@ -94,28 +92,34 @@ QLineSeries *LogData::generateSeries(const QString &filter, const int &filterId,
     if(filter == "item")
         query.bindValue(":clothingId", filterId);
 
+    //categories for X axis
+    QStringList categories;
     if(query.exec()){
         while(query.next()){
             QString period = query.value(0).toString();
             int count = query.value(1).toInt();
 
-            QDateTime date;
-            if(dateFilter == "day")
-                date = QDateTime::fromString(period, "yyyy-MM-dd");
-            else if(dateFilter == "month")
-                date = QDateTime::fromString(period, "yyyy-MM");
-            else if(dateFilter == "year")
-                date = QDateTime::fromString(period, "yyyy");
+            categories.append(period);
+            *barSet << count;
 
             qDebug()<< period << " " << count;
-
-            series->append(date.toMSecsSinceEpoch(), count);
         }
         qDebug()<< "================";
     }else{
+        barSet->deleteLater();
         qWarning()<< "Error creating series...";
         return NULL;
     }
 
-    return series;
+    m_categories.clear();
+    m_categories.append(categories);
+
+    emit categoriesChanged();
+
+    return barSet;
+}
+
+QStringList LogData::categories() const
+{
+    return m_categories;
 }
