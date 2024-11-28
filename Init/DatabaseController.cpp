@@ -34,7 +34,9 @@ void DatabaseController::createDatabase()
 {
     createTables();
 
-    insertValues();
+    #ifndef NDEBUG
+        insertValues();
+    #endif
 }
 
 void DatabaseController::createTables()
@@ -148,9 +150,9 @@ void DatabaseController::insertValues()
     QSqlDatabase::database().commit();
 
     QString todoListValues = "INSERT INTO TodoList(todoDescription, done) VALUES"
-                             " (\"Durable and strong jeans!\", 0),"
-                             " (\"1231231\", 1),"
-                             " (\"123122231\", 1);";
+                             " (\"Add new inventory into the storage\", 0),"
+                             " (\"Find missing jeans\", 1),"
+                             " (\"Rack items\", 1);";
     if(!query.exec(todoListValues))
         qWarning()<< "Problem while adding to TodoList table...";
 
@@ -167,9 +169,9 @@ void DatabaseController::insertValues()
 
     QString clothesValues = "INSERT INTO Clothes(clothingName, clothingDescription, clothingImageSource, typeId) VALUES"
                             " (\"Jeans\", \"Durable and strong jeans! \", \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
-                                                                                                                     " (\"Chino Pants\", \"Durable and strong chinos!\" , \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
-                                                                                                                     " (\"Boots\", \"Durable and strong boots!\" , \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 2),"
-                                                                                                                     " (\"Sneakers\", \"Durable and strong sneakers!\", \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\" , 2);";
+                            " (\"Chino Pants\", \"Durable and strong chinos!\" , \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 1),"
+                            " (\"Boots\", \"Durable and strong boots!\" , \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\", 2),"
+                            " (\"Sneakers\", \"Durable and strong sneakers!\", \"" + DatabaseController::documentsDirPath + "/storage_images/types_images/pantsImage.png" + "\" , 2);";
     if(!query.exec(clothesValues))
         qWarning()<< "Problem while adding to Clothes table...";
 
@@ -183,12 +185,12 @@ void DatabaseController::insertValues()
         qWarning()<< "Problem while adding to ClothesSizes table...";
 
     QString ChangeLogValues = "INSERT INTO ChangeLog(clothingId, typeId, sizeId, changeDate, changeCount) VALUES"
-                                 " (1, 2, 3, '2023-12-25', 43),"
+                                 " (1, 1, 3, '2023-12-25', 43),"
                                  " (1, 1, 2, '2023-12-26', 12),"
-                                 " (2, 2, 2, '2024-01-20', 5),"
-                                 " (3, 1, 1, '2024-10-01', 100),"
-                                 " (3, 1, 1, '2024-11-05', 15),"
-                                 " (4, 1, 1, '2024-12-05', 2);";
+                                 " (2, 1, 2, '2024-01-20', 5),"
+                                 " (3, 2, 1, '2024-10-01', 100),"
+                                 " (3, 2, 1, '2024-11-05', 15),"
+                                 " (4, 2, 1, '2024-12-05', 2);";
     if(!query.exec(ChangeLogValues))
         qWarning()<< "Problem while adding to ChangeLog table...";
 }

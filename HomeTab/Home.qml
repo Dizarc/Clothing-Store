@@ -91,6 +91,10 @@ RowLayout{
   }
 
   ColumnLayout{
+    id: graphColumn
+
+    property int sizeSelected: -1
+
     Layout.preferredWidth: parent.width / 2
     Layout.fillHeight: true
     Layout.rightMargin: 5
@@ -100,6 +104,7 @@ RowLayout{
       id: radioGroup
 
       onClicked: {
+        graphColumn.sizeSelected = -1
         sizesComboBox.currentIndex = -1
         sizesComboBox.displayText = qsTr("All")
 
@@ -110,7 +115,7 @@ RowLayout{
         clothesComboBox.displayText = qsTr("")
 
         graphsView.removeSeries(0)
-        graphsView.addSeries(LogData.generateSeries("all", -1, checkedButton.text))
+        graphsView.addSeries(LogData.generateSeries("all", -1, -1, radioGroup.checkedButton.text))
       }
     }
 
@@ -141,183 +146,187 @@ RowLayout{
     }
 
     GridLayout{
-        rows: 2
-        columns: 2
-        Text {
-          text: qsTr("Filter by size:")
+      rows: 3
+      columns: 2
 
-          color: Style.textColor
-          font.pointSize: 12
-        }
+      Text {
+        text: qsTr("Filter by size:")
 
-        CustomComboBox{
-          id: sizesComboBox
+        color: Style.textColor
+        font.pointSize: 12
+      }
 
-          currentIndex: -1
-          displayText: qsTr("All")
+      CustomComboBox{
+        id: sizesComboBox
 
-          model: SizesModel
+        currentIndex: -1
+        displayText: qsTr("All")
 
-          delegate: ItemDelegate {
-            id: sizeCbDelegate
+        model: SizesModel
 
-            required property int sizeId
-            required property string sizeName
+        delegate: ItemDelegate {
+          id: sizeCbDelegate
 
-            required property int index
+          required property int sizeId
+          required property string sizeName
 
-            width: sizesComboBox.width
-            implicitHeight: sizesComboBox.height
+          required property int index
 
-            highlighted: sizesComboBox.highlightedIndex === index
+          width: sizesComboBox.width
+          implicitHeight: sizesComboBox.height
 
-            contentItem: Text {
-              text: sizeName
-              color: Style.textColor
-              font: sizesComboBox.font
-              elide: Text.ElideRight
-              verticalAlignment: Text.AlignVCenter
-            }
+          highlighted: sizesComboBox.highlightedIndex === index
 
-            background: Rectangle {
-              color: sizeCbDelegate.pressed ? Qt.lighter(
-                                            Style.generalButtonColor,
-                                            1.2) : sizeCbDelegate.hovered ? Qt.lighter(
-                                                                          Style.inputBoxColor,
-                                                                          1.1) : Style.inputBoxColor
-              border.color: Style.borderColor
-              radius: 2
-            }
+          contentItem: Text {
+            text: sizeName
+            color: Style.textColor
+            font: sizesComboBox.font
+            elide: Text.ElideRight
+            verticalAlignment: Text.AlignVCenter
+          }
 
-            onClicked: {
-              sizesComboBox.displayText = sizeName
-              sizesComboBox.currentIndex = index
+          background: Rectangle {
+            color: sizeCbDelegate.pressed ? Qt.lighter(
+                                              Style.generalButtonColor,
+                                              1.2) : sizeCbDelegate.hovered ? Qt.lighter(
+                                                                                Style.inputBoxColor,
+                                                                                1.1) : Style.inputBoxColor
+            border.color: Style.borderColor
+            radius: 2
+          }
 
-              graphsView.removeSeries(0)
-              graphsView.addSeries(LogData.generateSeries("size", sizeId, radioGroup.checkedButton.text))
-            }
+          onClicked: {
+            graphColumn.sizeSelected = sizeId
+            sizesComboBox.displayText = sizeName
+            sizesComboBox.currentIndex = index
+            typesComboBox.displayText = qsTr("All")
+
+            graphsView.removeSeries(0)
+            graphsView.addSeries(LogData.generateSeries("all", -1, graphColumn.sizeSelected, radioGroup.checkedButton.text))
           }
         }
+      }
 
-        Text {
-          text: qsTr("Filter by type:")
+      Text {
+        text: qsTr("Filter by type:")
 
-          color: Style.textColor
-          font.pointSize: 12
-        }
+        color: Style.textColor
+        font.pointSize: 12
+      }
 
-        CustomComboBox{
-          id: typesComboBox
+      CustomComboBox{
+        id: typesComboBox
 
-          currentIndex: -1
-          displayText: qsTr("All")
+        currentIndex: -1
+        displayText: qsTr("All")
 
-          model: ClothesTypesModel
+        model: ClothesTypesModel
 
-          delegate: ItemDelegate {
-            id: typeCbDelegate
+        delegate: ItemDelegate {
+          id: typeCbDelegate
 
-            required property int typeId
-            required property string typeName
+          required property int typeId
+          required property string typeName
 
-            required property int index
+          required property int index
 
-            width: typesComboBox.width
-            implicitHeight: typesComboBox.height
+          width: typesComboBox.width
+          implicitHeight: typesComboBox.height
 
-            highlighted: typesComboBox.highlightedIndex === index
+          highlighted: typesComboBox.highlightedIndex === index
 
-            contentItem: Text {
-              text: typeName
-              color: Style.textColor
-              font: typesComboBox.font
-              elide: Text.ElideRight
-              verticalAlignment: Text.AlignVCenter
-            }
+          contentItem: Text {
+            text: typeName
+            color: Style.textColor
+            font: typesComboBox.font
+            elide: Text.ElideRight
+            verticalAlignment: Text.AlignVCenter
+          }
 
-            background: Rectangle {
-              color: typeCbDelegate.pressed ? Qt.lighter(
-                                            Style.generalButtonColor,
-                                            1.2) : typeCbDelegate.hovered ? Qt.lighter(
-                                                                          Style.inputBoxColor,
-                                                                          1.1) : Style.inputBoxColor
-              border.color: Style.borderColor
-              radius: 2
-            }
+          background: Rectangle {
+            color: typeCbDelegate.pressed ? Qt.lighter(
+                                              Style.generalButtonColor,
+                                              1.2) : typeCbDelegate.hovered ? Qt.lighter(
+                                                                                Style.inputBoxColor,
+                                                                                1.1) : Style.inputBoxColor
+            border.color: Style.borderColor
+            radius: 2
+          }
 
-            onClicked: {
-              typesComboBox.displayText = typeName
-              typesComboBox.currentIndex = index
+          onClicked: {
+            typesComboBox.displayText = typeName
+            typesComboBox.currentIndex = index
 
-              clothesComboBox.displayText = qsTr("All")
-              ClothesModel.filterType(typeId)
+            clothesComboBox.displayText = qsTr("All")
+            ClothesModel.filterType(typeId)
 
-              graphsView.removeSeries(0)
-              graphsView.addSeries(LogData.generateSeries("type", typeId, radioGroup.checkedButton.text))
+            graphsView.removeSeries(0)
+            graphsView.addSeries(LogData.generateSeries("type", typeId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
 
-            }
           }
         }
+      }
 
-        Text {
-          text: qsTr("Filter by clothing:")
+      Text {
+        text: qsTr("Filter by clothing:")
 
-          color: Style.textColor
-          font.pointSize: 12
-        }
+        color: Style.textColor
+        font.pointSize: 12
+      }
 
-        CustomComboBox{
-          id: clothesComboBox
+      CustomComboBox{
+        id: clothesComboBox
 
-          currentIndex: -1
-          enabled: typesComboBox.currentIndex !== -1 ? true : false
-          model: ClothesModel
+        currentIndex: -1
+        enabled: typesComboBox.currentIndex !== -1 ? true : false
+        model: ClothesModel
 
-          delegate: ItemDelegate {
-            id: clothesCbDelegate
+        delegate: ItemDelegate {
+          id: clothesCbDelegate
 
-            required property int clothingId
-            required property string clothingName
+          required property int clothingId
+          required property string clothingName
 
-            required property int index
+          required property int index
 
-            width: clothesComboBox.width
-            implicitHeight: clothesComboBox.height
+          width: clothesComboBox.width
+          implicitHeight: clothesComboBox.height
 
-            highlighted: clothesComboBox.highlightedIndex === index
+          highlighted: clothesComboBox.highlightedIndex === index
 
-            contentItem: Text {
-              text: clothingName
-              color: Style.textColor
-              font: clothesComboBox.font
-              elide: Text.ElideRight
-              verticalAlignment: Text.AlignVCenter
-            }
+          contentItem: Text {
+            text: clothingName
+            color: Style.textColor
+            font: clothesComboBox.font
+            elide: Text.ElideRight
+            verticalAlignment: Text.AlignVCenter
+          }
 
-            background: Rectangle {
-              color: clothesCbDelegate.pressed ? Qt.lighter(
-                                            Style.generalButtonColor,
-                                            1.2) : clothesCbDelegate.hovered ? Qt.lighter(
-                                                                          Style.inputBoxColor,
-                                                                          1.1) : Style.inputBoxColor
-              border.color: Style.borderColor
-              radius: 2
-            }
+          background: Rectangle {
+            color: clothesCbDelegate.pressed ? Qt.lighter(
+                                                 Style.generalButtonColor,
+                                                 1.2) : clothesCbDelegate.hovered ? Qt.lighter(
+                                                                                      Style.inputBoxColor,
+                                                                                      1.1) : Style.inputBoxColor
+            border.color: Style.borderColor
+            radius: 2
+          }
 
-            onClicked: {
-              clothesComboBox.displayText = clothingName
-              clothesComboBox.currentIndex = index
+          onClicked: {
+            clothesComboBox.displayText = clothingName
+            clothesComboBox.currentIndex = index
 
-              graphsView.removeSeries(0)
-              graphsView.addSeries(LogData.generateSeries("item", clothingId, radioGroup.checkedButton.text))
-
-            }
+            graphsView.removeSeries(0)
+            graphsView.addSeries(LogData.generateSeries("item", clothingId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
           }
         }
+      }
     }
 
     GraphsView {
       id: graphsView
+
+      antialiasing: true
 
       Layout.fillHeight: true
       Layout.fillWidth: true
@@ -330,6 +339,7 @@ RowLayout{
       axisY: ValueAxis {
         min: 0
         max: 500
+        tickInterval: 25
       }
 
       theme: GraphsTheme {
@@ -348,7 +358,7 @@ RowLayout{
         axisY.mainColor: Style.textColor
       }
 
-      Component.onCompleted: graphsView.addSeries(LogData.generateSeries("all", -1, "day"))
+      Component.onCompleted: graphsView.addSeries(LogData.generateSeries("all", -1, -1, "day"))
     }
   }
 }

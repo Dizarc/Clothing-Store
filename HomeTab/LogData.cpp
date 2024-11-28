@@ -1,5 +1,7 @@
 #include "LogData.h"
 
+#include <QValueAxis>
+
 LogData::LogData(QObject *parent, QSqlDatabase db) : QObject{parent}
 {
 
@@ -50,11 +52,11 @@ bool LogData::log(const int &cId, const int &tId, const QString &sName, const in
     return model.submitAll();
 }
 
-QLineSeries *LogData::generateSeries(const QString &filter, const int &filterId, const QString &dateFilter)
+QLineSeries *LogData::generateSeries(const QString &filter, const int &filterId, const int &sizeId, const QString &dateFilter)
 {
     QLineSeries *series = new QLineSeries();
 
-    //format format date by day, month, year
+    //format date by day, month, year
     QString dateFormat;
     if(dateFilter == "day")
         dateFormat = "strftime('%Y-%m-%d', changeDate)";
@@ -65,24 +67,32 @@ QLineSeries *LogData::generateSeries(const QString &filter, const int &filterId,
 
     QString queryStr = "SELECT " + dateFormat + " as period, SUM(changeCount) FROM ChangeLog ";
 
-    if(filter == "all")
-        queryStr += "GROUP BY period";
-    else{
-        queryStr += "WHERE %2 = ? GROUP BY period";
+    QStringList whereClause;
+    if(sizeId != -1)
+        whereClause.append("sizeId = :sizeId");
 
+    if(filter != "all"){
         if(filter == "type")
-            queryStr = queryStr.arg("typeId");
+            whereClause.append("typeId = :typeId");
         else if(filter == "item")
-            queryStr = queryStr.arg("clothingId");
-        else if(filter == "size")
-            queryStr = queryStr.arg("sizeId");
+            whereClause.append("clothingId = :clothingId");
     }
+
+    if(!whereClause.isEmpty())
+        queryStr += "WHERE " + whereClause.join(" AND ");
+
+    queryStr += " GROUP BY period";
 
     QSqlQuery query(queryStr);
     query.prepare(queryStr);
 
-    if(filter != "all")
-        query.addBindValue(filterId);
+    if(sizeId != -1)
+        query.bindValue(":sizeId", sizeId);
+
+    if(filter == "type")
+        query.bindValue(":typeId", filterId);
+    if(filter == "item")
+        query.bindValue(":clothingId", filterId);
 
     if(query.exec()){
         while(query.next()){
@@ -96,16 +106,16 @@ QLineSeries *LogData::generateSeries(const QString &filter, const int &filterId,
                 date = QDateTime::fromString(period, "yyyy-MM");
             else if(dateFilter == "year")
                 date = QDateTime::fromString(period, "yyyy");
-            qDebug()<< period<<" "<< count;
+
+            qDebug()<< period << " " << count;
+
             series->append(date.toMSecsSinceEpoch(), count);
         }
         qDebug()<< "================";
     }else{
         qWarning()<< "Error creating series...";
-        return series;
+        return NULL;
     }
-
-
 
     return series;
 }

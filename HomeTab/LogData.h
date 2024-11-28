@@ -15,7 +15,7 @@ public:
 
 public slots:
     bool log(const int &cId, const int &tId, const QString &sName, const int &value);
-    QLineSeries* generateSeries(const QString &filterType, const int &filterId, const QString& dateFormat);
+    QLineSeries* generateSeries(const QString &filterType, const int &filterId, const int &sizeId, const QString& dateFormat);
 };
 
 #endif // LOGDATA_H

@@ -13,6 +13,7 @@ import com.company.Employees
   TODO: make every query a prepared one
   TODO: finish home page with a logo on the bottom of the graph
   TODO: change application login Image
+  BUG: application crashes when no items are in types and a user adds a new type
 */
 Window {
   id: root
