@@ -76,8 +76,10 @@ bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId, c
         QSqlRecord logRecord = logModel.record(i);
         logRecord.setValue("typeId", newTypeId);
         logModel.setRecord(i, logRecord);
-        if(!logModel.submitAll())
-            qWarning() << "Error while changing type in ChangeLog...";
+        if(!logModel.submitAll()){
+            qWarning() << "Error while changing type in ChangeLog: " << logModel.lastError().text();
+            logModel.revertAll();
+        }
     }
 
     for(int i = 0; i < clothesModel.rowCount(); ++i){
@@ -88,7 +90,13 @@ bool ClothesModel::reassignClothes(const int &oldTypeId, const int &newTypeId, c
 
     select();
 
-    return submitAll();
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error reassigning clothes: " << lastError().text();
+        revertAll();
+    }
+
+    return submitting;
 }
 
 void ClothesModel::filterType(int typeId)
@@ -113,7 +121,13 @@ bool ClothesModel::rename(const int &cId, const QString name)
 
     select();
 
-    return submitAll();
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error renaming clothing: " << lastError().text();
+        revertAll();
+    }
+
+    return submitting;
 }
 
 bool ClothesModel::changeDescription(const int &cId, const QString description)
@@ -132,7 +146,13 @@ bool ClothesModel::changeDescription(const int &cId, const QString description)
 
     select();
 
-    return submitAll();
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error changing clothing description: " << lastError().text();
+        revertAll();
+    }
+
+    return submitting;
 }
 
 bool ClothesModel::changeImage(const int &cId, const QString &ClothingImageSource)
@@ -161,11 +181,19 @@ bool ClothesModel::changeImage(const int &cId, const QString &ClothingImageSourc
 
     select();
 
-    return submitAll();
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error changing clothing image: " << lastError().text();
+        revertAll();
+    }
+
+    return submitting;
 }
 
 bool ClothesModel::add(const QString &itemName, const QString &itemImageSource, const int &tId)
 {
+    bool submitting = false;
+
     QString localFilePath = QUrl(itemImageSource).toLocalFile();
     QFile image(localFilePath);
 
@@ -186,14 +214,20 @@ bool ClothesModel::add(const QString &itemName, const QString &itemImageSource, 
 
     if(insertRecord(rowCount(), record)){
         select();
-        return submitAll();
+        submitting = submitAll();
+        if(submitting == false){
+            qWarning() << "Error adding clothing item: " << lastError().text();
+            revertAll();
+        }
     }
 
-    return false;
+    return submitting;
 }
 
 bool ClothesModel::remove(const int &cId)
 {
+    bool submitting = false;
+
     QSqlTableModel logModel;
 
     logModel.setTable("ChangeLog");
@@ -205,7 +239,10 @@ bool ClothesModel::remove(const int &cId)
         logModel.select();
     }
 
-    logModel.submitAll();
+    if(!logModel.submitAll()){
+        qWarning() << "Error logging removed clothing item: " << logModel.lastError().text();
+        logModel.revertAll();
+    }
 
     QSqlTableModel clothesSizesModel;
 
@@ -220,7 +257,10 @@ bool ClothesModel::remove(const int &cId)
         clothesSizesModel.select();
     }
 
-    clothesSizesModel.submitAll();
+    if(!clothesSizesModel.submitAll()){
+        qWarning() << "Error removing clothing item from clothesSizes: " << clothesSizesModel.lastError().text();
+        clothesSizesModel.revertAll();
+    }
 
     QSqlTableModel clothesModel;
 
@@ -230,7 +270,12 @@ bool ClothesModel::remove(const int &cId)
 
     if(clothesModel.removeRow(0)){
         select();
-        return submitAll();
+
+        submitting = submitAll();
+        if(submitting == false){
+            qWarning() << "Error removing clothing item: " << lastError().text();
+            revertAll();
+        }
     }
-    return false;
+    return submitting;
 }

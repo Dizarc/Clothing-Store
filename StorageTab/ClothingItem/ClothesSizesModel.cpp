@@ -69,7 +69,13 @@ bool ClothesSizesModel::changeCount(const int &cId, const QString &sName, const 
 
     select();
 
-    return submitAll();
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error changing clothing size count: " << lastError().text();
+        revertAll();
+    }
+
+    return submitting;
 }
 
 bool ClothesSizesModel::remove(const int &cId, const int &index)
@@ -83,11 +89,19 @@ bool ClothesSizesModel::remove(const int &cId, const int &index)
 
     select();
 
-    return submitAll();
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error removing clothing size: " << lastError().text();
+        revertAll();
+    }
+
+    return submitting;
 }
 
 bool ClothesSizesModel::add(const int &cId, const int &sId)
 {
+    bool submitting = false;
+
     QSqlTableModel model;
 
     model.setTable("ClothesSizes");
@@ -109,8 +123,12 @@ bool ClothesSizesModel::add(const int &cId, const int &sId)
 
     if(model.insertRecord(rowCount(), record)){
         select();
-        return submitAll();
-    }
 
-    return false;
+        submitting = submitAll();
+        if(submitting == false){
+            qWarning() << "Error adding clothing size: " << lastError().text();
+            revertAll();
+        }
+    }
+    return submitting;
 }

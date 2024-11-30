@@ -88,14 +88,18 @@ bool Employees::update(const int &index, const QString &firstname, const QString
     setData(isAdminIndex, isAdmin, Qt::EditRole);
 
     bool submitting = submitAll();
-    if(submitting == false)
-        revert();
+    if(submitting == false){
+        qWarning() << "Error updating employee: " << lastError().text();
+        revertAll();
+    }
 
     return submitting;
 }
 
 bool Employees::changePassword(const int &id, const QString &oldPassword, const QString &newPassword)
 {
+    bool submitting = false;
+
     QSqlTableModel model;
 
     model.setTable("Employees");
@@ -112,17 +116,27 @@ bool Employees::changePassword(const int &id, const QString &oldPassword, const 
         record.setValue("password", newHash);
         model.setRecord(0, record);
 
-        return model.submitAll();
+        submitting = submitAll();
+        if(submitting == false){
+            qWarning() << "Error updating password of employee: " << lastError().text();
+            revertAll();
+        }
     }
-
-    return false;
+    return submitting;
 }
 
 bool Employees::remove(const int &index)
 {
     removeRow(index);
     select();
-    return submitAll();
+
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error removing employee: " << lastError().text();
+        revertAll();
+    }
+
+    return submitting;
 }
 
 bool Employees::search(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QVariant &isAdmin)
@@ -147,6 +161,8 @@ bool Employees::search(const QString &firstname, const QString &lastname, const 
 
 bool Employees::add(const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const QString &password, const int &isAdmin)
 {
+    bool submitting = false;
+
     insertRow(rowCount() + 1);
     QSqlRecord record = this->record(rowCount());
 
@@ -160,8 +176,12 @@ bool Employees::add(const QString &firstname, const QString &lastname, const QSt
 
     if(insertRecord(rowCount(), record)){
         select();
-        return submitAll();
-    }
 
-    return false;
+        submitting = submitAll();
+        if(submitting == false){
+            qWarning() << "Error adding employee: " << lastError().text();
+            revertAll();
+        }
+    }
+    return submitting;
 }

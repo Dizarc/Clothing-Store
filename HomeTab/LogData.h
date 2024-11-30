@@ -7,6 +7,7 @@
 #include <QSqlQuery>
 #include <QSqlTableModel>
 #include <QSqlRecord>
+#include <QSqlError>
 #include <QBarCategoryAxis>
 
 class LogData : public QObject

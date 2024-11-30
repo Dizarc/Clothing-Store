@@ -124,7 +124,7 @@ ColumnLayout {
           buttonColor: Style.acceptButtonColor
 
           onClicked: {
-            if(ClothesTypesModel.renameType(renameClothesTypesDialog.id, typeNameInput.text))
+            if(ClothesTypesModel.rename(renameClothesTypesDialog.id, typeNameInput.text))
              clothesTypesColumn.textState = "successRename"
             else
              clothesTypesColumn.textState = "failedRename"

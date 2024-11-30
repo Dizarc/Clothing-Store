@@ -56,6 +56,8 @@ void SizesModel::filterAvailable(int cId)
 
 bool SizesModel::add(const QString &sizeName)
 {
+    bool submitting = false;
+
     insertRow(rowCount() + 1);
     QSqlRecord record = this->record(rowCount());
 
@@ -63,14 +65,20 @@ bool SizesModel::add(const QString &sizeName)
 
     if(insertRecord(rowCount(), record)){
         select();
-        return submitAll();
-    }
 
-    return false;
+        submitting = submitAll();
+        if(submitting == false){
+            qWarning() << "Error adding clothing item: " << lastError().text();
+            revertAll();
+        }
+    }
+    return submitting;
 }
 
 bool SizesModel::remove(const int &sId)
 {
+    bool submitting = false;
+
     QSqlTableModel clothesSizesModel;
 
     QString filter = "sizeId = " + QString::number(sId);
@@ -84,7 +92,10 @@ bool SizesModel::remove(const int &sId)
         clothesSizesModel.select();
     }
 
-    clothesSizesModel.submitAll();
+    if(!clothesSizesModel.submitAll()){
+        qWarning() << "Error removing clothing size(from SizesModel): " << clothesSizesModel.lastError().text();
+        clothesSizesModel.revertAll();
+    }
 
     QSqlTableModel sizesModel;
 
@@ -94,7 +105,12 @@ bool SizesModel::remove(const int &sId)
 
     if(sizesModel.removeRow(0)){
         select();
-        return submitAll();
+
+        submitting = submitAll();
+        if(submitting == false){
+            qWarning() << "Error removing size: " << lastError().text();
+            revertAll();
+        }
     }
-    return false;
+    return submitting;
 }

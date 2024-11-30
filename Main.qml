@@ -9,10 +9,9 @@ import com.company.DatabaseController
 import com.company.Employees
 
 /*
-  TODO: include a revert call in every submitAll for all the models
-  TODO: make every query a prepared one
-  TODO: finish home page with a logo on the bottom of the graph
   TODO: change application login Image
+  TODO: finish home page with a logo on the bottom of the graph
+
   BUG: application crashes when no items are in types and a user adds a new type
   BUG: When filter is changed in graph old bar labels stay for some reason
 */

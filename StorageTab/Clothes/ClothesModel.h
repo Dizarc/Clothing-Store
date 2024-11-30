@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSqlTableModel>
 #include <QSqlRecord>
+#include <QSqlError>
 #include <QFile>
 #include <QUrl>
 

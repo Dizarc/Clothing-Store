@@ -48,6 +48,8 @@ QHash<int, QByteArray> ClothesTypesModel::roleNames() const
 
 bool ClothesTypesModel::add(const QString &typeName, const QString &typeImageSource)
 {
+    bool submitting  = false;
+
     QString localFilePath = QUrl(typeImageSource).toLocalFile();
     QFile image(localFilePath);
 
@@ -66,10 +68,14 @@ bool ClothesTypesModel::add(const QString &typeName, const QString &typeImageSou
 
     if(insertRecord(rowCount(), record)){
         select();
-        return submitAll();
-    }
 
-    return false;
+        submitting = submitAll();
+        if(submitting == false){
+            qWarning() << "Error adding clothing type: " << lastError().text();
+            revertAll();
+        }
+    }
+    return submitting;
 }
 
 bool ClothesTypesModel::remove(const int &id)
@@ -106,11 +112,15 @@ bool ClothesTypesModel::remove(const int &id)
 
     select();
 
-    return submitAll();
-
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error removing removing clothing type: " << lastError().text();
+        revertAll();
+    }
+    return submitting;
 }
 
-bool ClothesTypesModel::renameType(const int &id, const QString name)
+bool ClothesTypesModel::rename(const int &id, const QString name)
 {
     int uncategorizedId = getUncategorizedTypeId();
 
@@ -138,7 +148,13 @@ bool ClothesTypesModel::renameType(const int &id, const QString name)
 
     select();
 
-    return submitAll();
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error renaming clothing image: " << lastError().text();
+        revertAll();
+    }
+
+    return submitting;
 }
 
 bool ClothesTypesModel::changeImage(const int &id, const QString &typeImageSource)
@@ -167,7 +183,13 @@ bool ClothesTypesModel::changeImage(const int &id, const QString &typeImageSourc
 
     select();
 
-    return submitAll();
+    bool submitting = submitAll();
+    if(submitting == false){
+        qWarning() << "Error changing clothing type image: " << lastError().text();
+        revertAll();
+    }
+
+    return submitting;
 }
 
 int ClothesTypesModel::getUncategorizedTypeId()

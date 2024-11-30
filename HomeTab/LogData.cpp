@@ -7,7 +7,9 @@ LogData::LogData(QObject *parent, QSqlDatabase db) : QObject{parent}
 
 bool LogData::log(const int &cId, const int &tId, const QString &sName, const int &value)
 {
-    QSqlQuery query("SELECT sizeId FROM Sizes WHERE sizeName = '" + sName + "'");
+    QSqlQuery query;
+    query.prepare("SELECT sizeId FROM Sizes WHERE sizeName = ?");
+    query.addBindValue(sName);
 
     int sizeId;
     if(query.exec()){
@@ -47,7 +49,13 @@ bool LogData::log(const int &cId, const int &tId, const QString &sName, const in
         model.setRecord(0, record);
     }
 
-    return model.submitAll();
+    bool submitting = model.submitAll();
+    if(submitting == false){
+        qWarning() << "Error logging to ChangeLog: " << model.lastError().text();
+        model.revertAll();
+    }
+
+    return submitting;
 }
 
 QBarSet *LogData::generateSeries(const QString &filter, const int &filterId, const int &sizeId, const QString &dateFilter)
@@ -81,7 +89,7 @@ QBarSet *LogData::generateSeries(const QString &filter, const int &filterId, con
 
     queryStr += " GROUP BY period";
 
-    QSqlQuery query(queryStr);
+    QSqlQuery query;
     query.prepare(queryStr);
 
     if(sizeId != -1)
@@ -107,6 +115,7 @@ QBarSet *LogData::generateSeries(const QString &filter, const int &filterId, con
         qDebug()<< "================";
     }else{
         barSet->deleteLater();
+
         qWarning()<< "Error creating series...";
         return NULL;
     }

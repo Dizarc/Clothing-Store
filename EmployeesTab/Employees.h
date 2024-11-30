@@ -7,6 +7,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlField>
+#include <QSqlError>
 
 #include <Bcryptcpp.h>
 

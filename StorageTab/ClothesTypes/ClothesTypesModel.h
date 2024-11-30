@@ -28,7 +28,7 @@ public:
 public slots:
     bool add(const QString &typeName, const QString &typeImageSource);
     bool remove(const int &id);
-    bool renameType(const int &id, const QString name);
+    bool rename(const int &id, const QString name);
     bool changeImage(const int &id, const QString &typeImageSource);
 
 private:
