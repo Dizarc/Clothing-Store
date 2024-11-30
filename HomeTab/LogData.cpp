@@ -92,14 +92,14 @@ QBarSet *LogData::generateSeries(const QString &filter, const int &filterId, con
     if(filter == "item")
         query.bindValue(":clothingId", filterId);
 
-    //categories for X axis
-    QStringList categories;
+    //dates for X axis
+    QStringList xDates;
     if(query.exec()){
         while(query.next()){
             QString period = query.value(0).toString();
             int count = query.value(1).toInt();
 
-            categories.append(period);
+            xDates.append(period);
             *barSet << count;
 
             qDebug()<< period << " " << count;
@@ -112,7 +112,7 @@ QBarSet *LogData::generateSeries(const QString &filter, const int &filterId, con
     }
 
     m_categories.clear();
-    m_categories.append(categories);
+    m_categories.append(xDates);
 
     emit categoriesChanged();
 

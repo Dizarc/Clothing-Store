@@ -105,22 +105,21 @@ RowLayout{
 
       onClicked: {
         graphColumn.sizeSelected = -1
-        sizesComboBox.currentIndex = -1
         sizesComboBox.displayText = qsTr("All")
 
         typesComboBox.currentIndex = -1
         typesComboBox.displayText = qsTr("All")
 
-        clothesComboBox.currentIndex = -1
         clothesComboBox.displayText = qsTr("")
 
         bars.clear()
-        bars.append(LogData.generateSeries("all", -1, -1, radioGroup.checkedButton.text))
+        bars.insert(0, LogData.generateSeries("all", -1, graphColumn.sizeSelected, radioGroup.checkedButton.text))
       }
     }
 
     RowLayout{
       Layout.alignment: Qt.AlignVCenter
+
       Text {
         text: qsTr("Filter by date:")
 
@@ -159,7 +158,6 @@ RowLayout{
       CustomComboBox{
         id: sizesComboBox
 
-        currentIndex: -1
         displayText: qsTr("All")
 
         model: SizesModel
@@ -170,12 +168,8 @@ RowLayout{
           required property int sizeId
           required property string sizeName
 
-          required property int index
-
           width: sizesComboBox.width
           implicitHeight: sizesComboBox.height
-
-          highlighted: sizesComboBox.highlightedIndex === index
 
           contentItem: Text {
             text: sizeName
@@ -197,12 +191,15 @@ RowLayout{
 
           onClicked: {
             graphColumn.sizeSelected = sizeId
+
             sizesComboBox.displayText = sizeName
-            sizesComboBox.currentIndex = index
+
+            typesComboBox.currentIndex = -1
             typesComboBox.displayText = qsTr("All")
+            clothesComboBox.displayText = ""
 
             bars.clear()
-            bars.append(LogData.generateSeries("all", -1, graphColumn.sizeSelected, radioGroup.checkedButton.text))
+            bars.insert(0, LogData.generateSeries("all", -1, graphColumn.sizeSelected, radioGroup.checkedButton.text))
           }
         }
       }
@@ -261,7 +258,7 @@ RowLayout{
             ClothesModel.filterType(typeId)
 
             bars.clear()
-            bars.append(LogData.generateSeries("type", typeId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
+            bars.insert(0, LogData.generateSeries("type", typeId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
           }
         }
       }
@@ -276,8 +273,8 @@ RowLayout{
       CustomComboBox{
         id: clothesComboBox
 
-        currentIndex: -1
         enabled: typesComboBox.currentIndex !== -1 ? true : false
+
         model: ClothesModel
 
         delegate: ItemDelegate {
@@ -286,12 +283,8 @@ RowLayout{
           required property int clothingId
           required property string clothingName
 
-          required property int index
-
           width: clothesComboBox.width
           implicitHeight: clothesComboBox.height
-
-          highlighted: clothesComboBox.highlightedIndex === index
 
           contentItem: Text {
             text: clothingName
@@ -313,10 +306,9 @@ RowLayout{
 
           onClicked: {
             clothesComboBox.displayText = clothingName
-            clothesComboBox.currentIndex = index
 
             bars.clear()
-            bars.append(LogData.generateSeries("item", clothingId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
+            bars.insert(0, LogData.generateSeries("item", clothingId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
           }
         }
       }
@@ -361,15 +353,17 @@ RowLayout{
         axisY.mainColor: Style.textColor
       }
 
-      Component.onCompleted: bars.append(LogData.generateSeries("all", -1, -1, "day"))
-
       BarSeries{
         id: bars
 
-        labelsVisible: true
-        labelsPrecision: 0
-        labelsFormat: '<font color="' + Style.textColor+ '" size="4">@value</font>'
-        labelsPosition: BarSeries.LabelsPosition.OutsideEnd
+        barWidth: 0.2
+
+        // labelsVisible: true
+        // labelsPrecision: 0
+        // labelsFormat: '<font color="' + Style.textColor + '" size="4">@value</font>'
+        // labelsPosition: BarSeries.LabelsPosition.OutsideEnd
+
+        Component.onCompleted: bars.append(LogData.generateSeries("all", -1, -1, "day"))
       }
     }
   }
