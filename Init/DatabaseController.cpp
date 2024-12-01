@@ -16,8 +16,10 @@ DatabaseController::DatabaseController(QObject *parent)
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setHostName("localhost");
     db.setDatabaseName(documentsDirPath + "/clothes");
-    db.setUserName("manager");
-    db.setPassword("clothingManager");
+
+    QSettings settings(documentsDirPath + "/config.ini", QSettings::IniFormat);
+    db.setUserName(settings.value("SQL/username").toString());
+    db.setPassword(settings.value("SQL/password").toString());
 
     bool ok = db.open();
 
