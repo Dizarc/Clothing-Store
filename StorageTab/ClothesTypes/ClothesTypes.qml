@@ -242,7 +242,7 @@ ColumnLayout {
       title: qsTr("Select an Image")
 
       nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp)"]
-      currentFolder: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0] + "/ClothingStoreDocuments/"
+      currentFolder: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0] + "/SeamlessManagerDocuments/"
 
       onAccepted: changeImage.source = selectedFile
     }

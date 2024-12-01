@@ -4,7 +4,7 @@ import QtQuick.Controls.Basic
 
 import com.company.Employees
 
-import "../../ClothingStore"
+import "../../SeamlessManager"
 import "../Custom"
 
 Item {

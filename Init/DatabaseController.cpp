@@ -1,7 +1,7 @@
 #include "DatabaseController.h"
 
 const QString DatabaseController::documentsDirPath =
-    QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ClothingStoreDocuments";
+    QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/SeamlessManagerDocuments";
 
 DatabaseController::DatabaseController(QObject *parent)
     : QObject{parent}
@@ -271,7 +271,7 @@ void DatabaseController::sendResetEmail(const QString &username)
 
     MimeMessage message;
 
-    EmailAddress sender(fromEmail, "Clothing Store");
+    EmailAddress sender(fromEmail, "Seamless Manager");
 
     message.setSender(sender);
 
@@ -282,7 +282,7 @@ void DatabaseController::sendResetEmail(const QString &username)
     if(code.isEmpty())
         return;
 
-    message.setSubject("Your Clothing Store password reset");
+    message.setSubject("Your Seamless Manager password reset");
 
     MimeText text;
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ClothingStore VERSION 0.1 LANGUAGES CXX)
+project(SeamlessManager VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -8,7 +8,7 @@ find_package(Qt6 6.8 REQUIRED COMPONENTS Quick Sql Graphs)
 
 qt_standard_project_setup()
 
-qt_add_executable(appClothingStore
+qt_add_executable(appSeamlessManager
     main.cpp
 
     Init/DatabaseController.h Init/DatabaseController.cpp
@@ -24,8 +24,8 @@ qt_add_executable(appClothingStore
     HomeTab/LogData.h HomeTab/LogData.cpp
 )
 
-qt_add_qml_module(appClothingStore
-    URI ClothingStore
+qt_add_qml_module(appSeamlessManager
+    URI SeamlessManager
     VERSION 1.0
 
     QML_FILES Main.qml
@@ -82,15 +82,15 @@ qt_add_qml_module(appClothingStore
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
-set_target_properties(appClothingStore PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appClothingStore
+set_target_properties(appSeamlessManager PROPERTIES
+#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appSeamlessManager
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(appClothingStore
+target_link_libraries(appSeamlessManager
     PRIVATE Qt6::Quick
             Qt6::Sql
             Qt6::Graphs
@@ -105,7 +105,7 @@ qt_add_library(Qt${QT_VERSION_MAJOR}SmtpMimeSmtpMime)
 add_subdirectory(libraries/SmtpClient-for-Qt/src)
 
 include(GNUInstallDirs)
-install(TARGETS appClothingStore
+install(TARGETS appSeamlessManager
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

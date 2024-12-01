@@ -1,7 +1,7 @@
 import QtQuick 6.8
 import QtQuick.Controls.Basic
 
-import "../../ClothingStore"
+import "../../SeamlessManager"
 import "../Custom"
 
 Rectangle {

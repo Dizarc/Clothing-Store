@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    app.setWindowIcon(QIcon(":/ClothingStore/images/icon.ico"));
+    app.setWindowIcon(QIcon(":/SeamlessManager/images/icon.ico"));
 
     DatabaseController *db = new DatabaseController(&app);
     qmlRegisterSingletonInstance("com.company.DatabaseController", 1, 0, "DbController", db);
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    engine.loadFromModule("ClothingStore", "Main");
+    engine.loadFromModule("SeamlessManager", "Main");
 
     return app.exec();
 }
