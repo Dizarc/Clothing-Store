@@ -9,8 +9,7 @@ import com.company.DatabaseController
 import com.company.Employees
 
 /*
-  TODO: finish home page with a logo on the bottom of the graph
-  BUG: When filter is changed in graph old bar labels stay for some reason(for now label functionality is turned off
+  TODO: Fix graph label functionality which shows old labels and new labels together when graph is updated.
 */
 Window {
   id: root

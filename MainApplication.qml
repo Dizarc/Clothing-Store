@@ -21,6 +21,7 @@ Item {
     Row {
       id: tabRow
 
+      spacing: 2
       CustomButton {
         text: qsTr("Home")
 
@@ -73,7 +74,7 @@ Item {
 
       anchors.top: tabRow.bottom
 
-      width: 125
+      width: 127
       height: 2
 
       color: Style.borderColor

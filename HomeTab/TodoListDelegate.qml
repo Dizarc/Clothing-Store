@@ -88,6 +88,7 @@ Rectangle {
 
       CustomButton{
         text: qsTr("Remove")
+        enabled: isAdminLogged
         buttonColor: Style.generalButtonColor
 
         onClicked:{

@@ -13,6 +13,9 @@ Manage various clothing types, sizes and items with pictures of each type and it
 ### Employee Management
 Manage each employee with their names/emails/phone numbers and passwords with a way to enable them as admin users and changing their password. It also has a search feature which can be used to search for an employee with any of the above data and an add employee feature which creates a new user with data given.
 
+### Store Management
+A simple to-do list system exists inside the application where each user can insert an item to the list, mark it as done and finally an admin can remove the items. 
+
 ### Dynamic UI
 The application also has **dynamic resizing** of elements meaning the elements resize if the application window resizes and it also has intuitive sliding between the items in the main tab and between clothing types and clothing items. Some elements in the UI such as buttons also get disabled for non-admin users that are logged in.
 
@@ -24,7 +27,7 @@ Custom UI elements such as custom dialogs for confirming or getting information,
 The application uses **Qt model/view programming** for ease of management and separation of data in SQLite and the UI for the Employees, the To-Do list and the storage for each clothing type, size and item.
 
 ### Graphical Data Representation
-The application has graphs in which a user can view the count inserted/deleted items based on date/size and type and a todo list in which an employee can add To-Do items which other employees can view and mark as completed.
+The application has a **dynamic graph** in which a user can view the count of inserted items based on date/size/type and item. 
 
 ## Database Structure
 The system uses an SQLite database with the following tables:
@@ -43,16 +46,20 @@ The system uses an SQLite database with the following tables:
 git clone https://github.com/Dizarc/Clothing-Store.git
 cd Clothing-Store
 ```
-
 2. Setup Qt6 environment:
 Ensure that Qt6 is installed and setup correctly. You can download Qt6 from [Qt's official website](https://www.qt.io/download-dev)
 
 3. Run the application:
 Open the project in Qt Creator and build/run the application
 
-## Future Improvements
+## Possible Improvements
+Possible improvements include adding a clothing tag scanning system in which the application will automatically insert the clothing item inside the database, a sales system which will automatically calculate the monthly earnings/losses and represent the data in a graph.
 
-##Contributing
+## Images used in the application
+ * **Application logo** background picture by Daian Gan: https://www.pexels.com/photo/pile-of-shirts-hanged-in-shirt-rack-102129/
+ * **icons, all user images**  by flaticon: https://www.flaticon.com/uicons
+
+## Contributing
 Contributions are welcome!
 Please follow these steps:
 1. Fork the repository.
@@ -73,3 +80,17 @@ git push
 5. Create a pull request.
 
 For more information checkout [Github's explanation](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project)
+
+## Screenshots
+
+![Home](/Screenshots/image.png)
+
+![storage types](/Screenshots/image-1.png)
+
+![storage items](/Screenshots/image-2.png)
+
+![item](/Screenshots/image-3.png)
+
+![Employees](/Screenshots/image-4.png)
+
+![Dark mode](/Screenshots/image-5.png)

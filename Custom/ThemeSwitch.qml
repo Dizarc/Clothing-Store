@@ -25,6 +25,7 @@ Switch {
       radius: 3
 
       Image {
+        mipmap: true
         anchors.fill: parent
         source: "../images/themeIcon.png"
       }
