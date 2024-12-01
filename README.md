@@ -57,7 +57,7 @@ Possible improvements include adding a clothing tag scanning system in which the
 
 ## Images used in the application
  * **Application logo** background picture by Daian Gan: [Shirt Rack](https://www.pexels.com/photo/pile-of-shirts-hanged-in-shirt-rack-102129/)
- * **icons, all user images**: by  [flaticon](https://www.flaticon.com/uicons)
+ * **icons, all user images** by: [flaticon](https://www.flaticon.com/uicons)
 
 ## Contributing
 Contributions are welcome!
