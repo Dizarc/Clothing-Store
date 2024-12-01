@@ -26,7 +26,7 @@ ColumnLayout {
 
     onClicked: {
       var component = Qt.createComponent("ClothesTypesAdd.qml")
-      var window = component.createObject()
+      var window = component.createObject(clothesTypesColumn)
       window.show()
     }
   }
