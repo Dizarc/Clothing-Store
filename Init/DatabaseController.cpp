@@ -18,13 +18,13 @@ DatabaseController::DatabaseController(QObject *parent)
     db.setDatabaseName(documentsDirPath + "/clothes");
 
     QSettings settings(documentsDirPath + "/config.ini", QSettings::IniFormat);
-    db.setUserName(settings.value("SQL/username").toString());
-    db.setPassword(settings.value("SQL/password").toString());
-
-    bool ok = db.open();
+    bool ok = false;
+    if(settings.value("SQL/username").toString() != "" && settings.value("SQL/password").toString() != "")
+        ok = db.open();
 
     if(!ok){
         qWarning() << "Problem occured while connecting to db!";
+        exit(-1);
     }
     if(db.tables().isEmpty()){
         createDatabase();
