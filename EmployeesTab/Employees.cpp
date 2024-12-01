@@ -66,11 +66,6 @@ QHash<int, QByteArray> Employees::roleNames() const
     return roles;
 }
 
-/*
-    update and changePassword use two different ways to change the data in an sql table.
-    update uses the index from the delegate
-    changePassword uses the id from the row.
-*/
 bool Employees::update(const int &index, const QString &firstname, const QString &lastname, const QString &username, const QString &email, const QString &phone, const int &isAdmin)
 {
     QModelIndex firstnameIndex = this->index(index, 1);
@@ -79,6 +74,15 @@ bool Employees::update(const int &index, const QString &firstname, const QString
     QModelIndex emailIndex = this->index(index, 5);
     QModelIndex phoneIndex = this->index(index, 6);
     QModelIndex isAdminIndex = this->index(index, 7);
+
+    //need to check if all the admins will be removed with this choice
+    if(isAdminIndex.data() == 1 && isAdmin == 0)
+    if(record(index).field("isAdmin").value().toBool() == true){
+        QSqlQuery query("SELECT count(*) FROM Employees WHERE isAdmin = 1");
+        if(query.exec() && query.next())
+            if(query.value(0).toInt() == 1)
+                return false;
+    }
 
     setData(firstnameIndex, firstname, Qt::EditRole);
     setData(lastnameIndex, lastname, Qt::EditRole);
@@ -103,7 +107,7 @@ bool Employees::changePassword(const int &id, const QString &oldPassword, const 
     QSqlTableModel model;
 
     model.setTable("Employees");
-    model.setFilter("id = "+ QString::number(id));
+    model.setFilter("id = " + QString::number(id));
     model.select();
 
     QSqlRecord record = model.record(0);
@@ -127,6 +131,14 @@ bool Employees::changePassword(const int &id, const QString &oldPassword, const 
 
 bool Employees::remove(const int &index)
 {
+    //need to check if the deleted user is the last admin
+    if(record(index).field("isAdmin").value().toBool() == true){
+        QSqlQuery query("SELECT count(*) FROM Employees WHERE isAdmin = 1");
+        if(query.exec() && query.next())
+            if(query.value(0).toInt() == 1)
+                return false;
+    }
+
     removeRow(index);
     select();
 

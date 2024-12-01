@@ -11,7 +11,7 @@ import com.company.ClothesTypesModel
 import com.company.ClothesModel
 import com.company.SizesModel
 
-RowLayout{
+RowLayout {
   id: homeItem
 
   anchors.fill: parent
@@ -20,7 +20,7 @@ RowLayout{
     id: homeInfoDialog
   }
 
-  ColumnLayout{
+  ColumnLayout {
     Layout.fillHeight: true
     Layout.preferredWidth: parent.width / 3
     Layout.leftMargin: 5
@@ -32,7 +32,7 @@ RowLayout{
       buttonColor: Style.generalButtonColor
 
       onClicked: {
-        if(TodoListModel.add())
+        if (TodoListModel.add())
           homeInfoDialog.dialogText = qsTr("Successfully added todo item!")
         else
           homeInfoDialog.dialogText = qsTr("Error while adding todo item!")
@@ -57,17 +57,21 @@ RowLayout{
 
       path: Path {
         startY: 150
-        PathLine { y:  300}
-        PathLine { y: 1080}
+        PathLine {
+          y: 300
+        }
+        PathLine {
+          y: 1080
+        }
       }
 
       WheelHandler {
-        onWheel: (event) => {
-          if(event.angleDelta.y < 0)
-            todoPathView.incrementCurrentIndex()
-          else if(event.angleDelta.y > 0)
-            todoPathView.decrementCurrentIndex()
-        }
+        onWheel: event => {
+                   if (event.angleDelta.y < 0)
+                   todoPathView.incrementCurrentIndex()
+                   else if (event.angleDelta.y > 0)
+                   todoPathView.decrementCurrentIndex()
+                 }
       }
     }
 
@@ -79,18 +83,18 @@ RowLayout{
       dialogText: qsTr("Are you sure you want to delete this todo item?")
 
       onClickedYes: {
-        if(TodoListModel.remove(index)){
+        if (TodoListModel.remove(index)) {
           homeInfoDialog.dialogText = qsTr("Successfully deleted todo item!")
-        }else
+        } else
           homeInfoDialog.dialogText = qsTr("Error while deleting todo item!")
 
-          deleteTodoDialog.close()
-          homeInfoDialog.show()
+        deleteTodoDialog.close()
+        homeInfoDialog.show()
       }
     }
   }
 
-  ColumnLayout{
+  ColumnLayout {
     id: graphColumn
 
     property int sizeSelected: -1
@@ -100,7 +104,7 @@ RowLayout{
     Layout.rightMargin: 5
     Layout.bottomMargin: 5
 
-    ButtonGroup{
+    ButtonGroup {
       id: radioGroup
 
       onClicked: {
@@ -113,11 +117,13 @@ RowLayout{
         clothesComboBox.displayText = qsTr("")
 
         bars.clear()
-        bars.insert(0, LogData.generateSeries("all", -1, graphColumn.sizeSelected, radioGroup.checkedButton.text))
+        bars.insert(0, LogData.generateSeries("all", -1,
+                                              graphColumn.sizeSelected,
+                                              radioGroup.checkedButton.text))
       }
     }
 
-    RowLayout{
+    RowLayout {
       Layout.alignment: Qt.AlignVCenter
 
       Text {
@@ -144,7 +150,7 @@ RowLayout{
       }
     }
 
-    GridLayout{
+    GridLayout {
       rows: 3
       columns: 2
 
@@ -155,7 +161,7 @@ RowLayout{
         font.pointSize: 12
       }
 
-      CustomComboBox{
+      CustomComboBox {
         id: sizesComboBox
 
         displayText: qsTr("All")
@@ -182,9 +188,7 @@ RowLayout{
           background: Rectangle {
             color: sizeCbDelegate.pressed ? Qt.lighter(
                                               Style.generalButtonColor,
-                                              1.2) : sizeCbDelegate.hovered ? Qt.lighter(
-                                                                                Style.inputBoxColor,
-                                                                                1.1) : Style.inputBoxColor
+                                              1.2) : sizeCbDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
             border.color: Style.borderColor
             radius: 2
           }
@@ -199,7 +203,10 @@ RowLayout{
             clothesComboBox.displayText = ""
 
             bars.clear()
-            bars.insert(0, LogData.generateSeries("all", -1, graphColumn.sizeSelected, radioGroup.checkedButton.text))
+            bars.insert(0,
+                        LogData.generateSeries("all", -1,
+                                               graphColumn.sizeSelected,
+                                               radioGroup.checkedButton.text))
           }
         }
       }
@@ -211,7 +218,7 @@ RowLayout{
         font.pointSize: 12
       }
 
-      CustomComboBox{
+      CustomComboBox {
         id: typesComboBox
 
         currentIndex: -1
@@ -243,9 +250,7 @@ RowLayout{
           background: Rectangle {
             color: typeCbDelegate.pressed ? Qt.lighter(
                                               Style.generalButtonColor,
-                                              1.2) : typeCbDelegate.hovered ? Qt.lighter(
-                                                                                Style.inputBoxColor,
-                                                                                1.1) : Style.inputBoxColor
+                                              1.2) : typeCbDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
             border.color: Style.borderColor
             radius: 2
           }
@@ -258,7 +263,10 @@ RowLayout{
             ClothesModel.filterType(typeId)
 
             bars.clear()
-            bars.insert(0, LogData.generateSeries("type", typeId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
+            bars.insert(0,
+                        LogData.generateSeries("type", typeId,
+                                               graphColumn.sizeSelected,
+                                               radioGroup.checkedButton.text))
           }
         }
       }
@@ -270,7 +278,7 @@ RowLayout{
         font.pointSize: 12
       }
 
-      CustomComboBox{
+      CustomComboBox {
         id: clothesComboBox
 
         enabled: typesComboBox.currentIndex !== -1 ? true : false
@@ -297,9 +305,7 @@ RowLayout{
           background: Rectangle {
             color: clothesCbDelegate.pressed ? Qt.lighter(
                                                  Style.generalButtonColor,
-                                                 1.2) : clothesCbDelegate.hovered ? Qt.lighter(
-                                                                                      Style.inputBoxColor,
-                                                                                      1.1) : Style.inputBoxColor
+                                                 1.2) : clothesCbDelegate.hovered ? Qt.lighter(Style.inputBoxColor, 1.1) : Style.inputBoxColor
             border.color: Style.borderColor
             radius: 2
           }
@@ -308,7 +314,10 @@ RowLayout{
             clothesComboBox.displayText = clothingName
 
             bars.clear()
-            bars.insert(0, LogData.generateSeries("item", clothingId, graphColumn.sizeSelected, radioGroup.checkedButton.text))
+            bars.insert(0,
+                        LogData.generateSeries("item", clothingId,
+                                               graphColumn.sizeSelected,
+                                               radioGroup.checkedButton.text))
           }
         }
       }
@@ -322,9 +331,9 @@ RowLayout{
       Layout.fillHeight: true
       Layout.fillWidth: true
 
-      axisX: BarCategoryAxis{
+      axisX: BarCategoryAxis {
         categories: LogData.categories
-        subGridVisible : false
+        subGridVisible: false
         gridVisible: false
       }
 
@@ -343,7 +352,7 @@ RowLayout{
         grid.mainColor: Style.inputBoxColor
         plotAreaBackgroundColor: Style.backgroundColor
 
-        axisXLabelFont.pointSize: 10
+        axisXLabelFont.pointSize: 8
         axisX.labelTextColor: Style.textColor
         axisX.mainColor: "transparent"
         axisX.subColor: "transparent"
@@ -353,7 +362,7 @@ RowLayout{
         axisY.mainColor: Style.textColor
       }
 
-      BarSeries{
+      BarSeries {
         id: bars
 
         barWidth: 0.2

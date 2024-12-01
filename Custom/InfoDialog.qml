@@ -9,8 +9,8 @@ Window {
   color: Style.backgroundColor
   flags: Qt.Dialog
 
-  width: 250
-  height: 100
+  width: 270
+  height: 120
 
   onActiveFocusItemChanged: {
     if (!infoDialogWindow.activeFocusItem){
@@ -33,6 +33,9 @@ Window {
     width: 50
 
     buttonColor: Style.generalButtonColor
+
+    focus: true
+    Keys.onReturnPressed: clicked()
 
     anchors{
       top: infoDialogText.bottom

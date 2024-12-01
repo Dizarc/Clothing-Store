@@ -4,9 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 import QtCore
 
-import "../ClothesTypes"
-import "../Clothes"
-import "../"
 import "../../Custom"
 
 import com.company.ClothesSizesModel
@@ -24,22 +21,11 @@ Item {
   property string clothingImageSource
   property int type
 
-  property alias textState: clothesOutputText.state
-
-  StorageTabInfoText {
-    id: clothesOutputText
-  }
-
-  InfoDialog {
-    id: itemInfoDialog
-  }
-
   Text {
     id: hoverText
 
     anchors {
-      top: clothesOutputText.bottom
-      topMargin: 10
+      top: parent.top
       horizontalCenter: imageView.horizontalCenter
     }
 
@@ -53,7 +39,7 @@ Item {
     id: imageView
 
     width: parent.width / 2
-    height: parent.height - hoverText.height - clothesOutputText.height
+    height: parent.height - hoverText.height
 
     anchors.top: hoverText.bottom
     anchors.topMargin: 5
@@ -122,12 +108,13 @@ Item {
         visible: false
 
         onClicked: {
-          if (ClothesModel.rename(clothingId, nameInput.text))
-            clothingItem.textState = "successRename"
-          else
-            clothingItem.textState = "failedRename"
+          if (ClothesModel.rename(clothingId, nameInput.text)){
+            storageInfoDialog.dialogText = qsTr("Successfully renamed clothing!")
+            visible = false
+          }else
+            storageInfoDialog.dialogText = qsTr("Error while renaming clothing!")
 
-          visible = false
+          storageInfoDialog.show()
         }
       }
     }
@@ -172,12 +159,13 @@ Item {
       visible: false
 
       onClicked: {
-        if (ClothesModel.changeDescription(clothingId, clothingTextArea.text))
-          clothingItem.textState = "successDescriptionChange"
-        else
-          clothingItem.textState = "failedDescriptionChange"
+        if (ClothesModel.changeDescription(clothingId, clothingTextArea.text)){
+          storageInfoDialog.dialogText = qsTr("Successfully changed description!")
+          visible = false
+        }else
+          storageInfoDialog.dialogText = qsTr("Error while changing description!")
 
-        visible = false
+        storageInfoDialog.show()
       }
     }
 
@@ -232,10 +220,12 @@ Item {
             typesComboBox.displayText = typeName
 
             if (ClothesModel.reassignClothes(type, typeId, clothingId)) {
-              clothingItem.textState = "successTypeChange"
+              storageInfoDialog.dialogText = qsTr("Successfully changed clothing type!")
               type = typeId
-            } else
-              clothingItem.textState = "failedTypeChange"
+            }else
+              storageInfoDialog.dialogText = qsTr("Error while changing clothing type!")
+
+            storageInfoDialog.show()
           }
         }
       }
@@ -267,7 +257,7 @@ Item {
       ScrollIndicator.vertical: ScrollIndicator {
         id: myScroll2
         contentItem: Rectangle {
-          implicitWidth: 2
+          implicitWidth: 3
           radius: 5
           color: myScroll2.active ? Style.textColor : "transparent"
         }
@@ -354,14 +344,15 @@ Item {
 
         onClicked: {
           if (ClothesSizesModel.changeCount(clothingId, sizesView.sizeSelected, sizesView.sizeCount + addSpinBox.value)) {
-            clothingItem.textState = "successChangeCount"
+            storageInfoDialog.dialogText = qsTr("Successfully changed clothing count!")
 
             sizesView.sizeCount += addSpinBox.value
 
             LogData.log(clothingId, type, sizesView.sizeSelected, sizesView.sizeCount);
-          } else
-            clothingItem.textState = "failedChangeCount"
+          }else
+            storageInfoDialog.dialogText = qsTr("Error while changing clothing count!")
 
+          storageInfoDialog.show()
           sizesView.currentIndex = -1
         }
       }
@@ -397,17 +388,17 @@ Item {
 
             if (sizesView.sizeCount === 0) {
               if (ClothesSizesModel.remove(clothingId, sizesView.currentIndex)){
-                clothingItem.textState = "successChangeCount"
+                storageInfoDialog.dialogText = qsTr("Successfully changed clothing count!")
 
                 LogData.log(clothingId, type, sizesView.sizeSelected, 0);
-              }
-              else
-                clothingItem.textState = "failedChangeCount"
-            } else
-              clothingItem.textState = "successChangeCount"
-          } else
-            clothingItem.textState = "failedChangeCount"
+              }else
+                storageInfoDialog.dialogText = qsTr("Error while changing clothing count!")
+            }else
+              storageInfoDialog.dialogText = qsTr("Successfully changed clothing count!")
+          }else
+            storageInfoDialog.dialogText = qsTr("Error while changing clothing count!")
 
+          storageInfoDialog.show()
           sizesView.currentIndex = -1
         }
       }
@@ -450,9 +441,9 @@ Item {
     onClickedYes: {
       if (ClothesModel.remove(clothingId)) {
         storageView.pop()
-        storageInfoDialog.dialogText = qsTr("Successfully deleted item!")
+        storageInfoDialog.dialogText = qsTr("Successfully deleted clothing!")
       } else
-        storageInfoDialog.dialogText = qsTr("Error while deleting item!")
+        storageInfoDialog.dialogText = qsTr("Error while deleting clothing!")
 
       deleteItemDialog.close()
       storageInfoDialog.show()
@@ -469,11 +460,14 @@ Item {
 
     onAccepted: {
       if (ClothesModel.changeImage(clothingId, selectedFile)) {
-        clothingItem.textState = "successImageChange"
+        storageInfoDialog.dialogText = qsTr("Successfully changed clothing image!")
+
         clothingItem.clothingImageSource = selectedFile.toString().replace(
               "file:///", "")
       } else
-        clothingItem.textState = "failedImageChange"
+        storageInfoDialog.dialogText = qsTr("Error while changing clothing image!")
+
+      storageInfoDialog.show()
     }
   }
 }

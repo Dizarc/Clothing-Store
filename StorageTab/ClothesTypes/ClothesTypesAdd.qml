@@ -11,8 +11,8 @@ Window {
 
   title: qsTr("Add a new clothing type")
   flags: Qt.Dialog
-  color: Style.backgroundColor
   modality: Qt.WindowModal
+  color: Style.backgroundColor
 
   height: 500
   width: 600
@@ -39,6 +39,7 @@ Window {
 
     Rectangle{
       id: imageRect
+
       width: 300
       height: 300
 
@@ -89,10 +90,6 @@ Window {
     }
 
     CustomButton {
-      id: saveTypeButton
-
-      anchors.horizontalCenter: parent.horizontalCenter
-
       text: qsTr("Save")
       buttonColor: Style.acceptButtonColor
 

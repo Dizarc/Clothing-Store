@@ -109,10 +109,7 @@ QBarSet *LogData::generateSeries(const QString &filter, const int &filterId, con
 
             xDates.append(period);
             *barSet << count;
-
-            qDebug()<< period << " " << count;
         }
-        qDebug()<< "================";
     }else{
         barSet->deleteLater();
 

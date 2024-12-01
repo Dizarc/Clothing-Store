@@ -12,88 +12,109 @@ Item {
 
   property alias wrongLogin: wrongLoginText.visible
 
-  GridLayout {
+  ColumnLayout {
+    spacing: 15
+
+    anchors.verticalCenterOffset: -80
     anchors.centerIn: parent
-
-    rows: 6
-    columns: 2
-
-    rowSpacing: 10
-    columnSpacing: 10
 
     Image {
       source: "../images/logo.png"
 
-      Layout.columnSpan: 2
-      Layout.bottomMargin: 50
+      Layout.alignment: Qt.AlignHCenter
 
-      sourceSize.width: 400
-      sourceSize.height: 400
+      fillMode: Image.PreserveAspectFit
+      sourceSize.width: Window.width / 3.5
     }
 
-    Text {
-      text: qsTr("Username:")
+    Row {
+      spacing: 10
+      Layout.alignment: Qt.AlignHCenter
 
-      color: Style.textColor
-      font.pointSize: 12
-    }
+      Text {
+        text: qsTr("Username:")
 
-    CustomInputBox{
-      id: usernameInput
-    }
+        color: Style.textColor
+        font.pointSize: 12
+      }
 
-    Text {
-      text: qsTr("Password:")
-
-      color: Style.textColor
-      font.pointSize: 12
-    }
-
-    CustomInputBox{
-      id: passwordInput
-      echo: TextInput.Password
-    }
-
-    CustomButton {
-      text: qsTr("Login")
-
-      buttonColor: Style.acceptButtonColor
-
-      Keys.onReturnPressed: clicked()
-      onClicked: DbController.loginCheck(usernameInput.text, passwordInput.text)
-    }
-
-    CustomButton {
-      text: qsTr("Exit")
-
-      buttonColor: Style.denyButtonColor
-
-      onClicked: Qt.quit()
-    }
-
-    CustomButton {
-      text: qsTr("Forgot password")
-
-      buttonColor: Style.generalButtonColor
-
-      onClicked: {
-        var d = forgotPassDialogComponent.createObject(loginItem);
-        d.show();
+      CustomInputBox {
+        id: usernameInput
       }
     }
 
-    Text {
-      id: wrongLoginText
+    Row {
+      spacing: 10
+      Layout.alignment: Qt.AlignHCenter
 
-      visible: false
+      Text {
+        text: qsTr("Password: ")
 
-      text: qsTr("Wrong credentials try again...")
-      font.bold: true
-      color: Style.denyButtonColor
+        color: Style.textColor
+        font.pointSize: 12
+      }
+
+      CustomInputBox {
+        id: passwordInput
+        echo: TextInput.Password
+        Keys.onReturnPressed: loginButton.clicked()
+      }
+    }
+
+    Row {
+      spacing: 10
+      Layout.alignment: Qt.AlignHCenter
+
+      CustomButton {
+        id: loginButton
+
+        text: qsTr("Login")
+
+        buttonColor: Style.acceptButtonColor
+
+        focus: true
+        Keys.onReturnPressed: clicked()
+
+        onClicked: DbController.loginCheck(usernameInput.text,
+                                           passwordInput.text)
+      }
+
+      CustomButton {
+        text: qsTr("Exit")
+
+        buttonColor: Style.denyButtonColor
+
+        onClicked: Qt.quit()
+      }
+    }
+
+    Row {
+      spacing: 10
+      Layout.alignment: Qt.AlignHCenter
+
+      CustomButton {
+        text: qsTr("Forgot password")
+
+        buttonColor: Style.generalButtonColor
+
+        onClicked: {
+          var d = forgotPassDialogComponent.createObject(loginItem)
+          d.show()
+        }
+      }
+
+      Text {
+        id: wrongLoginText
+
+        visible: false
+        text: qsTr("Wrong credentials try again...")
+        font.bold: true
+        color: Style.denyButtonColor
+      }
     }
   }
 
-  Component{
+  Component {
     id: forgotPassDialogComponent
     ForgotPassDialog {
       id: forgotPassDialog

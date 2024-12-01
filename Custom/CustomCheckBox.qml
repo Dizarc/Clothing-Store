@@ -12,6 +12,7 @@ CheckBox {
     implicitHeight: 26
     x: myCheckBox.leftPadding
     y: parent.height / 2 - height / 2
+
     radius: 3
     color: Style.backgroundColor
     border.color: Style.borderColor
@@ -21,12 +22,14 @@ CheckBox {
       height: 14
       x: 6
       y: 6
+
       radius: 2
       color: myCheckBox.down ? Style.textColor : Qt.lighter(
                                       Style.textColor, 1.5)
       visible: myCheckBox.checked
     }
   }
+
   contentItem: Text {
     text: myCheckBox.text
     font: myCheckBox.font

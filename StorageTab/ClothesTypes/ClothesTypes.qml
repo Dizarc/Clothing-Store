@@ -1,11 +1,10 @@
 import QtQuick 6.8
 import QtQuick.Layouts
-import QtQuick.Controls
+import QtQuick.Controls.Basic
 import QtQuick.Dialogs
 import QtCore
 
 import "../../Custom"
-import "../"
 
 import com.company.ClothesTypesModel
 
@@ -14,19 +13,11 @@ ColumnLayout {
 
   spacing: 5
 
-  property alias textState: clothesTypesOutputText.state
-
-  StorageTabInfoText{
-    id: clothesTypesOutputText
-  }
-
   InfoDialog {
     id: typeInfoDialog
   }
 
   CustomButton {
-    id: addTypesButton
-
     enabled: isAdminLogged
     opacity: isAdminLogged ? 1 : 0.5
 
@@ -55,7 +46,7 @@ ColumnLayout {
     ScrollIndicator.vertical: ScrollIndicator {
       id: myScroll
       contentItem: Rectangle {
-        implicitWidth: 2
+        implicitWidth: 3
         radius: 5
         color: myScroll.active ? Style.textColor : "transparent"
       }
@@ -125,11 +116,12 @@ ColumnLayout {
 
           onClicked: {
             if(ClothesTypesModel.rename(renameClothesTypesDialog.id, typeNameInput.text))
-             clothesTypesColumn.textState = "successRename"
+              typeInfoDialog.dialogText = qsTr("Successfully renamed type!")
             else
-             clothesTypesColumn.textState = "failedRename"
+              typeInfoDialog.dialogText = qsTr("Error while renaming type!")
 
             renameClothesTypesDialog.close()
+            typeInfoDialog.show()
           }
         }
 
@@ -227,11 +219,12 @@ ColumnLayout {
 
           onClicked: {
             if(ClothesTypesModel.changeImage(changeImageClothesTypesDialog.id, changeImage.source))
-             clothesTypesColumn.textState = "successImageChange"
+              typeInfoDialog.dialogText = qsTr("Successfully changed type image!")
             else
-             clothesTypesColumn.textState = "failedImageChange"
+              typeInfoDialog.dialogText = qsTr("Error while changing type image!")
 
             changeImageClothesTypesDialog.close()
+            typeInfoDialog.show()
           }
         }
 

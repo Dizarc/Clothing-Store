@@ -21,7 +21,6 @@ qt_add_executable(appClothingStore
     StorageTab/ClothingItem/ClothesSizesModel.h StorageTab/ClothingItem/ClothesSizesModel.cpp
 
     HomeTab/TodoListModel.h HomeTab/TodoListModel.cpp
-
     HomeTab/LogData.h HomeTab/LogData.cpp
 )
 
@@ -43,7 +42,6 @@ qt_add_qml_module(appClothingStore
               EmployeesTab/EmployeeAdd.qml
 
               StorageTab/Storage.qml
-              StorageTab/StorageTabInfoText.qml
               StorageTab/Sizes.qml
               StorageTab/SizesDelegate.qml
 

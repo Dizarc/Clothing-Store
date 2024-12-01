@@ -9,18 +9,14 @@ import com.company.DatabaseController
 import com.company.Employees
 
 /*
-  TODO: change application login Image
   TODO: finish home page with a logo on the bottom of the graph
-
-  BUG: application crashes when no items are in types and a user adds a new type
-  BUG: When filter is changed in graph old bar labels stay for some reason
+  BUG: When filter is changed in graph old bar labels stay for some reason(for now label functionality is turned off
 */
 Window {
   id: root
 
   title: qsTr("Clothes Application")
 
-  visible: true
   color: Style.backgroundColor
   visibility: Qt.WindowFullScreen
 
@@ -28,8 +24,8 @@ Window {
 
   onVisibilityChanged: {
     if(root.visibility === Window.Windowed){
-      width = 700;
-      height = 500;
+      width = 950;
+      height = 700;
       x = Screen.width/2 - width/2
       y = Screen.height/2 - height/2
     }

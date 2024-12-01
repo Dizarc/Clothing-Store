@@ -26,8 +26,6 @@ Item {
     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
     onClicked: {
-      clothesColumn.clothesTextState = ""
-
       ClothesSizesModel.filterClothesSizes(clothingId)
 
       storageView.push(clothingComponent, {

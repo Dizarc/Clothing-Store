@@ -33,8 +33,10 @@ Rectangle {
       id: todoText
 
       readOnly: done
+
       Layout.fillHeight: true
       Layout.fillWidth: true
+
       wrapMode: Text.Wrap
       text: todoDescription
       font.pointSize: 14

@@ -48,7 +48,7 @@ Window {
       ScrollIndicator.vertical: ScrollIndicator {
         id: myScroll
         contentItem: Rectangle {
-          implicitWidth: 2
+          implicitWidth: 3
           radius: 5
           color: myScroll.active ? Style.textColor : "transparent"
         }
@@ -64,12 +64,12 @@ Window {
         myMouseArea.onClicked: {
           if (ClothesSizesModel.add(cId, sizesDel.sizeId)){
             LogData.log(cId, type, sizesDel.sizeName, 1);
-            itemInfoDialog.dialogText = qsTr("Successfully created new size!");
+            storageInfoDialog.dialogText = qsTr("Successfully created new size!");
           }else
-            itemInfoDialog.dialogText = qsTr("Error while creating new size!")
+            storageInfoDialog.dialogText = qsTr("Error while creating new size!")
 
           addWindow.close()
-          itemInfoDialog.show()
+          storageInfoDialog.show()
         }
       }
     }

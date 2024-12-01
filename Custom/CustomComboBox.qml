@@ -12,9 +12,11 @@ ComboBox {
   contentItem: Text {
     leftPadding: 5
     rightPadding: customCb.indicator.width + customCb.spacing
+
     text: customCb.displayText
     font: customCb.font
     color: customCb.pressed ? Qt.lighter(Style.textColor, 1.1) : Style.textColor
+
     verticalAlignment: Text.AlignVCenter
   }
 
@@ -33,6 +35,7 @@ ComboBox {
     y: customCb.height - 2
     width: customCb.width
     implicitHeight: contentItem.implicitHeight
+
     padding: 1
 
     contentItem: ListView {

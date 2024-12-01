@@ -36,7 +36,6 @@ Rectangle {
     onClicked: mouse => {
                  if (mouse.button === Qt.LeftButton) {
                    clothesTypesView.currentIndex = index
-                   clothesTypesColumn.textState = ""
 
                    ClothesModel.filterType(typeId)
                    storageView.push(clothesComponent, {"type": typeId })

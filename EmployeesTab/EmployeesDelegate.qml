@@ -52,9 +52,6 @@ Rectangle {
       editEmployee.renewPasswordField = ""
       editEmployee.isAdminField = isAdmin
 
-      editEmployee.textVisibility = ""
-      add.textVisibility = ""
-
       selectionModel.select(tableView.index(employeesDelegate.index, 0),
                             ItemSelectionModel.SelectCurrent)
     }

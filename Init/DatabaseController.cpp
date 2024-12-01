@@ -236,11 +236,9 @@ void DatabaseController::loginCheck(const QString &username, const QString &pass
             setIsCurrentlyAdmin(query.value(1).toBool());
 
             emit rightLogin();
-        }
-        else
+        }else
             emit wrongLogin();
-    }
-    else
+    }else
         emit wrongLogin();
 }
 

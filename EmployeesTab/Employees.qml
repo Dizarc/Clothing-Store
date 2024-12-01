@@ -14,6 +14,10 @@ Item {
 
   Component.onCompleted: Emp.select()
 
+  InfoDialog{
+    id: empInfoDialog
+  }
+
   GridLayout{
     id: employeeGrid
 
@@ -39,6 +43,7 @@ Item {
 
       Layout.row: 1
       Layout.column: 0
+
       text: qsTr("Add Employee")
       buttonColor: Style.generalButtonColor
 
@@ -50,7 +55,6 @@ Item {
 
       Layout.row: 2
       Layout.column: 0
-
       Layout.topMargin: 20
       Layout.fillHeight: true
       Layout.fillWidth: true
@@ -61,7 +65,7 @@ Item {
       ScrollIndicator.vertical: ScrollIndicator {
         id: myScroll
         contentItem: Rectangle {
-          implicitWidth: 2
+          implicitWidth: 3
           radius: 5
           color: myScroll.active ? Style.textColor : "transparent"
         }

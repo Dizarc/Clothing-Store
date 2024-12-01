@@ -5,12 +5,10 @@ import QtQuick.Dialogs
 
 import com.company.Employees
 
-import "../../ClothingStore/Custom"
+import "../Custom"
 
 Item {
   id: employeeEditItem
-
-  property alias textVisibility: buttonOutputText.state
 
   property int employeeIndex
   property int idField
@@ -25,11 +23,6 @@ Item {
   property alias renewPasswordField: renewPasswordEditInput.text
 
   property alias isAdminField: isAdminCheckBox.checked
-
-
-  InfoDialog {
-    id: empInfoDialog
-  }
 
   Image {
     id: editImage
@@ -181,9 +174,10 @@ Item {
         if (Emp.update(employeeIndex, firstnameField, lastnameField,
                                usernameField, emailField, phoneField,
                                isAdminField))
-          buttonOutputText.state = "successSave"
+          empInfoDialog.dialogText = qsTr("Saved user!")
         else
-          buttonOutputText.state = "failedSave"
+          empInfoDialog.dialogText = qsTr("failed to save user!")
+        empInfoDialog.show()
       }
     }
 
@@ -200,12 +194,13 @@ Item {
         if(newPasswordEditInput.text === renewPasswordEditInput.text){
           if (Emp.changePassword(idField, oldPasswordField,
                                          newPasswordField))
-            buttonOutputText.state = "successPasswordChange"
+            empInfoDialog.dialogText = qsTr("changed password!")
           else
-            buttonOutputText.state = "failedPasswordChange"
+            empInfoDialog.dialogText = qsTr("Error while changing password!\nCheck if the old password is correct!")
         }else{
-          buttonOutputText.state = "passwordNotSame"
+          empInfoDialog.dialogText = qsTr("Passwords dont match!")
         }
+        empInfoDialog.show()
       }
     }
 
@@ -237,64 +232,5 @@ Item {
       deleteDialog.close()
       empInfoDialog.show()
     }
-  }
-
-  Text {
-    id: buttonOutputText
-
-    anchors.top: editGrid.bottom
-    anchors.left: editGrid.left
-
-    text: qsTr("")
-    font.bold: true
-
-    states: [
-      State {
-        name: "successSave"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("Saved user!")
-            color: Style.acceptButtonColor
-          }
-        }
-      },
-      State {
-        name: "failedSave"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr(
-                    "Failed to save user! \n Make sure username does not already exist!")
-            color: Style.denyButtonColor
-          }
-        }
-      },
-      State {
-        name: "successPasswordChange"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("Changed password successfully!")
-            color: Style.acceptButtonColor
-          }
-        }
-      },
-      State {
-        name: "failedPasswordChange"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("Wrong password try again!")
-            color: Style.denyButtonColor
-          }
-        }
-      },
-      State {
-        name: "passwordNotSame"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("new password does not match!")
-            color: Style.denyButtonColor
-          }
-        }
-      }
-    ]
   }
 }

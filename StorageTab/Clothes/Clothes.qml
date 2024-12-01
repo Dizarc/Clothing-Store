@@ -4,7 +4,6 @@ import QtQuick.Controls
 import QtQuick.Dialogs
 
 import "../../Custom"
-import "../"
 
 import com.company.ClothesModel
 
@@ -12,21 +11,14 @@ ColumnLayout {
   id: clothesColumn
 
   property int type
-  property alias clothesTextState: clothesOutputText.state
 
   spacing: 5
-
-  StorageTabInfoText{
-    id: clothesOutputText
-  }
 
   InfoDialog {
     id: clothesInfoDialog
   }
 
   CustomButton {
-    id: addTypesButton
-
     enabled: isAdminLogged
     opacity: isAdminLogged ? 1 : 0.5
 
@@ -50,12 +42,13 @@ ColumnLayout {
     cellHeight: 300
 
     clip: true
+
     flickableDirection: Flickable.VerticalFlick
     boundsBehavior: Flickable.StopAtBounds
     ScrollIndicator.vertical: ScrollIndicator {
       id: myScroll
       contentItem: Rectangle {
-        implicitWidth: 2
+        implicitWidth: 3
         radius: 5
         color: myScroll.active ? Style.textColor : "transparent"
       }

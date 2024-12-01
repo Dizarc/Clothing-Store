@@ -37,6 +37,7 @@ Switch {
   contentItem: Text {
     width: mySwitch.width
     text: mySwitch.text
+
     font.pointSize: 11
     color: Style.textColor
 

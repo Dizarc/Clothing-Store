@@ -4,12 +4,10 @@ import QtQuick.Controls.Basic
 
 import com.company.Employees
 
-import "../../ClothingStore"
+import "../Custom"
 
 Item {
   id: employeeAddItem
-
-  property alias textVisibility: buttonOutputText.state
 
   Image {
     id: addImage
@@ -132,39 +130,8 @@ Item {
       font.pointSize: 12
     }
 
-    CheckBox{
+    CustomCheckBox{
       id: isAdminCheckBox
-
-      text: isAdminCheckBox.checked === true ? qsTr("true") :  qsTr("false")
-      font.pointSize: 11
-
-      indicator: Rectangle {
-              implicitWidth: 26
-              implicitHeight: 26
-              x: isAdminCheckBox.leftPadding
-              y: parent.height / 2 - height / 2
-              radius: 3
-              color: Style.backgroundColor
-              border.color: Style.borderColor
-
-              Rectangle {
-                  width: 14
-                  height: 14
-                  x: 6
-                  y: 6
-                  radius: 2
-                  color: isAdminCheckBox.down ? Style.textColor : Qt.lighter( Style.textColor, 1.5)
-                  visible: isAdminCheckBox.checked
-              }
-          }
-      contentItem: Text {
-        text: isAdminCheckBox.text
-        font: isAdminCheckBox.font
-
-        color: Style.textColor
-        verticalAlignment: Text.AlignVCenter
-        leftPadding: isAdminCheckBox.indicator.width + isAdminCheckBox.spacing
-      }
     }
 
     CustomButton {
@@ -177,53 +144,25 @@ Item {
           if (Emp.add(firstnameAddInput.text, lastnameAddInput.text,
                               usernameAddInput.text, emailAddInput.text,
                               phoneAddInput.text, passwordAddInput.text,
-                              isAdminCheckBox.checked))
-            buttonOutputText.state = "added"
-          else
-            buttonOutputText.state = "notAdded"
+                              isAdminCheckBox.checked)){
+
+            empInfoDialog.dialogText = qsTr("Successfully added employee!")
+
+            firstnameAddInput.text = ""
+            lastnameAddInput.text = ""
+            usernameAddInput.text = ""
+            emailAddInput.text = ""
+            phoneAddInput.text = ""
+            passwordAddInput.text = ""
+            repasswordAddInput.text = ""
+            isAdminCheckBox.checkState = Qt.Unchecked
+          }else
+            empInfoDialog.dialogText = qsTr("Error while adding employee.\nMake sure username is unique!")
         }else
-          buttonOutputText.state = "notMatchingPasswords"
+          empInfoDialog.dialogText = qsTr("Passwords do not match!")
+
+        empInfoDialog.show()
       }
     }
-  }
-
-  Text {
-    id: buttonOutputText
-
-    anchors.top: addGrid.bottom
-    anchors.left: addGrid.left
-
-    text: qsTr("")
-    font.bold: true
-
-    states: [
-      State {
-        name: "added"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("Added User!")
-            color: Style.acceptButtonColor
-          }
-        }
-      },
-      State {
-        name: "notAdded"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("Error while adding user!\nMake sure username is unique!")
-            color: Style.denyButtonColor
-          }
-        }
-      },
-      State {
-        name: "notMatchingPasswords"
-        PropertyChanges {
-          buttonOutputText {
-            text: qsTr("Passwords do not match!")
-            color: Style.denyButtonColor
-          }
-        }
-      }
-    ]
   }
 }

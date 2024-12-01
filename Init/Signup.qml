@@ -11,13 +11,24 @@ Item {
   GridLayout{
     id: addGrid
 
+    anchors.verticalCenterOffset: -80
     anchors.centerIn: parent
 
-    rows: 9
+    rows: 10
     columns: 2
 
     rowSpacing: 10
     columnSpacing: 30
+
+    Image {
+      source: "../images/logo.png"
+
+      Layout.columnSpan: 2
+      Layout.alignment: Qt.AlignHCenter
+
+      fillMode: Image.PreserveAspectFit
+      sourceSize.width: Window.width / 4
+    }
 
     Text{
       Layout.columnSpan: 2
@@ -104,21 +115,26 @@ Item {
     CustomInputBox{
       id: repasswordAddInput
       echo: TextInput.Password
+      Keys.onReturnPressed: createButton.clicked()
     }
 
     CustomButton{
+      id: createButton
+
       text: qsTr("Create User")
 
       buttonColor: Style.acceptButtonColor
 
+      Keys.onReturnPressed: createButton.clicked()
+
       onClicked: {
         if(passwordAddInput.text == repasswordAddInput.text){
           if(!DbController.createAdminUser(firstnameAddInput.text,
-                                                    lastnameAddInput.text,
-                                                    usernameAddInput.text,
-                                                    emailAddInput.text,
-                                                    phoneAddInput.text,
-                                                    passwordAddInput.text))
+                                           lastnameAddInput.text,
+                                           usernameAddInput.text,
+                                           emailAddInput.text,
+                                           phoneAddInput.text,
+                                           passwordAddInput.text))
             userCreationText.text = qsTr("Error creating account!");
         }else
           userCreationText.text = qsTr("Passwords do not match!");

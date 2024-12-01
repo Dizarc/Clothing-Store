@@ -35,16 +35,20 @@ Window {
       id: sizeNameInputBox
       font.pointSize: 12
       focus: true
+      Keys.onReturnPressed: addButton.clicked()
     }
 
     CustomButton {
+      id: addButton
       text: qsTr("Add")
 
       buttonColor: Style.acceptButtonColor
 
       onClicked: {
-        if (SizesModel.add(sizeNameInputBox.text))
+        if (SizesModel.add(sizeNameInputBox.text)){
           sizeInfoDialog.dialogText = qsTr("Successfully added size!")
+          sizeNameInputBox.text = ""
+        }
         else
           sizeInfoDialog.dialogText = qsTr("Error while adding size!")
 
@@ -70,7 +74,7 @@ Window {
       ScrollIndicator.vertical: ScrollIndicator {
         id: myScroll
         contentItem: Rectangle {
-          implicitWidth: 2
+          implicitWidth: 3
           radius: 5
           color: myScroll.active ? Style.textColor : "transparent"
         }
