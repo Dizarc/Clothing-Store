@@ -1,4 +1,4 @@
-# Clothing Store Management System
+# Seamless Manager - A Clothing Store Management System
 This repository contains a **clothing Store Management System** built with **Qt QML** and **C++**.
 Designed for managing employee information and inventory with tracking item additions and removals accross multiple clothing types, sizes and items. The project leverages an **SQLite database** for efficient storage and retrieval of data.
 
