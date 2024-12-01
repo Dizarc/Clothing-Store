@@ -56,8 +56,8 @@ Open the project in Qt Creator and build/run the application
 Possible improvements include adding a clothing tag scanning system in which the application will automatically insert the clothing item inside the database, a sales system which will automatically calculate the monthly earnings/losses and represent the data in a graph.
 
 ## Images used in the application
- * **Application logo** background picture by Daian Gan: https://www.pexels.com/photo/pile-of-shirts-hanged-in-shirt-rack-102129/
- * **icons, all user images**  by flaticon: https://www.flaticon.com/uicons
+ * **Application logo** background picture by Daian Gan: [Shirt Rack](https://www.pexels.com/photo/pile-of-shirts-hanged-in-shirt-rack-102129/)
+ * **icons, all user images**: by  [flaticon](https://www.flaticon.com/uicons)
 
 ## Contributing
 Contributions are welcome!
