@@ -20,7 +20,7 @@ DatabaseController::DatabaseController(QObject *parent)
     QSettings settings(documentsDirPath + "/config.ini", QSettings::IniFormat);
     bool ok = false;
     if(settings.value("SQL/username").toString() != "" && settings.value("SQL/password").toString() != "")
-        ok = db.open();
+        ok = db.open(settings.value("SQL/username").toString(), settings.value("SQL/password").toString());
 
     if(!ok){
         qWarning() << "Problem occured while connecting to db!";
