@@ -23,7 +23,7 @@ DatabaseController::DatabaseController(QObject *parent)
         ok = db.open(settings.value("SQL/username").toString(), settings.value("SQL/password").toString());
 
     if(!ok){
-        qWarning() << "Problem occured while connecting to db!";
+        qWarning() << "Problem occured while connecting to db\n Make sure username and password is stored in config file!";
         exit(-1);
     }
     if(db.tables().isEmpty()){
