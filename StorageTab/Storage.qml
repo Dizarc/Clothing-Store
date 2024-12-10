@@ -52,12 +52,6 @@ Column {
     width: parent.width
     height: parent.height
 
-    Layout.row: 2
-    Layout.column: 0
-    Layout.fillHeight: true
-    Layout.fillWidth: true
-    Layout.topMargin: 10
-
     pushEnter: Transition {
       YAnimator {
         from: (storageView.mirrored ? -1 : 1) * storageView.height
