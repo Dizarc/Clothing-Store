@@ -14,7 +14,7 @@ import com.company.Employees
 Window {
   id: root
 
-  title: qsTr("Clothes Application")
+  title: qsTr("Seamless Manager")
 
   color: Style.backgroundColor
   visibility: Qt.WindowFullScreen

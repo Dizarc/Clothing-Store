@@ -114,7 +114,7 @@ bool ClothesTypesModel::remove(const int &id)
 
     bool submitting = submitAll();
     if(submitting == false){
-        qWarning() << "Error removing removing clothing type: " << lastError().text();
+        qWarning() << "Error removing clothing type: " << lastError().text();
         revertAll();
     }
     return submitting;
